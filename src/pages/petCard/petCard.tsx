@@ -1,83 +1,18 @@
 import React from 'react'
 import cn from 'classnames'
 import './petCard.scss'
+import {PetCardHeader} from '../../components/petCardHeader/petCardHeader'
+import {PetCardForm} from '../../components/petCardForm/petCardForm'
+import {PetCardNavBar} from '../../components/petCardNavBar/petCardNavBar'
 
 export const PetCard = () => {
   return (
     <div className={cn('petCardConteiner')}>
-      <div className={cn('tooolbar')}>
-        <div className={cn('buttonWrap')}>
-          <div aria-label="Назад" data-microtip-position="bottom-right" role="tooltip">
-            <input type="button" value="&#8629;" />
-          </div>
-          <div aria-label="Сохранить" data-microtip-position="bottom-right" role="tooltip">
-            <input type="button" value="&#128190;" />
-          </div>
-          <div aria-label="Печать" data-microtip-position="bottom-right" role="tooltip">
-            <input type="button" value="&#128438;" />
-          </div>
-        </div>
-        <div className={cn('clientAndPet')}>
-          <span>Труша (хомяк, женский) Лосев Андрей Геннадьевич</span>
-        </div>
-      </div>
+      <PetCardHeader />
       <div className={cn('content')}>
-        <div className={cn('shortData')}>
-          <div className={cn('dataTime')}>
-            <div aria-label="Обновить дату" data-microtip-position="bottom-right" role="tooltip">
-              <input type="button" className={cn('refreshButton')} value="&#8987;"/>
-            </div>
-            <span className={'date'}>01.01.01 15:15</span>
-          </div>
-          <div className={cn('weightTemperature')}>
-            <input type="text" placeholder="Вес (кг)"/>
-            <input type="text" placeholder="t (&#176;С)"/>
-          </div>
-          <div
-            className={cn('goalOfRequest')}
-            aria-label="Цель обращения"
-            data-microtip-position="bottom-right"
-            role="tooltip">
-            <input type="text" className="fild" placeholder="Цель обращения"/>
-            <input type="button" className="openFild" value="&#8744;"/>
-          </div>
-          <div
-            className={cn('visitResult')}
-            aria-label="Результат посещения"
-            data-microtip-position="bottom-right"
-            role="tooltip">
-            <input type="text" className="fild" placeholder="Результат посещения"/>
-            <input type="button" className="openFild" value="&#8744;"/>
-          </div>
-          <div className={cn('diagnoses')}>
-            <input type="text" className="fild" value="Диагнозы:" readOnly={true}/>
-            <input type="button" className="openFild" value="+"/>
-          </div>
-          <textarea className={cn('diagnosesFild')} rows={5} value={'Блохи\nБешенство'} onChange={() => null}/>
-          <div
-            className={cn('doctor')}
-            aria-label="Врач"
-            data-microtip-position="bottom-right"
-            role="tooltip">
-            <input type="text" className="fild" placeholder="Врач"/>
-            <input type="button" className="openFild" value="&#8744;"/>
-          </div>
-          <div className={cn('DateBirth')}>
-            <span>Дата рождения:</span>
-            <span>01.02.2003</span>
-          </div>
-          <div className={cn('DateBirth')}>
-            <span>Возраст:</span>
-            <span>99л 6м</span>
-          </div>
-        </div>
+        <PetCardForm />
         <div className={cn('longData')}>
-          <div className={cn('navBar')}>
-            <div className={cn('tabTreatmentDescription')}>Описание лечения</div>
-            <div className={cn('tabRecommendationsAppointments', 'activTab')}>Рекомендации и назначения</div>
-            <div className={cn('tabVaccinations')}>Вакцинации</div>
-            <div className={cn('tabHistory')}>История</div>
-          </div>
+          <PetCardNavBar />
           <div className={cn('editorWrapper')}>
             <div className={cn('toolBar')}>
               <div>
