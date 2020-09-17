@@ -1,0 +1,340 @@
+@import 'microtip/microtip';
+
+@mixin inputWithOptions($color) {
+	display: flex;
+	margin: 8px;
+	input.fild {
+		margin-left: 5px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		height: 35px;
+		max-width: 233px;
+		font-size: 20px;
+		text-align: center;
+		border-top: 0;
+		border-left: 0;
+		border-right: 0;
+		border-bottom: 1px solid $color;
+		border-bottom-left-radius: 5px;
+		border-top-left-radius: 5px;
+	};
+
+	input.openFild {
+		background-color: #19aa8d;
+		border-style: none;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
+		color: #fff;
+		width: 35px;
+		font-size: 20px;
+		margin-right: 5px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	};
+
+	input:focus {
+		outline: 0;
+		outline-offset: 0;
+	};
+
+	.openFild:active {
+		background-color: #fff;
+	};
+};
+
+@mixin tabNavBar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: 8px;
+	padding-left: 5px;
+	padding-right: 5px;
+	height: 35px;
+	font-size: 18px;
+	color: #999999;
+	border-radius: 5px;
+	cursor: pointer;
+	background-color: #e5e5e5;
+};
+
+@mixin editorButon {
+	input.btn {
+		background-color: #e5e5e5;
+		border-radius: 5px;
+		border: 0px;
+		// box-shadow: 0 0 10px rgba(0,0,0,0.5);
+		min-width: 30px;
+		margin-right: 8px;
+		color: #999999;
+		font-size: 20px;
+		font-weight: bold;
+		height: 30px;
+	};
+
+	input.btn:focus {
+		outline: 0;
+		outline-offset: 0;
+	};
+};
+
+.petCardConteiner {
+	display: flex;
+	width: 99vw;
+	height: 98vh;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	padding: 5px;
+
+	.tooolbar {
+		display: flex;
+		height: 5%;
+		width: 100%;
+		background-color: #19aa8d;
+		box-shadow: 0 0 10px rgba(0,0,0,0.5);
+		border-radius: 5px;
+		padding: 8px;
+
+		.buttonWrap {
+			display: flex;
+			height: 100%;
+			width: 159px;
+
+			div {
+				flex: 1;
+				margin-right: 8px;
+				input {
+					background-color: #fff;
+					border-radius: 5px;
+					border: 0px;
+					box-shadow: 0 0 10px rgba(0,0,0,0.5);
+					font-size: 25px;
+					font-weight: bold;
+					height: 100%;
+					width: 100%;
+				};
+
+				:focus {
+					outline: 0;
+					outline-offset: 0;
+				};
+		
+				:active {
+					background-color: #19aa8d;
+				};
+			};
+		};
+
+		.clientAndPet {
+			font-size: 25px;
+			color: #fff;
+			align-self: center;
+			flex-grow: 1;
+			display: flex;
+			justify-content: flex-end;
+		}
+	};
+	
+	.content {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+
+		.shortData {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: stretch;
+			margin-top: 10px;
+			flex: 1;
+			height: 100%;
+			box-shadow: 0 0 10px rgba(0,0,0,0.5);
+			border-radius: 5px;
+			margin-right: 10px;
+	
+			.dataTime {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				margin: 8px;
+			
+				.refreshButton {
+					background-color: #19aa8d;
+					border-radius: 5px;
+					border: 0px;
+					box-shadow: 0 0 10px rgba(0,0,0,0.5);
+					margin-right: 8px;
+					color: #fff;
+					font-size: 20px;
+					font-weight: bold;
+					height: 35px;
+					width: 35px;
+				};
+		
+				.refreshButton:focus {
+					outline: 0;
+					outline-offset: 0;
+				};
+		
+				.refreshButton:active {
+					background-color: #fff;
+				};
+	
+				.date {
+					flex: 1;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					height: 35px;
+					background-color: #fff;
+					border-bottom: 1px solid #19aa8d;
+					border-radius: 5px;
+					font-size: 20px;
+				};
+			};
+	
+			.weightTemperature {
+				display: flex;
+				flex-direction: row;
+				margin: 8px;
+				input {
+					margin: 5px;
+					height: 35px;
+					max-width: 110px;
+					font-size: 15px;
+					text-align: center;
+					border-top: 0;
+					border-left: 0;
+					border-right: 0;
+					border-bottom: 1px solid #19aa8d;
+					border-radius: 5px;
+				};
+	
+				input:focus {
+					outline: 0;
+					outline-offset: 0;
+				};
+			};
+
+			.goalOfRequest { @include inputWithOptions(#19aa8d) };
+			.visitResult { @include inputWithOptions(#19aa8d) };
+			.diagnoses { @include inputWithOptions(#fff) };
+			.diagnosesFild {
+				margin-left: 8px;
+				margin-right: 8px;
+				border: 1px solid #19aa8d;
+				border-radius: 5px;
+				font-size: 20px;
+				resize: none;
+			};
+			.diagnosesFild:focus {
+				outline: 0;
+				border: 2px solid #19aa8d;
+			};
+			.doctor { @include inputWithOptions(#19aa8d) };
+			.DateBirth {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				align-items: center;
+				font-size: 20px;
+				margin: 8px;
+			};
+		};
+
+		.longData {
+			flex: 10;
+			height: 100%;
+			box-shadow: 0 0 10px rgba(0,0,0,0.5);
+			border-radius: 5px;
+			margin-top: 10px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: stretch;
+
+			.navBar {
+				flex-grow: 1;
+				margin: 5px;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+
+				.tabTreatmentDescription { @include tabNavBar() };
+				.tabRecommendationsAppointments { @include tabNavBar() };
+				.tabVaccinations { @include tabNavBar() };
+				.tabHistory { @include tabNavBar() };
+				.activTab {
+					box-shadow: 0 0 10px rgba(0,0,0,0.5);
+					color: #fff;
+					background-color: #19aa8d;
+				};
+				
+				div:active {
+					box-shadow: 0 0 10px rgba(0,0,0,0.5);
+				}
+			};
+
+			.editorWrapper {
+				flex-grow: 39;
+				margin-bottom: 5px;
+				margin-left: 5px;
+				margin-right: 5px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: stretch;
+
+				.toolBar {
+					flex-grow: 1;
+					margin: 5px;
+					display: flex;
+					flex-wrap: wrap;
+
+					div {
+						* { margin-right: 3px }
+						border: 1px dashed #19aa8d;
+						border-radius: 5px;
+						padding: 3px;
+						margin-right: 3px;
+
+						input.fontSize {
+							max-width: 30px;
+							height: 30px;
+							border-radius: 5px;
+							border: 1px solid #19aa8d;
+						};
+						.fontSize:focus {
+							outline: 0;
+							border: 2px solid #19aa8d;
+						};
+
+						@include editorButon();
+
+						input.activeBtn {
+							box-shadow: 0 0 10px rgba(0,0,0,0.5);
+							background-color: #19aa8d;
+							color: #fff;
+						};
+
+						span {
+							font-size: 15px;
+							margin-right: 5px;
+						};
+
+					};
+				};
+
+				.editorTextarea {
+					flex-grow: 99;
+					margin: 5px;
+					box-shadow: inset 1px 1px 5px -1px;
+				}
+			};
+		};
+	};
+};

@@ -1,25 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import {useRoutes, useRedirect} from 'hookrouter';
+import {Login} from './pages/login/login'
+import {Clients} from './pages/clients/clients'
+import {PetCard} from './pages/petCard/petCard'
 
-function App() {
+const routes = {
+  '/login': () => <Login />,
+  '/clients': () => <Clients />,
+  '/petCard': () => <PetCard />
+};
+
+const App: React.FC = () => {
+  useRedirect('/', '/login');
+  const routeResult = useRoutes(routes);  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {routeResult || <h1>NotFound</h1>}
+    </>
   );
 }
 
