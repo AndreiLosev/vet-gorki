@@ -36,10 +36,6 @@
       :nth-child(#{$column}) { width: $cWidth };
     };
     :last-child { border-right: 0 };
-    // :nth-child(1) { width: 4% };
-    // :nth-child(2) { width: 32% };
-    // :nth-child(3) { width: 32% };
-    // :nth-child(4) { width: 32%; border-right: 0 };
   };
 };
 
@@ -52,65 +48,6 @@
 	flex-direction: column;
 	padding: 5px;
 
-	.tooolbar {
-		background-color: #19aa8d;
-		box-shadow: 0 0 10px rgba(0,0,0,0.5);
-		width: 100%;
-		min-width: 750px;
-		height: 5%;
-		padding: 8px;
-		display: flex;
-		margin: 5px;
-		border-radius: 5px;
-
-			.buttonWrap {
-				display: flex;
-				height: 100%;
-				width: 930px;
-
-				div {
-					flex: 2;
-					margin-right: 8px;
-					input {
-						background-color: #fff;
-						border-radius: 5px;
-						border: 0px;
-						box-shadow: 0 0 10px rgba(0,0,0,0.5);
-						font-size: 30px;
-						font-weight: bold;
-						height: 100%;
-						width: 100%;
-					};
-
-					:focus {
-						outline: 0;
-						outline-offset: 0;
-					};
-
-					:active {
-						background-color: #19aa8d;
-					};
-				};
-				input.search {
-					border-radius: 5px;
-					border: 0;
-					margin-right: 8px;
-					height: 100%;
-					font-size: 25px;
-					flex: 19;
-				};
-
-				.search:focus {
-					outline: 0;
-					outline-offset: 0;
-				};
-
-				.search:active {
-					background-color: #f0f0f0;
-				};
-			};
-	};
-
 	.contentWrapper {
 		display: flex;
 		justify-content: center;
@@ -118,69 +55,6 @@
 		width: 100%;
 		height: 100%;
 		min-width: 750px;
-
-		.createNewClient {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			height: 100%;
-			flex-grow: 1;
-			box-shadow: 0 0 10px rgba(0,0,0,0.5);
-			margin-right: 5px;
-			border-radius: 5px;
-
-			.wrapp {
-				display: flex;
-				justify-content: center;
-				width: 100%;
-
-        div {
-          width: 75%;
-
-          .inputText {
-            height: 25%;
-            width: 100%;
-            font-size: 100%;
-            border: 0px solid #fff;
-            border-bottom: 2px solid #19aa8d;
-            border-radius: 3px;
-            font-weight: bold;
-          };
-
-          :focus {
-            outline: 0;
-            outline-offset: 0;
-            background-color: #f6f6f6;
-          };
-        };
-
-        .inputSubmit {
-          height: 35%;
-          width: 75%;
-          background-color: #19aa8d;
-          border: 0px solid #fff;
-          border-radius: 3px;
-          color: #fff;
-          font-size: 100%;
-          font-weight: bold;
-        };
-
-        .inputSubmit:hover {
-          background-color: #116b59;
-        };
-			};
-
-			.text1 {
-				flex-grow: 3;
-				align-items: center;
-			};
-
-			.submit1 {
-				flex-grow: 3;
-				align-items: center;
-			};
-		};
 
 		.content {
 			display: flex;
@@ -237,15 +111,6 @@
         display: flex;
         height: 200px;
         
-        .clientsTable {
-          $columns: (1: 4%, 2: 32%, 3: 32%, 4: 32%);
-          @include table($columns);
-        };
-
-        .petsTable {
-          $columns: (1: 4%, 2: 29%, 3: 29%, 4: 29%, 5: 9%);
-          @include table($columns);
-        };
       };
       .visits {
 				margin-top: 6px;
@@ -253,11 +118,6 @@
         margin: 5px;
         display: flex;
         height: 200px;
-        
-        .visitsTable {
-          $columns: (1: 2%, 2: 20%, 3: 20%, 4: 20%, 5: 3%, 6: 8%, 7: 8%, 8: 8%, 9: 11%);
-          @include table($columns);
-        };
       };
     };
 	};

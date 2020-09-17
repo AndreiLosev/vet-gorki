@@ -263,6 +263,8 @@
 				display: flex;
 				justify-content: flex-start;
 				align-items: center;
+				border: 2px solid #19aa8d;
+				border-radius: 5px;
 
 				.tabTreatmentDescription { @include tabNavBar() };
 				.tabRecommendationsAppointments { @include tabNavBar() };
@@ -333,7 +335,8 @@
 					flex-grow: 99;
 					margin: 5px;
 					box-shadow: inset 1px 1px 5px -1px;
-				}
+					cursor: text;
+				};
 			};
 		};
 	};
