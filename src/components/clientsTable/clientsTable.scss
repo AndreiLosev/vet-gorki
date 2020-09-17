@@ -4,3 +4,8 @@
 	$columns: (1: 4%, 2: 32%, 3: 32%, 4: 32%);
 	@include table($columns);
 };
+
+div.scrol {
+	overflow-y: auto;
+	height: 100%;
+};

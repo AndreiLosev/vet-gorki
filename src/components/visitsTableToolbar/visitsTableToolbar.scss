@@ -1,0 +1,31 @@
+.buttonWrap {
+  margin-top: 12px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 750px;
+  flex-grow: 3;
+
+  input.visitsBtn {
+    background-color: #19aa8d;
+    border-radius: 5px;
+    border: 0px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin-right: 8px;
+    color: #fff;
+    font-size: 25px;
+    font-weight: bold;
+    height: 35px;
+    width: 35px;
+  };
+
+  .visitsBtn:focus {
+    outline: 0;
+    outline-offset: 0;
+  };
+
+  .visitsBtn:active {
+    background-color: #fff;
+  };
+};

@@ -6,6 +6,7 @@ import {NewClientForm} from '../../components/newClientForm/newClientForm'
 import {ClientsTable} from '../../components/clientsTable/clientsTable'
 import {PetsTable} from '../../components/petsTable/petsTable'
 import {VisitsTable} from '../../components/visitsTable/visitsTable'
+import {VisitsTableToolbar} from '../../components/visitsTableToolbar/visitsTableToolbar'
 
 export const Clients = () => {
   return (
@@ -18,17 +19,7 @@ export const Clients = () => {
             <ClientsTable />
             <PetsTable />
           </div>
-          <div className={cn('buttonWrap')}>
-            <div aria-label="Добавить новую запись" data-microtip-position="bottom-right" role="tooltip">
-              <input type="button" value="+" />
-            </div>
-            <div aria-label="Редактировать выбраную запись" data-microtip-position="bottom-right" role="tooltip">
-              <input type="button" value="&#9997;" />
-            </div>
-            <div aria-label="Удалить выбраную запись" data-microtip-position="bottom-right" role="tooltip">
-              <input type="button" value="&#215;" />
-            </div>
-          </div>
+          <VisitsTableToolbar />
           <div className="visits">
             <VisitsTable />
           </div>

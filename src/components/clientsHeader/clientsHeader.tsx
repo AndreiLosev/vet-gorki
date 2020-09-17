@@ -6,7 +6,7 @@ import cn from 'classnames'
 export const ClientsHeader = () => {
   return (
     <header className={cn('tooolbar')}>
-      <div className={cn('buttonWrap')}>
+      <div className={cn('buttonWrapToollBar')}>
         <div aria-label="Создать нового клиента" data-microtip-position="bottom-right" role="tooltip">
           <input type="button" value="+" />
         </div>
