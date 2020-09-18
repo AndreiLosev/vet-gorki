@@ -8,7 +8,7 @@ import {PetsTable} from '../../components/petsTable/petsTable'
 import {VisitsTable} from '../../components/visitsTable/visitsTable'
 import {VisitsTableToolbar} from '../../components/visitsTableToolbar/visitsTableToolbar'
 
-export const Clients = () => {
+export const Clients: React.FC = () => {
   return (
     <div className={cn('clientsConteiner')}>
       <ClientsHeader />
