@@ -81,24 +81,24 @@
     .visitResult { @include inputWithOptions(#19aa8d) };
     .diagnoses { @include inputWithOptions(#fff) };
     .diagnosesFild {
-        margin-left: 8px;
-        margin-right: 8px;
-        border: 1px solid #19aa8d;
-        border-radius: 5px;
-        font-size: 20px;
-        resize: none;
+      margin-left: 8px;
+      margin-right: 8px;
+      border: 1px solid #19aa8d;
+      border-radius: 5px;
+      font-size: 20px;
+      resize: none;
     };
     .diagnosesFild:focus {
-        outline: 0;
-        border: 2px solid #19aa8d;
+      outline: 0;
+      border: 2px solid #19aa8d;
     };
     .doctor { @include inputWithOptions(#19aa8d) };
     .DateBirth {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        font-size: 20px;
-        margin: 8px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 20px;
+      margin: 8px;
     };
 };

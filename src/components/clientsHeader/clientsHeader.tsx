@@ -29,7 +29,10 @@ export const ClientsHeader = () => {
           <input type="button" value="&#128270;" />
         </div>
         <div aria-label="Добавить питомца клиенту" data-microtip-position="bottom-right" role="tooltip">
-          <input type="button" value="+1" />
+          <input
+            type="button" value="+1"
+            onClick={() => dispatch(ClientsActionCreater.createShowNewPetForm(true))}
+          />
         </div>
         <div aria-label="Редактировать питомца клиенту" data-microtip-position="bottom-right" role="tooltip">
           <input type="button" value="&#9998;" />

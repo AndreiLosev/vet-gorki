@@ -1,0 +1,140 @@
+@import '../../pages/petCard/petCard.scss';
+
+@mixin button($classneme) {
+  .#{$classneme} {
+    background-color: #19aa8d;
+    border-radius: 5px;
+    border: 0px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin-right: 8px;
+    color: #fff;
+    font-size: 25px;
+    font-weight: bold;
+    height: 35px;
+    width: 35px;
+  };
+
+  .#{$classneme}:focus {
+    outline: 0;
+    outline-offset: 0;
+  };
+
+  .#{$classneme}:active {
+    background-color: #fff;
+  };
+};
+
+@mixin onlifild {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 8px;
+  div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    input {
+      width: 87%;
+      margin-left: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      height: 35px;
+      font-size: 20px;
+      text-align: center;
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 1px solid #19aa8d;
+      border-radius: 5px;
+    };
+    input:focus {
+      outline: 0;
+      background-color: #f6f6f6;
+    };
+  };
+};
+
+.createNewPet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-grow: 1;
+  max-width: 350px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  margin-right: 5px;
+  border-radius: 5px;
+
+  div.closeForm {
+    margin: 8px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    @include button(сloseForm)
+  };
+
+  .master {
+    span {
+      font-size: 20px;
+    }
+  }
+
+  .petName {
+    @include onlifild();
+  };
+
+  .petColor {
+    @include onlifild();
+  };
+
+  .type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include inputWithOptions(#19aa8d);
+    @include button(addTypePet);
+  };
+
+  .gender {
+    display: flex;
+    margin: 8px;
+    input.fild {
+      margin-left: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      height: 35px;
+      font-size: 20px;
+      text-align: center;
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 1px solid #19aa8d;
+      border-bottom-left-radius: 5px;
+      border-top-left-radius: 5px;
+    };
+  
+    input.openFild {
+      background-color: #19aa8d;
+      border-style: none;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      color: #fff;
+      width: 35px;
+      font-size: 20px;
+      margin-right: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      height: 38px;
+    };    
+  };
+
+  .breed { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include inputWithOptions(#19aa8d);
+    @include button(addBreed);
+   }
+ };

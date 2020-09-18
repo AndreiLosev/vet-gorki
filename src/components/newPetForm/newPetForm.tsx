@@ -1,5 +1,5 @@
 import React from 'react'
-import s from './newPetForm.module.scss'
+import './newPetForm.scss'
 import cn from 'classnames'
 import {useDispatch} from 'react-redux'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
@@ -8,49 +8,49 @@ import {ClientsActionCreater} from '../../actions/clientsPageActions'
 export const NewPetForm = () => {
   const dispatch = useDispatch()
   return (
-    <form className={cn(s.createNewClient)}>
-      <div className={cn(s.closeForm)}>
+    <form className={cn('createNewPet')}>
+      <div className={cn('closeForm')}>
         <input
-          type="button" value="&#215;"
+          type="button" value="&#215;" className={cn('сloseForm')}
           onClick={() => dispatch(ClientsActionCreater.createShowNewPetForm(false))}
         />
       </div>
-      <div className={cn(s.wrapp, s.text1)}>
-        <span>Хозяин: {'Лосев Андрей Геннадьевич'}</span>
+      <div className={cn('master')}>
+        <span>Хозяин: {'Лосев Андрей Геннадтевич'}</span>
       </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Фамилия клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="фамилия" />
+      <div className={cn('petName')}>
+        <div aria-label="Кличка" data-microtip-position="bottom-right" role="tooltip">
+          <input className={'inputText'} type="text" placeholder="Кличка" />
         </div>
       </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Отчество клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Отчество" />
-        </div>
+      <div
+        className={cn('type')}
+        aria-label="Вид"
+        data-microtip-position="bottom-right"
+        role="tooltip">
+        <input type="text" className="fild" placeholder="Вид"/>
+        <input type="button" className="openFild" value="&#8744;"/>
+        <input type="button" value="+" className={cn('addTypePet')}/>
       </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Телефон клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Телефон" />
-        </div>
+      <div className={cn('gender')}
+        aria-label="Пол"
+        data-microtip-position="bottom-right"
+        role="tooltip">
+        <input type="text" className="fild" placeholder="Пол"/>
+        <input type="button" className="openFild" value="&#8744;"/>
       </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Населённый пункт клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Населённый пункт" />
-        </div>
+      <div
+        className={cn('breed')}
+        aria-label="Порода"
+        data-microtip-position="bottom-right"
+        role="tooltip">
+        <input type="text" className="fild" placeholder="Порода"/>
+        <input type="button" className="openFild" value="&#8744;"/>
+        <input type="button" value="+" className={cn('addBreed')}/>
       </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Улица клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Улица" />
-        </div>
-      </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="№ дома клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="№ дома" />
-        </div>
-      </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="№ квартиры клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="№ Квартиры" />
+      <div className={cn('petColor')}>
+        <div aria-label="Окрас" data-microtip-position="bottom-right" role="tooltip">
+          <input className={'inputText'} type="text" placeholder="Окрас" />
         </div>
       </div>
       <div className={cn('wrapp', 'submit1')}>

@@ -12,19 +12,25 @@ import {NewPetForm} from '../../components/newPetForm/newPetForm'
 
 
 interface IpartState {
-  clientsPage: {showNewClientForm: boolean},
+  clientsPage: {
+    showNewClientForm: boolean,
+    showNewPetForm: boolean,
+  },
 }
 
 export const Clients: React.FC = () => {
-  const {partState: {showNewClientForm}} = useDispatchSelect(
-    (partSate: IpartState) => ({showNewClientForm: partSate.clientsPage.showNewClientForm})
+  const {partState: {showNewClientForm, showNewPetForm}} = useDispatchSelect(
+    (partSate: IpartState) => ({
+      showNewClientForm: partSate.clientsPage.showNewClientForm,
+      showNewPetForm: partSate.clientsPage.showNewPetForm,
+    })
   )
   return (
     <div className={cn('clientsConteiner')}>
       <ClientsHeader />
       <div className={cn('contentWrapper')}>
         {showNewClientForm ? <NewClientForm /> : null}
-        <NewPetForm />
+        {showNewPetForm ? <NewPetForm /> : null}
         <div className={cn('content')}>
           <div className={cn('clientsAndPet')}>
             <ClientsTable />
