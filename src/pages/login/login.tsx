@@ -3,7 +3,7 @@ import cn from 'classnames';
 import './login.scss'
 
 
-export const Login = () => {
+export const Login: React.FC = () => {
   return (
     <div className={cn('loginConteiner')}>
       <form className={cn('formBorder')}>

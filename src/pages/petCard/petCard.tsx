@@ -6,7 +6,7 @@ import {PetCardForm} from '../../components/petCardForm/petCardForm'
 import {PetCardNavBar} from '../../components/petCardNavBar/petCardNavBar'
 import {Editor} from '../../components/editor/editor'
 
-export const PetCard = () => {
+export const PetCard: React.FC = () => {
   return (
     <div className={cn('petCardConteiner')}>
       <PetCardHeader />

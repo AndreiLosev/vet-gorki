@@ -7,6 +7,12 @@ import {ClientsTable} from '../../components/clientsTable/clientsTable'
 import {PetsTable} from '../../components/petsTable/petsTable'
 import {VisitsTable} from '../../components/visitsTable/visitsTable'
 import {VisitsTableToolbar} from '../../components/visitsTableToolbar/visitsTableToolbar'
+import {} from '../../utilites/useDispatchSelect'
+
+
+interface IpartState {
+  consumer: {price: {format: {[item: string]: number}}}
+}
 
 export const Clients: React.FC = () => {
   return (
