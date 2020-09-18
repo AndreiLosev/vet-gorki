@@ -1,14 +1,19 @@
 import React from 'react'
 import './clientsHeader.scss'
 import cn from 'classnames'
-
+import {useDispatch} from 'react-redux'
+import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
 export const ClientsHeader = () => {
+  const dispatch = useDispatch()
   return (
     <header className={cn('tooolbar')}>
       <div className={cn('buttonWrapToollBar')}>
         <div aria-label="Создать нового клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input type="button" value="+" />
+          <input
+            type="button" value="+"
+            onClick={() => dispatch(ClientsActionCreater.createShowNewClientForm(true))}
+          />
         </div>
         <div aria-label="Редактировать выброного клиента" data-microtip-position="bottom-right" role="tooltip">
           <input type="button" value="&#9997;" />

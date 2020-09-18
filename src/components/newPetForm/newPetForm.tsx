@@ -1,24 +1,22 @@
 import React from 'react'
-import './newClientForm.scss'
+import s from './newPetForm.module.scss'
 import cn from 'classnames'
 import {useDispatch} from 'react-redux'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
 
-export const NewClientForm = () => {
+export const NewPetForm = () => {
   const dispatch = useDispatch()
   return (
-    <form className={cn('createNewClient')}>
-      <div className={cn('closeForm')}>
+    <form className={cn(s.createNewClient)}>
+      <div className={cn(s.closeForm)}>
         <input
           type="button" value="&#215;"
-          onClick={() => dispatch(ClientsActionCreater.createShowNewClientForm(false))}
+          onClick={() => dispatch(ClientsActionCreater.createShowNewPetForm(false))}
         />
       </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Имя клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Имя" />
-        </div>
+      <div className={cn(s.wrapp, s.text1)}>
+        <span>Хозяин: {'Лосев Андрей Геннадьевич'}</span>
       </div>
       <div className={cn('wrapp', 'text1')}>
         <div aria-label="Фамилия клиента" data-microtip-position="bottom-right" role="tooltip">

@@ -7,19 +7,24 @@ import {ClientsTable} from '../../components/clientsTable/clientsTable'
 import {PetsTable} from '../../components/petsTable/petsTable'
 import {VisitsTable} from '../../components/visitsTable/visitsTable'
 import {VisitsTableToolbar} from '../../components/visitsTableToolbar/visitsTableToolbar'
-import {} from '../../utilites/useDispatchSelect'
+import {useDispatchSelect} from '../../utilites/useDispatchSelect'
+import {NewPetForm} from '../../components/newPetForm/newPetForm'
 
 
 interface IpartState {
-  consumer: {price: {format: {[item: string]: number}}}
+  clientsPage: {showNewClientForm: boolean},
 }
 
 export const Clients: React.FC = () => {
+  const {partState: {showNewClientForm}} = useDispatchSelect(
+    (partSate: IpartState) => ({showNewClientForm: partSate.clientsPage.showNewClientForm})
+  )
   return (
     <div className={cn('clientsConteiner')}>
       <ClientsHeader />
       <div className={cn('contentWrapper')}>
-        <NewClientForm />
+        {showNewClientForm ? <NewClientForm /> : null}
+        <NewPetForm />
         <div className={cn('content')}>
           <div className={cn('clientsAndPet')}>
             <ClientsTable />

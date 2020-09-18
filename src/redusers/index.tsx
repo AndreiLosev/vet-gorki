@@ -2,7 +2,7 @@ import {combineReducers} from 'redux'
 import {clientsPageReduser} from './clientsPageReduser'
 
 export const rootReduser = combineReducers({
-  clientsPageState: clientsPageReduser,
+  clientsPage: clientsPageReduser,
 })
 
 export type TState = ReturnType<typeof rootReduser> 
