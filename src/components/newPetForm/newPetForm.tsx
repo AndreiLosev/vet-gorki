@@ -53,6 +53,21 @@ export const NewPetForm = () => {
           <input className={'inputText'} type="text" placeholder="Окрас" />
         </div>
       </div>
+      <div className={cn('petAge')}>
+        <span className={cn('labelSpan')}>Возраст</span>
+        <div aria-label="Лет" data-microtip-position="bottom-right" role="tooltip">
+          <input type="number" placeholder="Лет"/>
+        </div>
+        <div aria-label="Месяцев" data-microtip-position="bottom-right" role="tooltip">
+          <input type="number" placeholder="Месяцев"/>
+        </div>
+        <div aria-label="Дней" data-microtip-position="bottom-right" role="tooltip">
+          <input type="number" placeholder="Дней"/>
+        </div>
+      </div>
+      <div>
+        <textarea className={cn('notes')} rows={5} value={''} placeholder="Примечания" onChange={() => null}/>
+      </div>
       <div className={cn('wrapp', 'submit1')}>
         <input className={'inputSubmit'} type="submit" value="Создать" />
       </div>

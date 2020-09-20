@@ -1,0 +1,123 @@
+@mixin table($columns) {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin-right: 5px;
+  flex-grow: 1;
+
+  .row {  border-bottom: 1px solid #19aa8d };
+
+  div.header {
+    background-color: #19aa8d;
+    color: #fff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    div { border-right: 1px solid #fff }; 
+    div:last-child {border-right: 0 solid #fff}
+  };
+
+  div.body { *:hover { background-color: #e5e5e5 }};
+  div.row {
+    display: flex;
+    * {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-right: 1px solid #19aa8d;
+      cursor: pointer;
+    };
+
+    @each $column, $cWidth in $columns {
+      :nth-child(#{$column}) { width: $cWidth };
+    };
+    :last-child { border-right: 0 };
+  };
+};
+
+@mixin inputWithOptions($color) {
+	display: flex;
+	margin: 8px;
+	input.fild {
+		margin-left: 5px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		height: 35px;
+		max-width: 233px;
+		font-size: 20px;
+		text-align: center;
+		border-top: 0;
+		border-left: 0;
+		border-right: 0;
+		border-bottom: 1px solid $color;
+		border-bottom-left-radius: 5px;
+		border-top-left-radius: 5px;
+	};
+
+	input.openFild {
+		background-color: #19aa8d;
+		border-style: none;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
+		color: #fff;
+		width: 35px;
+		font-size: 20px;
+		margin-right: 5px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		height: 38px;
+	};
+
+	input:focus {
+		outline: 0;
+		outline-offset: 0;
+	};
+
+	.openFild:active {
+		background-color: #fff;
+	};
+};
+
+@mixin tabNavBar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: 8px;
+	padding-left: 5px;
+	padding-right: 5px;
+	height: 35px;
+	font-size: 18px;
+	color: #999999;
+	border-radius: 5px;
+	cursor: pointer;
+	background-color: #e5e5e5;
+};
+
+@mixin editorButon {
+	input.btn {
+		background-color: #e5e5e5;
+		border-radius: 5px;
+		border: 0px;
+		// box-shadow: 0 0 10px rgba(0,0,0,0.5);
+		min-width: 30px;
+		margin-right: 8px;
+		color: #999999;
+		font-size: 20px;
+		font-weight: bold;
+		height: 30px;
+	};
+
+	input.btn:focus {
+		outline: 0;
+		outline-offset: 0;
+	};
+};
+
+@function calcFluidFontSize($f-min, $f-max, $v-min, $v-max) {
+	$k: ($f-max - $f-min)/($v-max - $v-min);
+	$b: $f-min - $k * $v-min;
+	$b: $b * 1px;
+	@return calc( #{$k} * 100vw + #{$b} );
+}
