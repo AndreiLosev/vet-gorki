@@ -1,0 +1,37 @@
+@import '../../lib.scss';
+
+.SquareButton {
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: calcFluidFontSize(16, 20, 480, 1920);
+  cursor: default;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  min-width: 25px;
+  min-height: 25px;
+};
+
+.size1 {
+  width: 1.72vw;
+  height: 1.72vw;
+};
+
+.size2 {
+  width: 2.15vw;
+  height: 2.15vw;
+};
+
+
+.white { background-color: #fff };
+.green {
+  background-color: #19aa8d;
+  color: #fff;
+};
+
+.SquareButton:active { box-shadow: inset 1px 1px 10px -1px };
+

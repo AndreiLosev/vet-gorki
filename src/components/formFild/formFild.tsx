@@ -6,16 +6,17 @@ import stls from './formFild.module.scss'
 type Props = {
   tooltip: string | undefined,
   placeholder: string | undefined,
+  type: 'text' | 'password',
 }
 
-export const FormFild: React.FC<Props> = ({tooltip, placeholder}) => {
+export const FormFild: React.FC<Props> = ({tooltip, placeholder, type}) => {
   return (
     <div
       className={stls.wrapper}
       aria-label={tooltip}
       data-microtip-position="bottom-right"
       role="tooltip">
-      <input className={stls.fild} type="text" placeholder={placeholder}/>
+      <input className={stls.fild} type={type} placeholder={placeholder}/>
     </div>
   )
 }
