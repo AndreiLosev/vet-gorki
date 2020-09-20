@@ -1,12 +1,14 @@
 import React from 'react'
 import cn from 'classnames'
 import './login.scss'
+import {FormSubmit} from '../../components/formSubmit/formSubmit'
 
 
 export const Login: React.FC = () => {
   return (
     <div className={cn('loginConteiner')}>
       <div className="testFild">
+        <FormSubmit text="hello" />
       </div>
       <form className={cn('formBorder')}>
         <div className={cn('loginHeader')}>
