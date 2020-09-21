@@ -11,6 +11,7 @@ import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
 export const NewPetForm = () => {
   const dispatch = useDispatch()
+  const [notesText, setNotesText] = React.useState('')
   return (
     <form className={stls.createNewPet}>
       <div className={stls.closeForm}>
@@ -44,7 +45,10 @@ export const NewPetForm = () => {
         <FormFild tooltip="Дней" placeholder="Дней" type="text"/>
       </div>
       <div className={stls.wrapp}>
-        <textarea className={stls.notes} rows={8} value={''} placeholder="Примечания" onChange={() => null}/>
+        <textarea
+          className={stls.notes} rows={8} placeholder="Примечания"
+          value={notesText} onChange={e => setNotesText(e.target.value)}
+        />
       </div>
       <div className={stls.wrapp}>
         <FormSubmit text="Создать" />

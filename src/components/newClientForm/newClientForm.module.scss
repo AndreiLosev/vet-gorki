@@ -1,3 +1,5 @@
+@import '../../lib.scss';
+
 .createNewClient {
   flex-grow: 1;
   max-width: 300px;
@@ -21,5 +23,14 @@
   .wrapp {
     width: 85%;
     margin-top: 10%;
+  };
+
+  .notes {
+    border: 2px solid #19aa8d;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    font-size: calcFluidFontSize(16, 20, 480, 1920);
+    resize: none;
   };
 };

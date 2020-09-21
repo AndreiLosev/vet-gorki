@@ -9,6 +9,7 @@ import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
 export const NewClientForm = () => {
   const dispatch = useDispatch()
+  const [notesText, setNotesText] = React.useState('')
   const contentData = [
     {tooltip: "Имя клиента", placeholder: "Имя"},
     {tooltip: "Фамилия клиента", placeholder: "Фамилия"},
@@ -31,6 +32,12 @@ export const NewClientForm = () => {
           <FormFild tooltip={item.tooltip} placeholder={item.placeholder} />
         </div>
       ))}
+      <div className={stls.wrapp}>
+        <textarea
+          className={stls.notes} rows={10} placeholder="Примечания"
+          value={notesText} onChange={e => setNotesText(e.target.value)}
+        />
+      </div>
       <div className={stls.wrapp}>
         <FormSubmit text="Создать" />
       </div>

@@ -16,7 +16,7 @@ export const FormFildAddOptions: React.FC<Props> = ({tooltip, placeholder, optio
     <div
       className={stls.wrapper}
       aria-label={tooltip}
-      data-microtip-position="bottom-right"
+      data-microtip-position="top-right"
       role="tooltip">
       <div>
         <input

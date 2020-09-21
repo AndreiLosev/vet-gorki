@@ -9,7 +9,7 @@ export const Editor = () => {
       <div className={cn('toolBar')}>
         <div>
           <span>Шрифт</span>
-          <input type="number" className="fontSize" value="8" />
+          <input type="number" className="fontSize" defaultValue="8" />
           <input type="button" className={cn('btn', 'activeBtn')} value="B"/>
           <input type="button" className={cn('btn', {'activeBtn': false})} value="I"/>
           <input type="button" className={cn('btn', {'activeBtn': false})} value="U&#818;"/>

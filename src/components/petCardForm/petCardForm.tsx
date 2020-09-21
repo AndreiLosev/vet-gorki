@@ -1,6 +1,5 @@
 import React from 'react'
 import stls from './petCardForm.module.scss'
-import cn from 'classnames'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
@@ -8,18 +7,23 @@ import {Lib} from '../../utilites/lib'
 
 
 export const PetCardForm = () => {
-  const [now, setNow] = React.useState(Date.now());
+  const [now, setNow] = React.useState(Date.now())
+  const [diagnoses, setDiagnoses] = React.useState('')
   return (
     <div className={stls.shortData}>
       <div className={stls.wrapp}>
-      <SquareButton color="green" symbol="&#8987;" size="size1" tooltip="Обновить дату"
-          pressHeadnler={() => setNow(Date.now())}
-        />
-        <FormFild value={Lib.converDate(now)}/>
+        <div className={stls.space}>
+          <SquareButton color="green" symbol="&#8987;" size="size1" tooltip="Обновить дату"
+            pressHeadnler={() => setNow(Date.now())}
+          />
+          <FormFild value={Lib.converDate(now)}/>
+        </div>
       </div>
       <div className={stls.wrapp}>
-        <FormFild placeholder="Вес (кг)" tooltip="Вес (кг)"/>
-        <FormFild placeholder="t (&#176;С)" tooltip="t (&#176;С)"/>
+        <div className={stls.space}>
+          <FormFild placeholder="Вес (кг)" tooltip="Вес (кг)"/>
+          <FormFild placeholder="t (&#176;С)" tooltip="t (&#176;С)"/>
+        </div>
       </div>
       <div className={stls.wrapp}>
         <FormFildWithOptions
@@ -34,25 +38,28 @@ export const PetCardForm = () => {
         />
       </div>
       <div className={stls.diagnoses}>
-        <div>Диагноз:</div>
-        <SquareButton color="green" symbol="+" size="size1"
-          pressHeadnler={() => null}
+        <div className={stls.header}>
+          <div>Диагноз:</div>
+          <SquareButton color="green" symbol="+" size="size1"
+            pressHeadnler={() => null}
+          />
+        </div>
+        <textarea
+          className={stls.diagnosesFild} rows={15}
+          value={diagnoses} onChange={e => setDiagnoses(e.target.value)}
         />
-        <textarea className={cn('diagnosesFild')} rows={5} value={'Блохи\nБешенство'} onChange={() => null}/>
       </div>
-      <div
-        className={cn('doctor')}
-        aria-label="Врач"
-        data-microtip-position="bottom-right"
-        role="tooltip">
-        <input type="text" className="fild" placeholder="Врач"/>
-        <input type="button" className="openFild" value="&#8744;"/>
+      <div className={stls.wrapp}>
+        <FormFildWithOptions
+          placeholder="Врач" tooltip="Врач"
+          options={['доктор №1', 'доктор №2', 'Кристина']}
+        />
       </div>
-      <div className={cn('DateBirth')}>
+      <div className={stls.DateBirth}>
         <span>Дата рождения:</span>
         <span>01.02.2003</span>
       </div>
-      <div className={cn('DateBirth')}>
+      <div className={stls.DateBirth}>
         <span>Возраст:</span>
         <span>99л 6м</span>
       </div>
