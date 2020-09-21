@@ -1,76 +1,54 @@
 import React from 'react'
-import './newPetForm.scss'
-import cn from 'classnames'
+import stls from './newPetForm.module.scss'
 import {useDispatch} from 'react-redux'
+import {SquareButton} from '../squareButton/squareButton'
+import {FormFild} from '../formFild/formFild'
+import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
+import {FormFildAddOptions} from '../formFildAddOptions/formFildAddOptions'
+import {FormSubmit} from '../formSubmit/formSubmit'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
 
 export const NewPetForm = () => {
   const dispatch = useDispatch()
   return (
-    <form className={cn('createNewPet')}>
-      <div className={cn('closeForm')}>
-        <input
-          type="button" value="&#215;" className={cn('сloseForm')}
-          onClick={() => dispatch(ClientsActionCreater.createShowNewPetForm(false))}
+    <form className={stls.createNewPet}>
+      <div className={stls.closeForm}>
+        <SquareButton color="green" symbol="&#215;" size="size1" tooltip={undefined}
+          pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewPetForm(false))}
         />
       </div>
-      <div className={cn('master')}>
-        <span>Хозяин: {'Лосев Андрей Геннадтевич'}</span>
+      <div className={stls.wrapp}>
+        <span className={stls.master}>Хозяин: {'Лосев Андрей Геннадтевич'}</span>
       </div>
-      <div className={cn('petName')}>
-        <div aria-label="Кличка" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Кличка" />
-        </div>
+      <div className={stls.wrapp}>
+        <FormFild tooltip="Кличка" placeholder="Кличка" type="text"/>
       </div>
-      <div
-        className={cn('type')}
-        aria-label="Вид"
-        data-microtip-position="bottom-right"
-        role="tooltip">
-        <input type="text" className="fild" placeholder="Вид"/>
-        <input type="button" className="openFild" value="&#8744;"/>
-        <input type="button" value="+" className={cn('addTypePet')}/>
+      <div className={stls.wrapp}>
+        <FormFildAddOptions tooltip="Вид" placeholder="Вид" options={['кот', 'собака', 'хомяк']} />
       </div>
-      <div className={cn('gender')}
-        aria-label="Пол"
-        data-microtip-position="bottom-right"
-        role="tooltip">
-        <input type="text" className="fild" placeholder="Пол"/>
-        <input type="button" className="openFild" value="&#8744;"/>
+      <div className={stls.wrapp}>
+        <FormFildWithOptions tooltip="Пол" placeholder="Пол" options={['М', 'Ж']}/>
       </div>
-      <div
-        className={cn('breed')}
-        aria-label="Порода"
-        data-microtip-position="bottom-right"
-        role="tooltip">
-        <input type="text" className="fild" placeholder="Порода"/>
-        <input type="button" className="openFild" value="&#8744;"/>
-        <input type="button" value="+" className={cn('addBreed')}/>
+      <div className={stls.wrapp}>
+        <FormFildAddOptions tooltip="Порода" placeholder="Порода"
+          options={['бульдог', 'доберман', 'подмышка бомжачья']}
+        />
       </div>
-      <div className={cn('petColor')}>
-        <div aria-label="Окрас" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Окрас" />
-        </div>
+      <div className={stls.wrapp}>
+        <FormFild tooltip="Окрас" placeholder="Окрас" type="text"/>
       </div>
-      <div className={cn('petAge')}>
-        <span className={cn('labelSpan')}>Возраст</span>
-        <div aria-label="Лет" data-microtip-position="bottom-right" role="tooltip">
-          <input type="number" placeholder="Лет"/>
-        </div>
-        <div aria-label="Месяцев" data-microtip-position="bottom-right" role="tooltip">
-          <input type="number" placeholder="Месяцев"/>
-        </div>
-        <div aria-label="Дней" data-microtip-position="bottom-right" role="tooltip">
-          <input type="number" placeholder="Дней"/>
-        </div>
+      <div className={stls.petAge}>
+        <FormFild tooltip="Лет" placeholder="Лет" type="text"/>
+        <FormFild tooltip="Месяцев" placeholder="Месяцев" type="text"/>
+        <FormFild tooltip="Дней" placeholder="Дней" type="text"/>
       </div>
-      <div>
-        <textarea className={cn('notes')} rows={5} value={''} placeholder="Примечания" onChange={() => null}/>
+      <div className={stls.wrapp}>
+        <textarea className={stls.notes} rows={8} value={''} placeholder="Примечания" onChange={() => null}/>
       </div>
-      <div className={cn('wrapp', 'submit1')}>
-        <input className={'inputSubmit'} type="submit" value="Создать" />
+      <div className={stls.wrapp}>
+        <FormSubmit text="Создать" />
       </div>
-    </form>  
-  )  
+    </form>
+  )
 }

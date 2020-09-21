@@ -18,7 +18,7 @@ div.wrapper {
     input.fild {
       height: 100%;
       width: 79%;
-      font-size: calcFluidFontSize(16, 24, 480, 1920);
+      font-size: calcFluidFontSize(16, 20, 480, 1920);
       border: 0px solid #fff;
       border-bottom: 2px solid #19aa8d;
       border-bottom-left-radius: 5px;
@@ -31,12 +31,12 @@ div.wrapper {
       border-bottom-left-radius: 0;
       border-left: 2px solid #19aa8d;
     };
-  
+
     input.fild:focus {
       outline: 0;
       background-color: #f6f6f6;
     };
-    
+
     input.openFild {
       height: 100%;
       width: 10%;
@@ -61,14 +61,14 @@ div.wrapper {
       background-color: #19aa8d;
       border-radius: 5px;
     };
-  
-    input:active {background-color: #fff};  
+
+    input:active {background-color: #fff};
   };
-	
+
   div.options {
     align-self: flex-start;
     z-index: 1;
-    margin-bottom: -100%;
+    // margin-bottom: -100%;
     width: 89%;
     border-left: 2px solid #19aa8d;
     border-right: 2px solid #19aa8d;

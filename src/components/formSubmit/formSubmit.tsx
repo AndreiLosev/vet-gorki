@@ -10,7 +10,7 @@ type Props = {
 export const FormSubmit: React.FC<Props> = ({text}) => {
   return (
     <div className={stls.wrapper}>
-      <input type="button" value={text}/>    
+      <input type="submit" value={text}/>
     </div>
   )
 }

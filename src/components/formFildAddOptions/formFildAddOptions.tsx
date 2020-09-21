@@ -29,7 +29,7 @@ export const FormFildAddOptions: React.FC<Props> = ({tooltip, placeholder, optio
           type="button"
           className={cn(stls.openFild, {[stls.openFildActive]: showOptions})}
           value="&#8744;"
-          onClick={() => setShowOptions(true)}
+          onClick={() => setShowOptions(!showOptions)}
         />
         <input type="button" className={stls.addOptions} value="+"/>
       </div>

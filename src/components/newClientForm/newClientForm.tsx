@@ -1,63 +1,39 @@
 import React from 'react'
-import './newClientForm.scss'
-import cn from 'classnames'
+import stls from './newClientForm.module.scss'
 import {useDispatch} from 'react-redux'
+import {SquareButton} from '../squareButton/squareButton'
+import {FormFild} from '../formFild/formFild'
+import {FormSubmit} from '../formSubmit/formSubmit'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
 
 export const NewClientForm = () => {
   const dispatch = useDispatch()
+  const contentData = [
+    {tooltip: "Имя клиента", placeholder: "Имя"},
+    {tooltip: "Фамилия клиента", placeholder: "Фамилия"},
+    {tooltip: "Отчество клиента", placeholder: "Отчество"},
+    {tooltip: "Телефон клиента", placeholder: "Телефон"},
+    {tooltip: "Населённый пункт клиента", placeholder: "Населённый пункт"},
+    {tooltip: "Улица клиента", placeholder: "Улица"},
+    {tooltip: "№ дома клиента", placeholder: "№ Дома"},
+    {tooltip: "№ квартиры клиента", placeholder: "№ Квартиры"},
+  ]
   return (
-    <form className={cn('createNewClient')}>
-      <div className={cn('closeForm')}>
-        <input
-          type="button" value="&#215;"
-          onClick={() => dispatch(ClientsActionCreater.createShowNewClientForm(false))}
+    <form className={stls.createNewClient}>
+      <div className={stls.closeForm}>
+        <SquareButton color="green" symbol="&#215;" size="size1" tooltip={undefined}
+          pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewClientForm(false))}
         />
       </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Имя клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Имя" />
+      {contentData.map(item => (
+        <div className={stls.wrapp} key={item.placeholder}>
+          <FormFild tooltip={item.tooltip} placeholder={item.placeholder} type="text"/>
         </div>
+      ))}
+      <div className={stls.wrapp}>
+        <FormSubmit text="Создать" />
       </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Фамилия клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="фамилия" />
-        </div>
-      </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Отчество клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Отчество" />
-        </div>
-      </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Телефон клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Телефон" />
-        </div>
-      </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Населённый пункт клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Населённый пункт" />
-        </div>
-      </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="Улица клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="Улица" />
-        </div>
-      </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="№ дома клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="№ дома" />
-        </div>
-      </div>
-      <div className={cn('wrapp', 'text1')}>
-        <div aria-label="№ квартиры клиента" data-microtip-position="bottom-right" role="tooltip">
-          <input className={'inputText'} type="text" placeholder="№ Квартиры" />
-        </div>
-      </div>
-      <div className={cn('wrapp', 'submit1')}>
-        <input className={'inputSubmit'} type="submit" value="Создать" />
-      </div>
-    </form>  
-  )  
+    </form>
+  )
 }

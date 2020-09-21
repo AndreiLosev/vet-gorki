@@ -1,0 +1,46 @@
+@import '../../lib.scss';
+
+.createNewPet {
+  flex-grow: 1;
+  max-width: 400px;
+  height: 100%;
+  margin: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .closeForm {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin: 5%;
+    margin-right: 15%;
+  };
+
+  .wrapp {
+    width: 85%;
+    margin-top: 10%;
+  };
+
+  .petAge {
+    width: 85%;
+    margin-top: 10%;
+    display: flex;
+    :nth-child(1) {margin-right: 3px};
+    :nth-child(2) {margin-right: 3px};
+  };
+
+  .notes {
+    border: 2px solid #19aa8d;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    font-size: calcFluidFontSize(16, 20, 480, 1920);
+    resize: none;
+  };
+
+  .master {font-size: calcFluidFontSize(16, 20, 480, 1920)};
+};
