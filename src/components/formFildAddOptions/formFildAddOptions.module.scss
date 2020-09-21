@@ -66,8 +66,11 @@ div.wrapper {
   };
 
   div.options {
+    position: absolute;
     align-self: flex-start;
     z-index: 1;
+    top: 100%;
+    background-color: #fff;
     // margin-bottom: -100%;
     width: 89%;
     border-left: 2px solid #19aa8d;

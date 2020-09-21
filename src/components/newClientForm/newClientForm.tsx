@@ -28,7 +28,7 @@ export const NewClientForm = () => {
       </div>
       {contentData.map(item => (
         <div className={stls.wrapp} key={item.placeholder}>
-          <FormFild tooltip={item.tooltip} placeholder={item.placeholder} type="text"/>
+          <FormFild tooltip={item.tooltip} placeholder={item.placeholder} />
         </div>
       ))}
       <div className={stls.wrapp}>
