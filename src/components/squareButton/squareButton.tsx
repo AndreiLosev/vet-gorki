@@ -6,12 +6,15 @@ type Props = {
   color: 'green' | 'white',
   symbol: string,
   size: 'size1' | 'size2',
+  tooltip: string | undefined,
   pressHeadnler: (param: any) => void,
 }
 
-
-export const SquareButton: React.FC<Props> = ({color, symbol, size, pressHeadnler}) => {
+export const SquareButton: React.FC<Props> = ({color, symbol, size, tooltip, pressHeadnler}) => {
   return <div
+    aria-label={tooltip}
+    data-microtip-position="bottom-right"
+    role="tooltip"
     className={cn(stls.SquareButton, stls[color], stls[size])}
     onClick={pressHeadnler}>
       {symbol}

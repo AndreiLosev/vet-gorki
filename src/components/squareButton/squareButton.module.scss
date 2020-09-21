@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  font-size: calcFluidFontSize(16, 20, 480, 1920);
+  font-size: calcFluidFontSize(16, 25, 480, 1920);
   cursor: default;
   -moz-user-select: none;
   -khtml-user-select: none;
@@ -17,13 +17,13 @@
 };
 
 .size1 {
-  width: 1.72vw;
-  height: 1.72vw;
+  width: 1.8vw;
+  height: 1.8vw;
 };
 
 .size2 {
-  width: 2.15vw;
-  height: 2.15vw;
+  width: 2vw;
+  height: 2vw;
 };
 
 
