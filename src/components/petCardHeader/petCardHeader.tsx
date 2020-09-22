@@ -1,23 +1,23 @@
 import React from 'react'
-import './petCardHeader.scss'
-import cn from 'classnames'
+import stls from './petCardHeader.module.scss'
+import {useHistory} from 'react-router-dom'
+import {SquareButton} from '../squareButton/squareButton'
 
 
 export const PetCardHeader = () => {
+  const history = useHistory();
   return (
-    <header className={cn('tooolbar')}>
-      <div className={cn('buttonWrapPetCard')}>
-        <div aria-label="Назад" data-microtip-position="bottom-right" role="tooltip">
-          <input type="button" value="&#8629;" />
-        </div>
-        <div aria-label="Сохранить" data-microtip-position="bottom-right" role="tooltip">
-          <input type="button" value="&#128190;" />
-        </div>
-        <div aria-label="Печать" data-microtip-position="bottom-right" role="tooltip">
-          <input type="button" value="&#128438;" />
-        </div>
-      </div>
-      <div className={cn('clientAndPet')}>
+    <header className={stls.tooolbar}>
+      <SquareButton color="white" symbol="&#8629;" size="size2" tooltip="Назад"
+        pressHeadnler={() => history.push('/clients')}
+      />
+      <SquareButton color="white" symbol="&#128190;" size="size2" tooltip="Сохранить"
+        pressHeadnler={() => undefined}
+      />
+      <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Печать"
+        pressHeadnler={() => undefined}
+      />
+      <div className={stls.clientAndPet}>
         <span>Труша (хомяк, женский) Лосев Андрей Геннадьевич</span>
       </div>
     </header>
