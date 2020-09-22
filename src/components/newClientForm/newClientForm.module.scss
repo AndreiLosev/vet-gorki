@@ -33,4 +33,14 @@
     font-size: calcFluidFontSize(16, 20, 480, 1920);
     resize: none;
   };
+
+
+	.notes::-webkit-input-placeholder {
+    font-weight: bold;
+    color: #bbb;
+  };
+	.notes::-moz-placeholder {
+    font-weight: bold;
+    color: #bbb;
+  };
 };

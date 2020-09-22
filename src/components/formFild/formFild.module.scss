@@ -17,6 +17,15 @@ div.wrapper {
 		font-weight: bold;
 	};
 
+	.fild[type="text"]::-webkit-input-placeholder {
+    font-weight: lighter;
+    color: #bbb;
+  };
+	.fild[type="text"]::-moz-placeholder {
+    font-weight: lighter;
+    color: #bbb;
+  };
+
 	input.fild:focus {
 		outline: 0;
 		background-color: #f6f6f6;
