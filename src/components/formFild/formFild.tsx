@@ -7,11 +7,15 @@ type Props = {
   placeholder?: string | undefined,
   type?: 'text' | 'password',
   value?: string,
+  id?: string | undefined,
+  name?: string | undefined,
+  onChange?: (e: React.ChangeEvent<any>) => void,
+  // onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void | undefined,
 }
-
-export const FormFild: React.FC<Props> = ({tooltip, placeholder, type='text', value=''}) => {
-  const [text, setText] = React.useState(value);
-  React.useEffect(() => setText(value), [value])
+// const defoltOnChange = (event: React.ChangeEvent<any>) => event.target.value
+export const FormFild: React.FC<Props> = ({tooltip, placeholder, type='text', value='', onChange}) => {
+  // const [text, setText] = React.useState(value);
+  // React.useEffect(() => setText(value), [value])
   return (
     <div
       className={stls.wrapper}
@@ -20,7 +24,7 @@ export const FormFild: React.FC<Props> = ({tooltip, placeholder, type='text', va
       role="tooltip">
       <input
         className={stls.fild} type={type} placeholder={placeholder}
-        value={text} onChange={(e) => setText(e.target.value)}
+        value={value} onChange={onChange}
       />
     </div>
   )
