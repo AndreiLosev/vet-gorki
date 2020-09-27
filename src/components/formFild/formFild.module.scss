@@ -4,6 +4,7 @@ div.wrapper {
 	width: 100%;
 	height: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 
@@ -29,5 +30,12 @@ div.wrapper {
 	input.fild:focus {
 		outline: 0;
 		background-color: #f6f6f6;
-	}
+  };
+
+  .errorMessage {
+    font-size: calcFluidFontSize(6, 12, 480, 1920);
+	color: #a00;
+	top: 100%;
+	position: absolute;
+  }
 }

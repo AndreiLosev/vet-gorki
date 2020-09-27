@@ -1,6 +1,8 @@
 import React from 'react'
 import stls from './newPetForm.module.scss'
 import {useDispatch} from 'react-redux'
+import {useFormik} from 'formik'
+import * as Yup from 'yup'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
@@ -8,12 +10,40 @@ import {FormFildAddOptions} from '../formFildAddOptions/formFildAddOptions'
 import {FormSubmit} from '../formSubmit/formSubmit'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
+interface IinitialFormValues {
+  petName: string;
+  petType: string;
+  petGender: string;
+  castration: string;
+  breed: string;
+  color: string;
+  ageYear: string;
+  ageMonth: string;
+  notes: string;
+}
 
 export const NewPetForm = () => {
   const dispatch = useDispatch()
-  const [notesText, setNotesText] = React.useState('')
+  const formik = useFormik<IinitialFormValues>({
+    initialValues: {
+      petName: '', petType: '', petGender: '', castration: '',
+      breed: '', color: '', ageYear: '', ageMonth: '', notes: '',
+    },
+    validationSchema: Yup.object({
+      petType: Yup.string()
+        .required('Это поле обязательно для заполнения'),
+        breed: Yup.string()
+        .required('Это поле обязательно для заполнения'),
+    }),
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  })
+  console.log(formik.errors)
+  const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)
+  const setValueFor = (fild: string) => (text: string) => formik.setFieldValue(fild, text)
   return (
-    <form className={stls.createNewPet}>
+    <form className={stls.createNewPet} onSubmit={formik.handleSubmit}>
       <div className={stls.closeForm}>
         <SquareButton color="green" symbol="&#215;" size="size1" tooltip={undefined}
           pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewPetForm(false))}
@@ -23,31 +53,53 @@ export const NewPetForm = () => {
         <span className={stls.master}>Хозяин: {'Лосев Андрей Геннадтевич'}</span>
       </div>
       <div className={stls.wrapp}>
-        <FormFild tooltip="Кличка" placeholder="Кличка" type="text"/>
-      </div>
-      <div className={stls.wrapp}>
-        <FormFildAddOptions tooltip="Вид" placeholder="Вид" options={['кот', 'собака', 'хомяк']} />
-      </div>
-      <div className={stls.wrapp}>
-        <FormFildWithOptions tooltip="Пол" placeholder="Пол" options={['М', 'Ж']}/>
-      </div>
-      <div className={stls.wrapp}>
-        <FormFildAddOptions tooltip="Порода" placeholder="Порода"
-          options={['бульдог', 'доберман', 'подмышка бомжачья']}
+        <FormFild tooltip="Кличка" placeholder="Кличка" id="petName" name="petName"
+          onChange={handleChangeFor('petName')} value={formik.values.petName} error={formik.errors.petName}
         />
       </div>
       <div className={stls.wrapp}>
-        <FormFild tooltip="Окрас" placeholder="Окрас" type="text"/>
+        <FormFildAddOptions tooltip="Вид" placeholder="Вид" options={['кот', 'собака', 'хомяк']}
+          id="petType" name="petType" value={formik.values.petType} error={formik.errors.petType}
+          onChange={handleChangeFor('petType')} setValue={setValueFor('petType')}
+        />
+      </div>
+      <div className={stls.wrapp}>
+        <FormFildAddOptions tooltip="Порода" placeholder="Порода" options={['бульдог', 'доберман', 'подмышка бомжачья']}
+          id="breed" name="breed" value={formik.values.breed} error={formik.errors.breed}
+          onChange={handleChangeFor('breed')} setValue={setValueFor('breed')}
+        />
+      </div>
+      <div className={stls.wrapp}>
+        <FormFild tooltip="Окрас" placeholder="Окрас" id="color" name="color"
+          onChange={handleChangeFor('color')} value={formik.values.color} error={formik.errors.color}
+        />
+      </div>
+      <div className={stls.wrapp}>
+        <FormFildWithOptions tooltip="Пол" placeholder="Пол" options={['М', 'Ж']}
+          id="petGender" name="petGender" value={formik.values.petGender} error={formik.errors.petGender}
+          onChange={handleChangeFor('petGender')} setValue={setValueFor('petGender')}
+        />
+      </div>
+      <div className={stls.wrapp}>
+        <FormFildWithOptions tooltip="Кострация" placeholder="Кострация" options={['Да', 'Нет']}
+          id="castration" name="castration" value={formik.values.castration} error={formik.errors.castration}
+          onChange={handleChangeFor('castration')} setValue={setValueFor('castration')}
+        />
       </div>
       <div className={stls.petAge}>
-        <FormFild tooltip="Лет" placeholder="Лет" type="text"/>
-        <FormFild tooltip="Месяцев" placeholder="Месяцев" type="text"/>
-        <FormFild tooltip="Дней" placeholder="Дней" type="text"/>
+        <span className={stls.labelAge}>Возраст: </span>
+        <FormFild tooltip="Лет" placeholder="Лет" id="ageYear" name="ageYear"
+          onChange={handleChangeFor('ageYear')} value={formik.values.ageYear} error={formik.errors.ageYear}
+        />
+        <FormFild tooltip="Месяцев" placeholder="Месяцев" id="ageMonth" name="ageMonth"
+          onChange={handleChangeFor('ageMonth')} value={formik.values.ageMonth} error={formik.errors.ageMonth}
+        />
+        {/* <FormFild tooltip="Дней" placeholder="Дней" type="text"/> */}
       </div>
       <div className={stls.wrapp}>
         <textarea
-          className={stls.notes} rows={8} placeholder="Примечания"
-          value={notesText} onChange={e => setNotesText(e.target.value)}
+          className={stls.notes} rows={10} placeholder="Примечания" id='notes' name='notes'
+          onChange={formik.handleChange} value={formik.values.notes}
         />
       </div>
       <div className={stls.wrapp}>

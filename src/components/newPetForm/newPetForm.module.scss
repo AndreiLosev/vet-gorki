@@ -22,14 +22,20 @@
 
   .wrapp {
     width: 85%;
-    margin-top: 10%;
+    margin-top: 8%;
   };
 
   .petAge {
     width: 85%;
-    margin-top: 10%;
+    margin-top: 8%;
     display: flex;
-    :nth-child(1) {margin-right: 3px};
+    .labelAge {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: calcFluidFontSize(16, 20, 480, 1920);
+      margin-right: 9px;
+    };
     :nth-child(2) {margin-right: 3px};
   };
 

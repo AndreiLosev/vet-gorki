@@ -1,17 +1,28 @@
 import React from 'react'
 import stls from './formFildAddOptions.module.scss'
 import cn from 'classnames'
+import InputMask from "react-input-mask"
 
 
 type Props = {
-  tooltip: string | undefined,
-  placeholder: string | undefined,
+  tooltip?: string | undefined,
+  placeholder?: string | undefined,
+  type?: 'text' | 'password',
+  value?: string,
+  id?: string | undefined,
+  name?: string | undefined,
+  mask?: string | (string | RegExp)[],
+  error?: string,
   options: string[],
+  onChange?: (e: React.ChangeEvent<any>) => void,
+  setValue?: (text: string) => void,
 }
 
-export const FormFildAddOptions: React.FC<Props> = ({tooltip, placeholder, options}) => {
+export const FormFildAddOptions: React.FC<Props> = ({
+  tooltip, placeholder, value='', mask=[/\W/i], onChange, setValue, error, options,
+}) => {
   const [showOptions, setShowOptions] = React.useState(false);
-  const [text, setText] = React.useState('');
+  const [blure, setBlure] = React.useState(false);
   return (
     <div
       className={stls.wrapper}
@@ -19,12 +30,14 @@ export const FormFildAddOptions: React.FC<Props> = ({tooltip, placeholder, optio
       data-microtip-position="top-right"
       role="tooltip">
       <div>
-        <input
+        <InputMask
           className={cn(stls.fild, {[stls.fildActive]: showOptions})}
           type="text" placeholder={placeholder}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={value} onChange={onChange} mask={mask} onBlur={() => setBlure(true)}
         />
+        {error && blure
+          ? <span className={stls.errorMessage}>{error}</span>
+          : null}
         <input
           type="button"
           className={cn(stls.openFild, {[stls.openFildActive]: showOptions})}
@@ -36,7 +49,7 @@ export const FormFildAddOptions: React.FC<Props> = ({tooltip, placeholder, optio
       {showOptions
         ? <div className={stls.options}>
             {options.map(item => <span key={item} onClick={() => {
-              setText(item);
+              setValue ? setValue(item) : (() => undefined)()
               setShowOptions(false);
             }}>{item}</span>)}
         </div>

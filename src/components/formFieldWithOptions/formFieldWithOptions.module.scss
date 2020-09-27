@@ -25,10 +25,26 @@ div.wrapper {
       font-weight: bold;
     };
 
+    .fild[type="text"]::-webkit-input-placeholder {
+      font-weight: lighter;
+      color: #bbb;
+    };
+    .fild[type="text"]::-moz-placeholder {
+      font-weight: lighter;
+      color: #bbb;
+    };
+
     input.fild:focus {
       outline: 0;
       background-color: #f6f6f6;
     };
+
+    .errorMessage {
+      font-size: calcFluidFontSize(6, 12, 480, 1920);
+      color: #a00;
+      top: 100%;
+      position: absolute;
+    }
 
     input.fildActive {
       border-bottom: #fff;

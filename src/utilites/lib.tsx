@@ -10,5 +10,5 @@ export class Lib {
     const hours = addNull(date.getHours());
     const minuts = addNull(date.getMinutes());
     return `${hours}:${minuts} ${day}.${month}.${year}`;
-  };
+  }
 }

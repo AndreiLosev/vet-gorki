@@ -2,6 +2,7 @@ import React from 'react'
 import stls from './newClientForm.module.scss'
 import {useDispatch} from 'react-redux'
 import {useFormik} from 'formik'
+import * as Yup from 'yup'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormSubmit} from '../formSubmit/formSubmit'
@@ -26,6 +27,12 @@ export const NewClientForm: React.FC<{}> = () => {
       name: '', surname: '', patronymic: '', locality: 'Горки',
       street: '', house: '', flat: '', notes: '', phone: '',
     },
+    validationSchema: Yup.object({
+      surname: Yup.string()
+        .required('Это поле обязательно для заполнения'),
+      locality: Yup.string()
+        .required('Это поле обязательно для заполнения'),
+    }),
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
     },
@@ -33,35 +40,35 @@ export const NewClientForm: React.FC<{}> = () => {
   const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)
   const contentData = [
     {
-      tooltip: "Имя клиента", placeholder: "Имя",
+      tooltip: "Имя клиента", placeholder: "Имя", error: formik.errors.name,
       id: 'name', name: 'name', onChange: handleChangeFor('name'), value: formik.values.name,
     },
     {
-      tooltip: "Фамилия клиента", placeholder: "Фамилия",
+      tooltip: "Фамилия клиента", placeholder: "Фамилия", error: formik.errors.surname,
       id: 'surname', name: 'surname', onChange: handleChangeFor('surname'), value: formik.values.surname,
     },
     {
-      tooltip: "Отчество клиента", placeholder: "Отчество",
+      tooltip: "Отчество клиента", placeholder: "Отчество", error: formik.errors.patronymic,
       id: 'patronymic', name: 'patronymic', onChange: handleChangeFor('patronymic'), value: formik.values.patronymic,
     },
     {
-      tooltip: "Телефон клиента", placeholder: "Телефон",
+      tooltip: "Телефон клиента", placeholder: "Телефон", mask: "+375(99) 999 99 99", error: formik.errors.phone,
       id: 'phone', name: 'phone', onChange: handleChangeFor('phone'), value: formik.values.phone,
     },
     {
-      tooltip: "Населённый пункт клиента", placeholder: "Населённый пункт",
+      tooltip: "Населённый пункт клиента", placeholder: "Населённый пункт", error: formik.errors.locality,
       id: 'locality', name: 'locality', onChange: handleChangeFor('locality'), value: formik.values.locality,
     },
     {
-      tooltip: "Улица клиента", placeholder: "Улица",
+      tooltip: "Улица клиента", placeholder: "Улица", error: formik.errors.street,
       id: 'street', name: 'street', onChange: handleChangeFor('street'), value: formik.values.street,
     },
     {
-      tooltip: "№ дома клиента", placeholder: "№ Дома",
+      tooltip: "№ дома клиента", placeholder: "№ Дома", error: formik.errors.house,
       id: 'house', name: 'house', onChange: handleChangeFor('house'), value: formik.values.house,
     },
     {
-      tooltip: "№ квартиры клиента", placeholder: "№ Квартиры",
+      tooltip: "№ квартиры клиента", placeholder: "№ Квартиры", error: formik.errors.flat,
       id: 'flat', name: 'flat', onChange: handleChangeFor('flat'), value: formik.values.flat,
     },
   ]
@@ -75,8 +82,8 @@ export const NewClientForm: React.FC<{}> = () => {
       {contentData.map(item => (
         <div className={stls.wrapp} key={item.placeholder}>
           <FormFild
-            tooltip={item.tooltip} placeholder={item.placeholder} type="text"
-            id={item.id} name={item.name} onChange={item.onChange} value={item.value}
+            tooltip={item.tooltip} placeholder={item.placeholder} mask={item.mask}
+            id={item.id} name={item.name} onChange={item.onChange} value={item.value} error={item.error}
           />
         </div>
       ))}
