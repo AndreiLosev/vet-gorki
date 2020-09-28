@@ -1,20 +1,20 @@
 import React from 'react'
-import './visitsTableToolbar.scss'
-import cn from 'classnames'
+import stls from './visitsTableToolbar.module.scss'
+import {SquareButton} from '../squareButton/squareButton'
 
 
 export const VisitsTableToolbar = () => {
   return (
-    <div className={cn('buttonWrap')}>
-      <div aria-label="Добавить новую запись" data-microtip-position="bottom-right" role="tooltip">
-        <input type="button" value="+" className={cn('visitsBtn')}/>
-      </div>
-      <div aria-label="Редактировать выбраную запись" data-microtip-position="bottom-right" role="tooltip">
-        <input type="button" value="&#9997;" className={cn('visitsBtn')} />
-      </div>
-      <div aria-label="Удалить выбраную запись" data-microtip-position="bottom-right" role="tooltip">
-        <input type="button" value="&#215;" className={cn('visitsBtn')} />
-      </div>
+    <div className={stls.buttonWrap}>
+        <SquareButton color="green" symbol="+" size="size1" tooltip="Добавить новую запись"
+          pressHeadnler={() => null}
+        />
+        <SquareButton color="green" symbol="&#9997;" size="size1" tooltip="Редактировать выбраную запись"
+          pressHeadnler={() => null}
+        />
+        <SquareButton color="green" symbol="&#215;" size="size1" tooltip="Удалить выбраную запись"
+          pressHeadnler={() => null}
+        />
     </div>
   )
 }

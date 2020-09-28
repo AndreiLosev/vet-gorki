@@ -34,6 +34,23 @@ export const NewPetForm = () => {
         .required('Это поле обязательно для заполнения'),
         breed: Yup.string()
         .required('Это поле обязательно для заполнения'),
+        ageYear: Yup.number()
+          .typeError('должго быть числом')
+          .positive('дожно быть положительное число')
+          .integer('должно быть целое число')
+          .max(50, 'дожно быть не больше 50'),
+        ageMonth: Yup.number()
+          .typeError('должго быть числом')
+          .positive('дожно быть положительное число')
+          .integer('должно быть целое число')
+          .max(11, 'дожно быть не больше 11'),
+        petGender: Yup.string()
+          .matches(/Ж|М/i, 'Дожно быть М или Ж')
+          .max(1, 'Дожно быть М или Ж'),
+        castration: Yup.string()
+          .matches(/Да|Нет/i, 'должно быть Да или Нет')
+          .max(3, 'должно быть Да или Нет')
+          .min(2, 'должно быть Да или Нет')
     }),
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));

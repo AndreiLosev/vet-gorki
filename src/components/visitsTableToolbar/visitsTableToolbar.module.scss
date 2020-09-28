@@ -1,0 +1,10 @@
+.buttonWrap {
+  margin-top: 12px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 750px;
+  flex-grow: 3;
+  * {margin-right: 5px};
+};
