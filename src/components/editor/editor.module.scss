@@ -1,0 +1,47 @@
+@import '../../lib.scss';
+
+.editorWrapper {
+  flex-grow: 39;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+
+  .toolBar {
+    flex-grow: 1;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .fonts {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px dashed #19aa8d;
+      padding: 5px;
+      border-radius: 5px;
+      margin-left: 5px;
+      :not(:first-child) {margin-left: 5px;}
+      * { font-size: calcFluidFontSize(12, 20, 480, 1920) };
+    }
+    .fontSize {
+      border: 1px solid #19aa8d;
+      border-radius: 5px;
+      height: 100%;
+      width: 60px;
+      padding: 5px;
+      height: 1.8vw;
+    };
+  };
+
+  .editorTextarea {
+    flex-grow: 99;
+    margin: 5px;
+    box-shadow: inset 1px 1px 5px -1px;
+    cursor: text;
+  };
+};

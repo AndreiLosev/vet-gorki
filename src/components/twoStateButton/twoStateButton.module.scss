@@ -1,12 +1,11 @@
 @import '../../lib.scss';
 
-.SquareButton {
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+.twoStateButton {
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  font-size: calcFluidFontSize(16, 25, 480, 1920);
+  font-size: calcFluidFontSize(12, 20, 480, 1920);
   cursor: default;
   -moz-user-select: none;
   -khtml-user-select: none;
@@ -14,24 +13,23 @@
   user-select: none;
   min-width: 25px;
   min-height: 25px;
+  padding: 5px;
   height: 1.8vw;
 };
 
-.size1 {
-  width: 1.8vw;
-};
-
-.size2 {
-  width: 2vw;
-  height: 2vw;
-};
-
-
-.white { background-color: #fff };
-.green {
+.active {
   background-color: #19aa8d;
   color: #fff;
+  stroke: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 };
 
-.SquareButton:active { box-shadow: inset 1px 1px 10px -1px };
+.deactive {
+  background-color: #b0b0b0;
+  color: #5f5f5f;
+  stroke: #5f5f5f
+};
 
+.square { width: 1.8vw };
+
+.twoStateButton:active { box-shadow: inset 1px 1px 10px -1px };

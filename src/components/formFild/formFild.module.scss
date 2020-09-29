@@ -27,6 +27,15 @@ div.wrapper {
     color: #bbb;
   };
 
+  .fild[type="password"]::-webkit-input-placeholder {
+    font-weight: lighter;
+    color: #bbb;
+  };
+	.fild[type="password"]::-moz-placeholder {
+    font-weight: lighter;
+    color: #bbb;
+  };
+
 	input.fild:focus {
 		outline: 0;
 		background-color: #f6f6f6;

@@ -1,0 +1,12 @@
+@import '../../lib.scss';
+
+.navBar {
+  flex-grow: 1;
+  margin: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: 2px solid #19aa8d;
+  border-radius: 5px;
+  * { margin-left: 5px }
+};
