@@ -1,6 +1,7 @@
 import React from 'react'
 import stls from './editor.module.scss'
 import {TwoStateButton} from '../twoStateButton/twoStateButton'
+import {TwoStateButtonWithOption} from '../twoStateButtonWithOption/twoStateButtonWithOption'
 import {inWidth, centered, leftAligned, rightAligned, numberedList, markingList} from './svgImg'
 
 type localState = {
@@ -38,6 +39,14 @@ export const Editor = () => {
     prev[key].active = !prev[key].active
     return {...prev}
   })
+  const [color, setColor] = React.useState({
+    bacground: {symbol: 'A', active: false, tooltip: '#fff'},
+    font: {symbol: 'A', active: false, tooltip: '#000'},
+  } as localState)
+  const switchColor = (key: string) => setColor(prev => {
+    prev[key].active = !prev[key].active
+    return {...prev}
+  })
   return (
     <div className={stls.editorWrapper}>
       <div className={stls.toolBar}>
@@ -50,6 +59,16 @@ export const Editor = () => {
             pressHender={switchFont}
             key1={item} key={item}
             square={true} tooltip={font[item].tooltip}
+          />)}
+        </div>
+        <div className={stls.fonts}>
+          <div className={stls.text}>Цвет</div>
+          {Object.keys(color).map(item => <TwoStateButtonWithOption
+            symbol={color[item].symbol}
+            active={color[item].active}
+            pressHender={switchColor}
+            key1={item} key={item} initColor={color[item].tooltip}
+            square={true}
           />)}
         </div>
         <div className={stls.fonts}>
