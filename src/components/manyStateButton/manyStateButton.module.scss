@@ -1,0 +1,68 @@
+@import '../../lib.scss';
+
+.wrapp {
+  display: flex;
+  position: relative;
+
+  .twoStateButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-size: calcFluidFontSize(12, 20, 480, 1920);
+    cursor: default;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    min-width: 25px;
+    min-height: 25px;
+    padding: 5px;
+    height: 1.8vw;
+    width: 1.8vw;
+    font-weight: bold;
+  };
+
+  .active {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  };
+
+  .options {
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 105px;
+    background-color: #fff;
+    border-left: 2px solid #19aa8d;
+    border-right: 2px solid #19aa8d;
+    border-bottom: 2px solid #19aa8d;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-top: 5px;
+
+    .item {
+      flex: 1 1 20px;
+      height: 20px;
+      margin: 2px;
+      border-radius: 3px;
+    };
+
+    .item:active { box-shadow: inset 1px 1px 10px -1px };
+    .item:nth-child(1) { background-color: #800 };
+    .item:nth-child(2) { background-color: #FFA500 };
+    .item:nth-child(3) { background-color: #ff0 };
+    .item:nth-child(4) { background-color: #080 };
+    .item:nth-child(5) { background-color: #00f };
+    .item:nth-child(6) { background-color: #0ff };
+    .item:nth-child(7) { background-color: #EE82EE };
+    .item:nth-child(8) { background-color: #fff };
+    .item:nth-child(9) { background-color: #000 };
+  };
+
+  .twoStateButton:active { box-shadow: inset 1px 1px 10px -1px };
+};

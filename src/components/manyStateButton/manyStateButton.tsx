@@ -1,44 +1,38 @@
 import React from 'react'
-import stls from './twoStateButtonWithOption.module.scss'
+import stls from './manyStateButton.module.scss'
 import cn from 'classnames'
 
 type Props = {
   symbol: string | JSX.Element;
   tooltip?: string;
   active: boolean;
-  square?: boolean;
-  key1: string;
   initColor: string;
+  responsiveСolor: 'font' | 'bacground',
   pressHender: (key: string) => void
 }
 
-export const TwoStateButtonWithOption: React.FC<Props> = ({
-  symbol, active, square, key1, tooltip, initColor, pressHender
+export const ManyStateButton: React.FC<Props> = ({
+  symbol, tooltip, initColor, responsiveСolor, pressHender
 }) => {
+  const switchColor1 = responsiveСolor === 'font'
+    ? 'color'
+    : 'backgroundColor'
   const [showOptions, setShowOptions] = React.useState(false)
-  const [color, setColor] = React.useState({backgroundColor: initColor})
+  const [color, setColor] = React.useState({[switchColor1]: initColor})
   const switchColor = (color: string) => {
     setShowOptions(false)
-    setColor({backgroundColor: color})
+    setColor({[switchColor1]: color})
   }
   return <div
     className={stls.wrapp}
     aria-label={tooltip}
     data-microtip-position="bottom-right"
     role="tooltip">
-      <div className={cn(
-        stls.twoStateButton, {[stls.active]: active}, {[stls.deactive]: !active}, {[stls.square]: square}
-        )}
-        onClick={() => pressHender(key1)}>
+      <div className={cn(stls.twoStateButton, stls.active)}
+        style={color}
+        onClick={() => setShowOptions(!showOptions)}>
         {symbol}
       </div>
-      <input
-        type="button"
-        style={color}
-        className={cn(stls.openFild, {[stls.openFildActive]: showOptions})}
-        value="&#8744;"
-        onClick={() => setShowOptions(!showOptions)}
-      />
       {showOptions
         ? <div className={stls.options}>
             <div className={stls.item} onClick={() => switchColor('#800')} />
