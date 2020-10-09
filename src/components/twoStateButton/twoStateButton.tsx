@@ -8,7 +8,7 @@ type Props = {
   active: boolean;
   square?: boolean;
   key1: string;
-  pressHender: (key: string) => void
+  pressHender: (arg1?: any, arg2?: any) => void
 }
 
 export const  TwoStateButton: React.FC<Props> = ({symbol, active, square, key1, tooltip, pressHender}) => {
@@ -17,7 +17,7 @@ export const  TwoStateButton: React.FC<Props> = ({symbol, active, square, key1, 
     data-microtip-position="bottom-right"
     role="tooltip"
     className={cn(stls.twoStateButton, {[stls.active]: active}, {[stls.deactive]: !active}, {[stls.square]: square})}
-    onClick={() => pressHender(key1)}>
+    onMouseDown={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => pressHender(key1, e)}>
     {symbol}
   </div>
 }

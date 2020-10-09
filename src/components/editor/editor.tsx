@@ -1,16 +1,22 @@
 import React from 'react'
 import stls from './editor.module.scss'
-// import {} from 'draft-js'
-import {FontButtons} from './fontButtins'
+import {Editor, EditorState} from 'draft-js';
+import 'draft-js/dist/Draft.css';
+import {useDispatchSelect} from '../../utilites/useDispatchSelect'
+import {EditorActionCreater} from '../../actions/editorActions'
+import {TEditorState} from '../../redusers/editorReduser'
+import {FontButtons, UpperLowerIndex} from './fontButtins'
 import {TextAlignmentButtins} from './textAlignmentButtons'
 import {ListButtons} from './listButtons'
 import {ColorButtons} from './colorButtons'
 
-type localState = {
-  [index: string]: {symbol: string | JSX.Element, active: boolean, tooltip: string}
-}
 
-export const Editor = () => {
+interface IpartState {editor: TEditorState}
+
+export const EditorConteiner = () => {
+  const {partState: {editor}, dispatch} = useDispatchSelect((partSate: IpartState) => ({editor: partSate.editor}))
+  const nextEditorState = (editorState: EditorState) => dispatch(EditorActionCreater.createUpdatePage(editorState))
+  const editorRef = React.useRef<any>(null)
   return (
     <div className={stls.editorWrapper}>
       <div className={stls.toolBar}>
@@ -19,7 +25,14 @@ export const Editor = () => {
         <TextAlignmentButtins />
         <ListButtons />
       </div>
-      <div className={stls.editorTextarea}></div>
+      <div className={stls.editorTextarea} onClick={() => editorRef.current ? editorRef.current.focus() : null }>
+        <Editor
+          editorState={editor[editor.activeEditor]}
+          onChange={nextEditorState}
+          customStyleMap={UpperLowerIndex}
+          ref={editorRef}
+        />
+      </div>
     </div>
   )
 }

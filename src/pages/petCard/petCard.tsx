@@ -4,7 +4,7 @@ import './petCard.scss'
 import {PetCardHeader} from '../../components/petCardHeader/petCardHeader'
 import {PetCardForm} from '../../components/petCardForm/petCardForm'
 import {PetCardNavBar} from '../../components/petCardNavBar/petCardNavBar'
-import {Editor} from '../../components/editor/editor'
+import {EditorConteiner} from '../../components/editor/editor'
 
 export const PetCard: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ export const PetCard: React.FC = () => {
         <PetCardForm />
         <div className={cn('longData')}>
           <PetCardNavBar />
-          <Editor />
+          <EditorConteiner />
         </div>
       </div>
     </div>

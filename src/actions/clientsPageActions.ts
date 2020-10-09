@@ -1,5 +1,5 @@
 export class ClientsActionType {
-  static SHOW_NEW_CLIENT_FORM = 'SHOW_CREATE_NEW_CLIENT_FORM' as const  
+  static SHOW_NEW_CLIENT_FORM = 'SHOW_CREATE_NEW_CLIENT_FORM' as const
   static SHOW_NEW_PET_FORM = 'SHOW_NEW_PET_FORM' as const
 }
 
