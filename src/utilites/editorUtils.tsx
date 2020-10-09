@@ -1,36 +1,19 @@
-import {RichUtils, EditorState, Modifier} from 'draft-js'
+import {RichUtils, EditorState} from 'draft-js'
 
 export type TSimpleStyle = 'BOLD' | 'ITALIC' | 'UNDERLINE'
-export type TIndexStyle = 'UPPERINDEX' | 'LOWERINDEX'
 
 export class EditorUtils {
   static onSimpleStyle = (command: TSimpleStyle, editorState: EditorState): EditorState =>
     RichUtils.toggleInlineStyle(editorState, command)
 
-  static onXorStyle = (command: TIndexStyle, commandList: TIndexStyle[], editorState: EditorState): EditorState => {
-    const selection = editorState.getSelection();
-    const nextContentState = commandList.reduce((contentState, item) => {
-      return Modifier.removeInlineStyle(contentState, selection, item)
-    }, editorState.getCurrentContent());
-    let nextEditorState = EditorState.push(
-      editorState,
-      nextContentState,
-      'change-inline-style'
-    );
-    const currentStyle = editorState.getCurrentInlineStyle();
-    console.log(currentStyle.toString())
-    if (selection.isCollapsed()) {
-      nextEditorState = currentStyle.reduce((state, item) => {
-        if (state && item) return RichUtils.toggleInlineStyle(state, item);
-        throw new Error('Error in EditorUtils.onXorStyle')
-      }, nextEditorState);
+  static onXorStyle = (command: string, commandList: string[], editorState: EditorState): EditorState => {
+    const currentStyle = editorState.getCurrentInlineStyle().toArray()
+    const oldStyle = currentStyle.filter(item => commandList.includes(item))[0]
+    if (oldStyle !== command) {
+      const oldEditorStateClear = RichUtils.toggleInlineStyle(editorState, oldStyle)
+      return RichUtils.toggleInlineStyle(oldEditorStateClear, command)
+    } else {
+      return RichUtils.toggleInlineStyle(editorState, command)
     }
-    if (!currentStyle.has(command)) {
-      nextEditorState = RichUtils.toggleInlineStyle(
-        nextEditorState,
-        command
-      );
-    }
-    return nextEditorState
   }
 }

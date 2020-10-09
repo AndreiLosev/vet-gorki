@@ -1,5 +1,5 @@
 import {EditorState} from 'draft-js'
-import {TSimpleStyle, TIndexStyle} from '../utilites/editorUtils'
+import {TSimpleStyle} from '../utilites/editorUtils'
 
 export class EditorActionType {
   static SET_PAGE = 'SET_PAGE' as const
@@ -20,7 +20,7 @@ export class EditorActionCreater {
   static createSetSimbleStyle = (command: TSimpleStyle) => {
     return {type: EditorActionType.SET_SIMPLE_STYLE, pyload: command}
   }
-  static createSetXorStyle = (command: TIndexStyle, commandList: TIndexStyle[]) => {
+  static createSetXorStyle = (command: string, commandList: string[]) => {
     return {type: EditorActionType.SET_XOR_STYLE, pyload: {command, commandList}}
   }
 }
