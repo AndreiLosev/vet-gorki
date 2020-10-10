@@ -5,7 +5,7 @@ import 'draft-js/dist/Draft.css';
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {EditorActionCreater} from '../../actions/editorActions'
 import {TEditorState} from '../../redusers/editorReduser'
-import {FontButtons, UpperLowerIndex} from './fontButtins'
+import {FontButtons, UpperLowerIndex, FontSize} from './fontButtins'
 import {TextAlignmentButtins} from './textAlignmentButtons'
 import {ListButtons} from './listButtons'
 import {ColorButtons} from './colorButtons'
@@ -20,7 +20,7 @@ export const EditorConteiner = () => {
   return (
     <div className={stls.editorWrapper}>
       <div className={stls.toolBar}>
-        <FontButtons />
+        <FontButtons currentEditor={editor[editor.activeEditor]} currentFontSize={editor.fintSize} dispatch={dispatch}/>
         <ColorButtons />
         <TextAlignmentButtins />
         <ListButtons />
@@ -29,7 +29,7 @@ export const EditorConteiner = () => {
         <Editor
           editorState={editor[editor.activeEditor]}
           onChange={nextEditorState}
-          customStyleMap={UpperLowerIndex}
+          customStyleMap={{...UpperLowerIndex, ...FontSize}}
           ref={editorRef}
         />
       </div>

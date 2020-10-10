@@ -6,6 +6,7 @@ export class EditorActionType {
   static UPDATE_PAGE = 'UPDATE_PAGE' as const
   static SET_SIMPLE_STYLE = 'SET_SIMPLE_STYLE' as const
   static SET_XOR_STYLE = 'SET_XOR_STYLE' as const
+  static SET_FONT_SIZE = 'SET_FONT_SIZE' as const
 }
 
 export class EditorActionCreater {
@@ -23,6 +24,8 @@ export class EditorActionCreater {
   static createSetXorStyle = (command: string, commandList: string[]) => {
     return {type: EditorActionType.SET_XOR_STYLE, pyload: {command, commandList}}
   }
+
+  static createSetFontSize = (size: number) => ({type: EditorActionType.SET_FONT_SIZE, pyload: size})
 }
 
 export type TAction =
@@ -30,3 +33,4 @@ export type TAction =
   | ReturnType<typeof EditorActionCreater.createUpdatePage>
   | ReturnType<typeof EditorActionCreater.createSetSimbleStyle>
   | ReturnType<typeof EditorActionCreater.createSetXorStyle>
+  | ReturnType<typeof EditorActionCreater.createSetFontSize>

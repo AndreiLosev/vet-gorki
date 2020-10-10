@@ -1,3 +1,4 @@
+import {Dispatch, AnyAction} from 'redux'
 import {RichUtils, EditorState} from 'draft-js'
 
 export type TSimpleStyle = 'BOLD' | 'ITALIC' | 'UNDERLINE'
@@ -15,5 +16,11 @@ export class EditorUtils {
     } else {
       return RichUtils.toggleInlineStyle(editorState, command)
     }
+  }
+
+  static switchStyle = (style: string, callback: any, dispatch: Dispatch<AnyAction>, styleList?: string[]) =>
+    (_: any, e: React.MouseEvent) => {
+    e.preventDefault()
+    dispatch(callback(style, styleList))
   }
 }

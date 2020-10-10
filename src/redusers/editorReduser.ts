@@ -11,6 +11,7 @@ const initState = {
   vaccinations: EditorState.createEmpty(),
   history: EditorState.createEmpty(),
   activeEditor: 'description' as TEditorNames,
+  fintSize: 14,
 }
 
 export type TEditorState = typeof initState
@@ -32,6 +33,8 @@ export const editorReduser: Reducer<TEditorState, TAction> = (state=initState, a
           state[state.activeEditor]
         ),
       }
+    case EditorActionType.SET_FONT_SIZE:
+      return {...state, fintSize: action.pyload}
     default:
       return state
   }
