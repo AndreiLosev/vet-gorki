@@ -14,11 +14,10 @@ interface IpartState {editor: TEditorState}
 
 type Props = {
   currentEditor: EditorState,
-  currentFontSize: number,
   dispatch: Dispatch,
 }
 
-export const FontButtons: React.FC<Props> = ({currentEditor, currentFontSize, dispatch}) => {
+export const FontButtons: React.FC<Props> = ({currentEditor, dispatch}) => {
   const font: localState = {
     BOLD:
       {
@@ -50,14 +49,16 @@ export const FontButtons: React.FC<Props> = ({currentEditor, currentFontSize, di
         )
       },
   }
+  const currentFontSize = currentEditor.getCurrentInlineStyle()
+    .toArray().filter(item => item ? item.match(/FONT_SIZE/) : false)[0]
   return (
     <div className={stls.fonts}>
       <div className={stls.text}>Шрифт</div>
         <ManyStateButton
-          symbol="A" initOption={{fontSize: '14px'}}
+          currentOption={FontSize[currentFontSize] ? FontSize[currentFontSize]: {fontSize: '14px'}}
           responsiveStyle="text"
-          option={Object.values(FontSize)}
-          pressHender={() => null}
+          option={Object.entries(FontSize)}
+          pressHender={(style: string) => dispatch(EditorActionCreater.createSetXorStyle(style, Object.keys(FontSize)))}
         />
           {Object.keys(font).map(item => <TwoStateButton
             symbol={font[item].symbol}
@@ -75,7 +76,7 @@ export const UpperLowerIndex = {
   LOWERINDEX: { verticalAlign: 'sub' },
 }
 
-export const FontSize = {
+export const FontSize: {[x: string]: {[x: string]: string}} = {
   FONT_SIZE_10: {fontSize: '10px'},
   FONT_SIZE_12: {fontSize: '12px'},
   FONT_SIZE_14: {fontSize: '14px'},

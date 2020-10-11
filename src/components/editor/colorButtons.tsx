@@ -21,9 +21,9 @@ export const ColorButtons = () => {
       {Object.keys(color).map(item => <ManyStateButton
         symbol={color[item].symbol}
         pressHender={switchColor}
-        key={item} initOption={{item: color[item].tooltip}}
+        key={item} currentOption={{item: color[item].tooltip}}
         responsiveStyle={item === 'color' || item === 'bacground' ? item : 'bacground'}
-        option={item === 'color' ? Object.values(colors) : Object.values(backgroundColors)}
+        option={item === 'color' ? Object.entries(colors) : Object.entries(backgroundColors)}
       />)}
     </div>
   )

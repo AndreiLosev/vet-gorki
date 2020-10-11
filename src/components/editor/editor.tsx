@@ -28,7 +28,7 @@ export const EditorConteiner = () => {
   return (
     <div className={stls.editorWrapper}>
       <div className={stls.toolBar}>
-        <FontButtons currentEditor={editor[editor.activeEditor]} currentFontSize={editor.fintSize} dispatch={dispatch}/>
+        <FontButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch}/>
         <ColorButtons />
         <TextAlignmentButtins />
         <ListButtons />
