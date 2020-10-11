@@ -1,6 +1,6 @@
 import React from 'react'
 import stls from './editor.module.scss'
-import {Editor, EditorState} from 'draft-js';
+import {Editor, EditorState, RichUtils} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {EditorActionCreater} from '../../actions/editorActions'
@@ -17,6 +17,14 @@ export const EditorConteiner = () => {
   const {partState: {editor}, dispatch} = useDispatchSelect((partSate: IpartState) => ({editor: partSate.editor}))
   const nextEditorState = (editorState: EditorState) => dispatch(EditorActionCreater.createUpdatePage(editorState))
   const editorRef = React.useRef<any>(null)
+  const handleKeyCommand = (command: any) => {
+    const newState = RichUtils.handleKeyCommand(editor[editor.activeEditor], command);
+    if (newState) {
+      nextEditorState(newState);
+      return 'handled';
+    }
+    return 'not-handled';
+  }
   return (
     <div className={stls.editorWrapper}>
       <div className={stls.toolBar}>
@@ -25,9 +33,12 @@ export const EditorConteiner = () => {
         <TextAlignmentButtins />
         <ListButtons />
       </div>
-      <div className={stls.editorTextarea} onClick={() => editorRef.current ? editorRef.current.focus() : null }>
+      <div className={stls.editorTextarea} onClick={() => {
+        if (editorRef.current) editorRef.current.focus()
+      }}>
         <Editor
           editorState={editor[editor.activeEditor]}
+          handleKeyCommand={handleKeyCommand}
           onChange={nextEditorState}
           customStyleMap={{...UpperLowerIndex, ...FontSize}}
           ref={editorRef}

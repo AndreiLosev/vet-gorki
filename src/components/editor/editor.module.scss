@@ -28,14 +28,6 @@
       :not(:first-child) {margin-left: 5px;}
       * { font-size: calcFluidFontSize(12, 20, 480, 1920) };
     }
-    .fontSize {
-      border: 1px solid #19aa8d;
-      border-radius: 5px;
-      height: 100%;
-      width: 60px;
-      padding: 5px;
-      height: 1.8vw;
-    };
   };
 
   .editorTextarea {
