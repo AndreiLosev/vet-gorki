@@ -8,7 +8,7 @@ import {TEditorState} from '../../redusers/editorReduser'
 import {FontButtons, UpperLowerIndex, FontSize} from './fontButtins'
 import {TextAlignmentButtins} from './textAlignmentButtons'
 import {ListButtons} from './listButtons'
-import {ColorButtons} from './colorButtons'
+import {ColorButtons, colors, backgroundColors} from './colorButtons'
 
 
 interface IpartState {editor: TEditorState}
@@ -28,8 +28,8 @@ export const EditorConteiner = () => {
   return (
     <div className={stls.editorWrapper}>
       <div className={stls.toolBar}>
-        <FontButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch}/>
-        <ColorButtons />
+        <FontButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
+        <ColorButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
         <TextAlignmentButtins />
         <ListButtons />
       </div>
@@ -40,7 +40,7 @@ export const EditorConteiner = () => {
           editorState={editor[editor.activeEditor]}
           handleKeyCommand={handleKeyCommand}
           onChange={nextEditorState}
-          customStyleMap={{...UpperLowerIndex, ...FontSize}}
+          customStyleMap={{...UpperLowerIndex, ...FontSize, ...backgroundColors, ...colors}}
           ref={editorRef}
         />
       </div>

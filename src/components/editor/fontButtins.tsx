@@ -49,15 +49,14 @@ export const FontButtons: React.FC<Props> = ({currentEditor, dispatch}) => {
         )
       },
   }
-  const currentFontSize = currentEditor.getCurrentInlineStyle()
-    .toArray().filter(item => item ? item.match(/FONT_SIZE/) : false)[0]
+  const currentFontSize = EditorUtils.findXorStyle(/FONT_SIZE/, currentEditor)
   return (
     <div className={stls.fonts}>
       <div className={stls.text}>Шрифт</div>
         <ManyStateButton
           currentOption={FontSize[currentFontSize] ? FontSize[currentFontSize]: {fontSize: '14px'}}
           responsiveStyle="text"
-          option={Object.entries(FontSize)}
+          options={Object.entries(FontSize)}
           pressHender={(style: string) => dispatch(EditorActionCreater.createSetXorStyle(style, Object.keys(FontSize)))}
         />
           {Object.keys(font).map(item => <TwoStateButton

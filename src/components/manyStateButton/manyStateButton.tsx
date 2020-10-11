@@ -4,27 +4,23 @@ import cn from 'classnames'
 
 type Props = {
   symbol?: string | JSX.Element;
-  tooltip?: string;
   currentOption: {[x: string]: string};
   responsiveStyle: 'color' | 'bacground' | 'text',
-  option: Array<[string, {[x: string]: string}]>,
+  options: Array<[string, {[x: string]: string}]>,
   pressHender: (arg1?: any, arg2?: any) => void,
 }
 
 export const ManyStateButton: React.FC<Props> = ({
-  symbol, tooltip, currentOption, responsiveStyle, option, pressHender,
+  symbol, currentOption, responsiveStyle, options, pressHender,
 }) => {
   const [showOptions, setShowOptions] = React.useState(false)
   const VievOptions = (typeStyele: 'color' | 'bacground' | 'text') => {
-    if (typeStyele === 'color') { return option.map(item => ({backgroundColor: Object.values(item[1])[0]})) }
-    else if (typeStyele === 'text') { return option.map(_ => ({backgroundColor: '#e5f0f0'})) }
-    else { return option.map(item => item[1]) }
+    if (typeStyele === 'color') { return options.map(item => ({backgroundColor: Object.values(item[1])[0]})) }
+    else if (typeStyele === 'text') { return options.map(_ => ({backgroundColor: '#e5f0f0'})) }
+    else { return options.map(item => item[1]) }
   }
   return <div
-    className={stls.wrapp}
-    aria-label={tooltip}
-    data-microtip-position="bottom-right"
-    role="tooltip">
+    className={stls.wrapp}>
       <div className={cn(stls.twoStateButton, stls.active)}
         style={currentOption}
         onMouseDown={(e) => {
@@ -35,7 +31,7 @@ export const ManyStateButton: React.FC<Props> = ({
       </div>
       {showOptions
         ? <div className={stls.options}>
-            {option.map((item, index) => <div
+            {options.map((item, index) => <div
               className={stls.item} key={index}
               style={VievOptions(responsiveStyle)[index]}
               onMouseDown={(e) => {

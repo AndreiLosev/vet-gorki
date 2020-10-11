@@ -23,4 +23,7 @@ export class EditorUtils {
     e.preventDefault()
     dispatch(callback(style, styleList))
   }
+
+  static findXorStyle = (template: RegExp, editorState: EditorState) => editorState
+    .getCurrentInlineStyle().toArray().filter(item => item ? item.match(template) : false)[0]
 }
