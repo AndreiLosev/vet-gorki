@@ -25,13 +25,16 @@ export const EditorConteiner = () => {
     }
     return 'not-handled';
   }
+  const selection = editor[editor.activeEditor].getSelection();
+  const currentBlockStyle = editor[editor.activeEditor].getCurrentContent()
+    .getBlockForKey(selection.getStartKey()).getType()
   return (
     <div className={stls.editorWrapper}>
       <div className={stls.toolBar}>
         <FontButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
         <ColorButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
-        <TextAlignmentButtins />
-        <ListButtons />
+        <TextAlignmentButtins alignment={editor.alignment} dispatch={dispatch}/>
+        <ListButtons dispatch={dispatch} currentStyle={currentBlockStyle}/>
       </div>
       <div className={stls.editorTextarea} onClick={() => {
         if (editorRef.current) editorRef.current.focus()
@@ -41,6 +44,7 @@ export const EditorConteiner = () => {
           handleKeyCommand={handleKeyCommand}
           onChange={nextEditorState}
           customStyleMap={{...UpperLowerIndex, ...FontSize, ...backgroundColors, ...colors}}
+          textAlignment={editor.alignment}
           ref={editorRef}
         />
       </div>

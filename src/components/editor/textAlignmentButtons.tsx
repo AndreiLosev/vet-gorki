@@ -1,33 +1,37 @@
 import React from 'react'
 import stls from './editor.module.scss'
+import {Dispatch} from 'redux'
+import {EditorUtils} from '../../utilites/editorUtils'
+import {EditorActionCreater} from '../../actions/editorActions'
 import {TwoStateButton} from '../twoStateButton/twoStateButton'
-import {inWidth, centered, leftAligned, rightAligned} from './svgImg'
+import {centered, leftAligned, rightAligned} from './svgImg'
 
 type localState = {
-  [index: string]: {symbol: string | JSX.Element, active: boolean, tooltip: string}
+  [index: string]: {symbol: string | JSX.Element, active: "left" | "right" | "center", tooltip: string}
 }
 
-export const TextAlignmentButtins = () => {
-  const [textAlignment, setTextAlignment] = React.useState({
-    leftAligned: {symbol: leftAligned, active: true, tooltip: 'по левому краю'},
-    centered: {symbol: centered, active: false, tooltip: 'по центру'},
-    rightAligned: {symbol: rightAligned, active: false, tooltip: 'по правому краю'},
-    inWidth: {symbol: inWidth, active: false, tooltip: 'по ширине'},
-  } as localState)
-  const switchTextAlignment = (key: string) => setTextAlignment(prev => {
-    for (let index in prev) prev[index].active = false
-    prev[key].active = !prev[key].active
-    return {...prev}
-  })
+type Props = {
+  alignment: "left" | "right" | "center",
+  dispatch: Dispatch,
+}
+
+export const TextAlignmentButtins: React.FC<Props> = ({alignment, dispatch}) => {
+  const buttonData: localState = {
+    leftAligned: {symbol: leftAligned, active: 'left', tooltip: 'по левому краю'},
+    centered: {symbol: centered, active: 'center', tooltip: 'по центру'},
+    rightAligned: {symbol: rightAligned, active: 'right', tooltip: 'по правому краю'},
+  }
   return (
     <div className={stls.fonts}>
       <div className={stls.text}>Выравнивание</div>
-        {Object.keys(textAlignment).map(item => <TwoStateButton
-          symbol={textAlignment[item].symbol}
-          active={textAlignment[item].active}
-          pressHender={switchTextAlignment}
+        {Object.keys(buttonData).map(item => <TwoStateButton
+          symbol={buttonData[item].symbol}
+          active={buttonData[item].active === alignment}
+          pressHender={EditorUtils.switchStyle(
+            buttonData[item].active, EditorActionCreater.createSetAlignment, dispatch,
+          )}
           key1={item} key={item}
-          square={true} tooltip={textAlignment[item].tooltip}
+          square={true} tooltip={buttonData[item].tooltip}
         />)}
     </div>
   )

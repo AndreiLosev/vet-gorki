@@ -18,6 +18,9 @@ export class EditorUtils {
     }
   }
 
+  static onBlockStyle = (command: string, editorState: EditorState): EditorState =>
+    RichUtils.toggleBlockType(editorState, command)
+
   static switchStyle = (style: string, callback: any, dispatch: Dispatch<AnyAction>, styleList?: string[]) =>
     (_: any, e: React.MouseEvent) => {
     e.preventDefault()

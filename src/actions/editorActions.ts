@@ -6,23 +6,28 @@ export class EditorActionType {
   static UPDATE_PAGE = 'UPDATE_PAGE' as const
   static SET_SIMPLE_STYLE = 'SET_SIMPLE_STYLE' as const
   static SET_XOR_STYLE = 'SET_XOR_STYLE' as const
+  static SET_BLOCK_STYLE = 'SET_BLOCK_STYLE' as const
+  static SET_ALIGNMENT = 'SET_ALIGNMENT' as const
 }
 
 export class EditorActionCreater {
-  static createSetPage = (pageName: 'description' | 'recommendations' | 'vaccinations' | 'history') => {
-    return {type: EditorActionType.SET_PAGE, pyload: pageName}
-  }
+  static createSetPage = (pageName: 'description' | 'recommendations' | 'vaccinations' | 'history') =>
+    ({ type: EditorActionType.SET_PAGE, pyload: pageName })
 
-  static createUpdatePage = (newEditorState: EditorState) => {
-    return {type: EditorActionType.UPDATE_PAGE, pyload: newEditorState}
-  }
+  static createUpdatePage = (newEditorState: EditorState) =>
+    ({ type: EditorActionType.UPDATE_PAGE, pyload: newEditorState })
 
-  static createSetSimbleStyle = (command: TSimpleStyle) => {
-    return {type: EditorActionType.SET_SIMPLE_STYLE, pyload: command}
-  }
-  static createSetXorStyle = (command: string, commandList: string[]) => {
-    return {type: EditorActionType.SET_XOR_STYLE, pyload: {command, commandList}}
-  }
+  static createSetSimbleStyle = (command: TSimpleStyle) =>
+    ({ type: EditorActionType.SET_SIMPLE_STYLE, pyload: command })
+
+  static createSetXorStyle = (command: string, commandList: string[]) =>
+    ({ type: EditorActionType.SET_XOR_STYLE, pyload: {command, commandList} })
+
+  static createSetBlockStyle = (command: string) =>
+    ({ type: EditorActionType.SET_BLOCK_STYLE, pyload: command })
+
+  static createSetAlignment = (alignment: "right" | "left" | "center") =>
+    ({ type: EditorActionType.SET_ALIGNMENT, pyload: alignment })
 }
 
 export type TAction =
@@ -30,3 +35,5 @@ export type TAction =
   | ReturnType<typeof EditorActionCreater.createUpdatePage>
   | ReturnType<typeof EditorActionCreater.createSetSimbleStyle>
   | ReturnType<typeof EditorActionCreater.createSetXorStyle>
+  | ReturnType<typeof EditorActionCreater.createSetAlignment>
+  | ReturnType<typeof EditorActionCreater.createSetBlockStyle>

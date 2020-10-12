@@ -11,6 +11,7 @@ const initState = {
   vaccinations: EditorState.createEmpty(),
   history: EditorState.createEmpty(),
   activeEditor: 'description' as TEditorNames,
+  alignment: "left" as "right" | "left" | "center"
 }
 
 export type TEditorState = typeof initState
@@ -32,6 +33,10 @@ export const editorReduser: Reducer<TEditorState, TAction> = (state=initState, a
           state[state.activeEditor]
         ),
       }
+    case EditorActionType.SET_BLOCK_STYLE:
+      return {...state, [state.activeEditor]: EditorUtils.onBlockStyle(action.pyload, state[state.activeEditor])}
+    case EditorActionType.SET_ALIGNMENT:
+      return {...state, alignment: action.pyload}
     default:
       return state
   }
