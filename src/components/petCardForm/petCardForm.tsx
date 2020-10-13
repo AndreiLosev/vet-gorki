@@ -13,14 +13,22 @@ interface IpartState {editor: {shortData: TShortData}}
 export const PetCardForm = () => {
   const {partState: {shortData}, dispatch} = useDispatchSelect((partSate: IpartState) =>
     ({shortData: partSate.editor.shortData}))
+
   const inputRef = React.useRef<any>(null)
+
   React.useEffect(() => {
     dispatch(EditorActionCreater.createSetShortData('date', Lib.converDate(Date.now())))
   }, [dispatch])
+
   React.useEffect(() => {
     if (inputRef.current instanceof HTMLInputElement)
     inputRef.current.setSelectionRange(shortData.weight.length, shortData.weight.length)
   }, [shortData.weight])
+  React.useEffect(() => {
+    if (inputRef.current instanceof HTMLInputElement)
+    inputRef.current.setSelectionRange(shortData.temperature.length, shortData.temperature.length)
+  }, [shortData.temperature])
+  
   const [diagnoses, setDiagnoses] = React.useState('')
   const extractingMeaning = (str: string) => {
     const result = /\d*[.,]?[0-9]*/g.exec(str)
@@ -39,7 +47,7 @@ export const PetCardForm = () => {
           />
         </div>
       </div>
-      <div className={stls.wrapp} ref={inputRef} onClick={(e) => { inputRef.current = e.target }}>
+      <div className={stls.wrapp} ref={inputRef} onFocus={(e) => { inputRef.current = e.target }}>
         <div className={stls.space}>
           <FormFild placeholder="Вес (кг)" tooltip="Вес (кг)"
           value={shortData.weight ? `${shortData.weight} кг` : ''}
@@ -47,7 +55,12 @@ export const PetCardForm = () => {
               dispatch(EditorActionCreater.createSetShortData('weight', extractingMeaning(e.target.value)))
             }
           />
-          <FormFild placeholder="t (&#176;С)" tooltip="t (&#176;С)"/>
+          <FormFild placeholder="t (&#176;С)" tooltip="t (&#176;С)"
+            value={shortData.temperature ? `${shortData.temperature} &#176;C` : ''}
+            onChange={(e: React.ChangeEvent<any>) => 
+              dispatch(EditorActionCreater.createSetShortData('temperature', extractingMeaning(e.target.value)))
+            }
+          />
         </div>
       </div>
       <div className={stls.wrapp}>
