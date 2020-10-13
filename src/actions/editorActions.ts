@@ -1,5 +1,8 @@
 import {EditorState} from 'draft-js'
 import {TSimpleStyle} from '../utilites/editorUtils'
+import {TShortData} from '../redusers/editorReduser'
+
+export type TShortDataKey = keyof TShortData
 
 export class EditorActionType {
   static SET_PAGE = 'SET_PAGE' as const
@@ -8,6 +11,7 @@ export class EditorActionType {
   static SET_XOR_STYLE = 'SET_XOR_STYLE' as const
   static SET_BLOCK_STYLE = 'SET_BLOCK_STYLE' as const
   static SET_ALIGNMENT = 'SET_ALIGNMENT' as const
+  static SET_SHORT_DATA = 'SET_SHORT_DATE' as const
 }
 
 export class EditorActionCreater {
@@ -28,6 +32,9 @@ export class EditorActionCreater {
 
   static createSetAlignment = (alignment: "right" | "left" | "center") =>
     ({ type: EditorActionType.SET_ALIGNMENT, pyload: alignment })
+  
+  static createSetShortData = (fild: TShortDataKey, value: string) => 
+    ({ type: EditorActionType.SET_SHORT_DATA, pyload: { fild, value } })
 }
 
 export type TAction =
@@ -37,3 +44,4 @@ export type TAction =
   | ReturnType<typeof EditorActionCreater.createSetXorStyle>
   | ReturnType<typeof EditorActionCreater.createSetAlignment>
   | ReturnType<typeof EditorActionCreater.createSetBlockStyle>
+  | ReturnType<typeof EditorActionCreater.createSetShortData>

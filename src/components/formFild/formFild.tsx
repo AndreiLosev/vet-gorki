@@ -12,7 +12,7 @@ type Props = {
   name?: string | undefined,
   mask?: string | (string | RegExp)[],
   error?: string,
-  onChange?: (e: React.ChangeEvent<any>) => void,
+  onChange?: (e: React.ChangeEvent) => void,
 }
 
 export const FormFild: React.FC<Props> = ({
