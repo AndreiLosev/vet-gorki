@@ -19,6 +19,8 @@
     width: 25%;
     border-radius: 5px;
     font-size: calcFluidFontSize(16, 25, 480, 1920);
+    padding-left: 7px;
+    padding-right: 7px;
   };
 
   .search:focus {

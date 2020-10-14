@@ -57,7 +57,7 @@ export const PetCardForm = () => {
           />
           <FormFild placeholder="t (&#176;С)" tooltip="t (&#176;С)"
             value={shortData.temperature ? `${shortData.temperature} ${String.fromCharCode(parseInt('B0', 16))}С` : ''}
-            onChange={(e: React.ChangeEvent<any>) => 
+            onChange={(e: React.ChangeEvent<any>) =>
               dispatch(EditorActionCreater.createSetShortData('temperature', Lib.extractingMeaning(e.target.value)))}
           />
         </div>

@@ -1,0 +1,47 @@
+.conteiner {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 25%;
+  height: 75%;
+  min-width: 400px;
+  min-height: 250px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+};
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.toolbar {
+  display: flex;
+  width: 100%;
+  background-color: #f0f0f0;
+
+  .search {
+    margin-left: 5px;
+    height: 2vw;
+    flex: 1 1 100%;
+    border-radius: 5px;
+    font-size: calcFluidFontSize(16, 25, 480, 1920);
+    padding-left: 7px;
+    padding-right: 7px;
+  };
+
+  .search:focus {
+    outline: 0;
+    outline-offset: 0;
+  };
+
+  .search:active {
+    background-color: #f0f0f0;
+  };
+}

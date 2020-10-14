@@ -17,7 +17,7 @@ export const ClientsHeader = () => {
       <SquareButton color="white" symbol="&#215;" size="size2" tooltip="Удалить выброного клиента"
         pressHeadnler={() => undefined}
       />
-      <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Печать"
+      <SquareButton color="white" symbol="&#128199;" size="size2" tooltip="Печать"
         pressHeadnler={() => undefined}
       />
       <input className={stls.search} type="text" placeholder="ФИО, Адрес, Телефон" />

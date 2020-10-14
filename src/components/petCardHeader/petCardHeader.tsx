@@ -14,7 +14,7 @@ export const PetCardHeader = () => {
       <SquareButton color="white" symbol="&#128190;" size="size2" tooltip="Сохранить"
         pressHeadnler={() => undefined}
       />
-      <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Печать"
+      <SquareButton color="white" symbol="&#128199;" size="size2" tooltip="Печать"
         pressHeadnler={() => undefined}
       />
       <div className={stls.clientAndPet}>
