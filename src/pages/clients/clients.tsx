@@ -25,11 +25,16 @@ export const Clients: React.FC = () => {
       showNewPetForm: partSate.clientsPage.showNewPetForm,
     })
   )
+  const [showNClientForm, setShowNClientForm] = React.useState(showNewClientForm)
+  React.useEffect(() => {
+    if (showNewClientForm) { setShowNClientForm(showNewClientForm) }
+    else { setTimeout(() => setShowNClientForm(showNewClientForm), 750) }
+  }, [showNewClientForm])
   return (
     <div className={cn('clientsConteiner')}>
       <ClientsHeader />
       <div className={cn('contentWrapper')}>
-        {showNewClientForm ? <NewClientForm /> : null}
+        {showNClientForm ? <NewClientForm visible={showNewClientForm} /> : null}
         {showNewPetForm ? <NewPetForm /> : null}
         <div className={cn('content')}>
           <div className={cn('clientsAndPet')}>

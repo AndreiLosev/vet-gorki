@@ -14,7 +14,7 @@ import {ColorButtons, colors, backgroundColors} from './colorButtons'
 interface IpartState {editor: TEditorState}
 
 export const EditorConteiner = () => {
-  const {partState: {editor}, dispatch} = useDispatchSelect((partSate: IpartState) => ({editor: partSate.editor}))
+  const {partState: {editor, }, dispatch} = useDispatchSelect((partSate: IpartState) => ({editor: partSate.editor}))
   const nextEditorState = (editorState: EditorState) => dispatch(EditorActionCreater.createUpdatePage(editorState))
   const editorRef = React.useRef<any>(null)
   const handleKeyCommand = (command: any) => {

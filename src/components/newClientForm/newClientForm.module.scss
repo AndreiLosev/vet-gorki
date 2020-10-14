@@ -1,8 +1,11 @@
 @import '../../lib.scss';
 
+
+.activeNewClient { max-width: 300px };
+.deactiveNewClient { max-width: 0px; };
+
 .createNewClient {
   flex-grow: 1;
-  max-width: 300px;
   height: 100%;
   margin: 5px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -11,6 +14,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  transition: 0.7s;
 
   .closeForm {
     width: 100%;

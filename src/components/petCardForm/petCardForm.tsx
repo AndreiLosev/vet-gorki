@@ -2,17 +2,23 @@ import React from 'react'
 import stls from './petCardForm.module.scss'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {TShortData} from '../../redusers/editorReduser'
+import {TStaticDataState} from '../../redusers/staticDataReduser'
 import {EditorActionCreater} from '../../actions/editorActions'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
 import {Lib} from '../../utilites/lib'
 
-interface IpartState {editor: {shortData: TShortData}}
+interface IpartState {
+  editor: {shortData: TShortData},
+  staticData: TStaticDataState,
+}
 
 export const PetCardForm = () => {
-  const {partState: {shortData}, dispatch} = useDispatchSelect((partSate: IpartState) =>
-    ({shortData: partSate.editor.shortData}))
+  const {partState: {shortData, staticData}, dispatch} = useDispatchSelect((partState: IpartState) => ({
+    shortData: partState.editor.shortData,
+    staticData: partState.staticData,
+  }))
 
   const inputRef = React.useRef<any>(null)
 
@@ -28,12 +34,6 @@ export const PetCardForm = () => {
     if (inputRef.current instanceof HTMLInputElement)
     inputRef.current.setSelectionRange(shortData.temperature.length, shortData.temperature.length)
   }, [shortData.temperature])
-  
-  const [diagnoses, setDiagnoses] = React.useState('')
-  const extractingMeaning = (str: string) => {
-    const result = /\d*[.,]?[0-9]*/g.exec(str)
-    return result ? result[0] : ''
-  }
   return (
     <div className={stls.shortData}>
       <div className={stls.wrapp}>
@@ -52,27 +52,34 @@ export const PetCardForm = () => {
           <FormFild placeholder="Вес (кг)" tooltip="Вес (кг)"
           value={shortData.weight ? `${shortData.weight} кг` : ''}
             onChange={(e: React.ChangeEvent<any>) =>
-              dispatch(EditorActionCreater.createSetShortData('weight', extractingMeaning(e.target.value)))
+              dispatch(EditorActionCreater.createSetShortData('weight', Lib.extractingMeaning(e.target.value)))
             }
           />
           <FormFild placeholder="t (&#176;С)" tooltip="t (&#176;С)"
-            value={shortData.temperature ? `${shortData.temperature} &#176;C` : ''}
+            value={shortData.temperature ? `${shortData.temperature} ${String.fromCharCode(parseInt('B0', 16))}С` : ''}
             onChange={(e: React.ChangeEvent<any>) => 
-              dispatch(EditorActionCreater.createSetShortData('temperature', extractingMeaning(e.target.value)))
-            }
+              dispatch(EditorActionCreater.createSetShortData('temperature', Lib.extractingMeaning(e.target.value)))}
           />
         </div>
       </div>
       <div className={stls.wrapp}>
         <FormFildWithOptions
           placeholder="Цель обращения" tooltip="Цель обращения"
-          options={['проблемма', 'болит', 'прививку']}
+          value={shortData.goalOfRequest}
+          onChange={(e: React.ChangeEvent<any>) =>
+            dispatch(EditorActionCreater.createSetShortData('goalOfRequest', e.target.value))}
+          setValue={(option: string) => dispatch(EditorActionCreater.createSetShortData('goalOfRequest', option))}
+          options={staticData.goalOfRequest}
         />
       </div>
       <div className={stls.wrapp}>
         <FormFildWithOptions
           placeholder="Результат посещения" tooltip="Результат посещения"
-          options={['проблемма', 'болит', 'прививку']}
+          value={shortData.visitResult}
+          onChange={(e: React.ChangeEvent<any>) =>
+            dispatch(EditorActionCreater.createSetShortData('visitResult', e.target.value))}
+          setValue={(option: string) => dispatch(EditorActionCreater.createSetShortData('visitResult', option))}
+          options={staticData.visitResult}
         />
       </div>
       <div className={stls.diagnoses}>
@@ -84,13 +91,18 @@ export const PetCardForm = () => {
         </div>
         <textarea
           className={stls.diagnosesFild} rows={15}
-          value={diagnoses} onChange={e => setDiagnoses(e.target.value)}
+          value={shortData.diagnosis}
+          onChange={e => dispatch(EditorActionCreater.createSetShortData('diagnosis', e.target.value))}
         />
       </div>
       <div className={stls.wrapp}>
         <FormFildWithOptions
           placeholder="Врач" tooltip="Врач"
-          options={['доктор №1', 'доктор №2', 'Кристина']}
+          value={shortData.doctor}
+          onChange={(e: React.ChangeEvent<any>) =>
+            dispatch(EditorActionCreater.createSetShortData('doctor', e.target.value))}
+            setValue={(option: string) => dispatch(EditorActionCreater.createSetShortData('doctor', option))}
+          options={staticData.doctor}
         />
       </div>
       <div className={stls.DateBirth}>

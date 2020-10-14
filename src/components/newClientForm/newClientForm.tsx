@@ -3,6 +3,7 @@ import stls from './newClientForm.module.scss'
 import {useDispatch} from 'react-redux'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
+import cn from 'classnames'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormSubmit} from '../formSubmit/formSubmit'
@@ -20,7 +21,13 @@ interface IinitialFormValues {
   notes: string;
 }
 
-export const NewClientForm: React.FC<{}> = () => {
+type Props = { visible: boolean }
+
+export const NewClientForm: React.FC<Props> = ({visible}) => {
+  const [show, setShow] = React.useState(false)
+  React.useEffect(() => {
+    setShow(visible)
+  }, [visible])
   const dispatch = useDispatch()
   const formik = useFormik<IinitialFormValues>({
     initialValues: {
@@ -73,7 +80,9 @@ export const NewClientForm: React.FC<{}> = () => {
     },
   ]
   return (
-    <form className={stls.createNewClient} onSubmit={formik.handleSubmit}>
+    <form
+      className={cn(stls.createNewClient, {[stls.deactiveNewClient]: !show}, {[stls.activeNewClient]: show})}
+      onSubmit={formik.handleSubmit}>
       <div className={stls.closeForm}>
         <SquareButton color="green" symbol="&#215;" size="size1"
           pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewClientForm(false))}

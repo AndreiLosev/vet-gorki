@@ -11,4 +11,9 @@ export class Lib {
     const minuts = addNull(date.getMinutes())
     return `${hours}:${minuts} ${day}.${month}.${year}`
   }
+
+  static extractingMeaning = (str: string) => {
+    const result = /\d*[.,]?[0-9]*/g.exec(str)
+    return result ? result[0] : ''
+  }
 }
