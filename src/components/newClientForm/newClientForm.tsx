@@ -24,10 +24,6 @@ interface IinitialFormValues {
 type Props = { visible: boolean }
 
 export const NewClientForm: React.FC<Props> = ({visible}) => {
-  const [show, setShow] = React.useState(false)
-  React.useEffect(() => {
-    setShow(visible)
-  }, [visible])
   const dispatch = useDispatch()
   const formik = useFormik<IinitialFormValues>({
     initialValues: {
@@ -81,7 +77,7 @@ export const NewClientForm: React.FC<Props> = ({visible}) => {
   ]
   return (
     <form
-      className={cn(stls.createNewClient, {[stls.deactiveNewClient]: !show}, {[stls.activeNewClient]: show})}
+      className={cn(stls.createNewClient, {[stls.deactiveNewClient]: !visible}, {[stls.activeNewClient]: visible})}
       onSubmit={formik.handleSubmit}>
       <div className={stls.closeForm}>
         <SquareButton color="green" symbol="&#215;" size="size1"

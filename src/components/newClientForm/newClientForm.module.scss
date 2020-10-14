@@ -1,8 +1,14 @@
 @import '../../lib.scss';
 
 
-.activeNewClient { max-width: 300px };
-.deactiveNewClient { max-width: 0px; };
+.activeNewClient {
+  max-width: 300px;
+  opacity: 1;
+};
+.deactiveNewClient {
+  max-width: 0px;
+  opacity: 0;
+};
 
 .createNewClient {
   flex-grow: 1;

@@ -16,4 +16,14 @@ export class Lib {
     const result = /\d*[.,]?[0-9]*/g.exec(str)
     return result ? result[0] : ''
   }
+
+  static showNicely = (show: boolean, insideFn: any, outsidFn: any): void => {
+    if (show) {
+      insideFn(true)
+      setTimeout(() => outsidFn(true), 100)
+    } else {
+      outsidFn(false)
+      setTimeout(() => insideFn(false), 700)
+    }
+  }
 }

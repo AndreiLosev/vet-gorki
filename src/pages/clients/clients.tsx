@@ -1,6 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import './clients.scss'
+import {Lib} from '../../utilites/lib'
 import {ClientsHeader} from '../../components/clientsHeader/clientsHeader'
 import {NewClientForm} from '../../components/newClientForm/newClientForm'
 import {ClientsTable} from '../../components/clientsTable/clientsTable'
@@ -25,16 +26,16 @@ export const Clients: React.FC = () => {
       showNewPetForm: partSate.clientsPage.showNewPetForm,
     })
   )
-  const [showNClientForm, setShowNClientForm] = React.useState(showNewClientForm)
+  const [showClientFormInside, setShowClientFormInside] = React.useState(showNewClientForm)
+  const [showClientFormOutsid, setShowClientFormOutsid] = React.useState(showNewClientForm)
   React.useEffect(() => {
-    if (showNewClientForm) { setShowNClientForm(showNewClientForm) }
-    else { setTimeout(() => setShowNClientForm(showNewClientForm), 750) }
+    Lib.showNicely(showNewClientForm, setShowClientFormInside, setShowClientFormOutsid)
   }, [showNewClientForm])
   return (
     <div className={cn('clientsConteiner')}>
       <ClientsHeader />
       <div className={cn('contentWrapper')}>
-        {showNClientForm ? <NewClientForm visible={showNewClientForm} /> : null}
+        {showClientFormInside ? <NewClientForm visible={showClientFormOutsid} /> : null}
         {showNewPetForm ? <NewPetForm /> : null}
         <div className={cn('content')}>
           <div className={cn('clientsAndPet')}>
