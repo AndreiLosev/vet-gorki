@@ -28,15 +28,20 @@ export const Clients: React.FC = () => {
   )
   const [showClientFormInside, setShowClientFormInside] = React.useState(showNewClientForm)
   const [showClientFormOutsid, setShowClientFormOutsid] = React.useState(showNewClientForm)
+  const [showPetFormInside, setShowPetFormInside] = React.useState(showNewPetForm)
+  const [showPetFormOutsid, setShowPetFormOutsid] = React.useState(showNewPetForm)
   React.useEffect(() => {
     Lib.showNicely(showNewClientForm, setShowClientFormInside, setShowClientFormOutsid)
   }, [showNewClientForm])
+  React.useEffect(() => {
+    Lib.showNicely(showNewPetForm, setShowPetFormInside, setShowPetFormOutsid)
+  }, [showNewPetForm])
   return (
     <div className={cn('clientsConteiner')}>
       <ClientsHeader />
       <div className={cn('contentWrapper')}>
         {showClientFormInside ? <NewClientForm visible={showClientFormOutsid} /> : null}
-        {showNewPetForm ? <NewPetForm /> : null}
+        {showPetFormInside ? <NewPetForm visible={showPetFormOutsid}/> : null}
         <div className={cn('content')}>
           <div className={cn('clientsAndPet')}>
             <ClientsTable />

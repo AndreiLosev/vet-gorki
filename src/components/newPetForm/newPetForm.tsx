@@ -3,6 +3,7 @@ import stls from './newPetForm.module.scss'
 import {useDispatch} from 'react-redux'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
+import cn from 'classnames'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
@@ -22,7 +23,9 @@ interface IinitialFormValues {
   notes: string;
 }
 
-export const NewPetForm = () => {
+type Props = { visible: boolean }
+
+export const NewPetForm: React.FC<Props> = ({visible}) => {
   const dispatch = useDispatch()
   const formik = useFormik<IinitialFormValues>({
     initialValues: {
@@ -56,11 +59,11 @@ export const NewPetForm = () => {
       alert(JSON.stringify(values, null, 2));
     },
   })
-  console.log(formik.errors)
   const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)
   const setValueFor = (fild: string) => (text: string) => formik.setFieldValue(fild, text)
   return (
-    <form className={stls.createNewPet} onSubmit={formik.handleSubmit}>
+    <form className={cn(stls.createNewPet, {[stls.activeCreateNewPet]: visible}, {[stls.deactivecreateNewPet]: !visible})}
+      onSubmit={formik.handleSubmit}>
       <div className={stls.closeForm}>
         <SquareButton color="green" symbol="&#215;" size="size1" tooltip={undefined}
           pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewPetForm(false))}
