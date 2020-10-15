@@ -4,6 +4,7 @@ import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {TShortData} from '../../redusers/editorReduser'
 import {TStaticDataState} from '../../redusers/staticDataReduser'
 import {EditorActionCreater} from '../../actions/editorActions'
+import {PetCardsActionCreater} from '../../actions/petCardActions'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
@@ -86,7 +87,7 @@ export const PetCardForm = () => {
         <div className={stls.header}>
           <div>Диагноз:</div>
           <SquareButton color="green" symbol="+" size="size1"
-            pressHeadnler={() => null}
+            pressHeadnler={() => dispatch(PetCardsActionCreater.createShowDiagnosesList(true))}
           />
         </div>
         <textarea
