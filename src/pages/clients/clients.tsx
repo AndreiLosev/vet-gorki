@@ -1,7 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import './clients.scss'
-import {Lib} from '../../utilites/lib'
+import {useShowNicely} from '../../utilites/useShowNicely'
 import {ClientsHeader} from '../../components/clientsHeader/clientsHeader'
 import {NewClientForm} from '../../components/newClientForm/newClientForm'
 import {ClientsTable} from '../../components/clientsTable/clientsTable'
@@ -26,16 +26,8 @@ export const Clients: React.FC = () => {
       showNewPetForm: partSate.clientsPage.showNewPetForm,
     })
   )
-  const [showClientFormInside, setShowClientFormInside] = React.useState(showNewClientForm)
-  const [showClientFormOutsid, setShowClientFormOutsid] = React.useState(showNewClientForm)
-  const [showPetFormInside, setShowPetFormInside] = React.useState(showNewPetForm)
-  const [showPetFormOutsid, setShowPetFormOutsid] = React.useState(showNewPetForm)
-  React.useEffect(() => {
-    Lib.showNicely(showNewClientForm, setShowClientFormInside, setShowClientFormOutsid)
-  }, [showNewClientForm])
-  React.useEffect(() => {
-    Lib.showNicely(showNewPetForm, setShowPetFormInside, setShowPetFormOutsid)
-  }, [showNewPetForm])
+  const [showClientFormInside, showClientFormOutsid] = useShowNicely(showNewClientForm, 700)
+  const [showPetFormInside, showPetFormOutsid] = useShowNicely(showNewPetForm, 700)
   return (
     <div className={cn('clientsConteiner')}>
       <ClientsHeader />

@@ -2,7 +2,7 @@ import React from 'react'
 import cn from 'classnames'
 import './petCard.scss'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
-import {Lib} from '../../utilites/lib'
+import {useShowNicely} from '../../utilites/useShowNicely'
 import {PetCardHeader} from '../../components/petCardHeader/petCardHeader'
 import {PetCardForm} from '../../components/petCardForm/petCardForm'
 import {PetCardNavBar} from '../../components/petCardNavBar/petCardNavBar'
@@ -20,11 +20,7 @@ export const PetCard: React.FC<{}> = () => {
   const {partState: {showDiagnosesList}} = useDispatchSelect(
     (partSate: IpartState) => ({showDiagnosesList: partSate.petCardPage.showDiagnosesList}),
   )
-  const [showDiagnosesListInside, setShowDiagnosesListInside] = React.useState(showDiagnosesList)
-  const [showDiagnosesListOutsid, setShowDiagnosesListOutsid] = React.useState(showDiagnosesList)
-  React.useEffect(() => {
-    Lib.showNicely(showDiagnosesList, setShowDiagnosesListInside, setShowDiagnosesListOutsid)
-  }, [showDiagnosesList])
+  const [showDiagnosesListInside, showDiagnosesListOutsid] = useShowNicely(showDiagnosesList, 1000)
   return (
     <div className={cn('petCardConteiner')}>
       <PetCardHeader />
