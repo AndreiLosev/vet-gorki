@@ -13,6 +13,7 @@ interface IpartState {
 export const Diagnoses: React.FC<Props> = ({visible}) => {
   const {partState: {diagnoses}, dispatch} = useDispatchSelect((partState: IpartState) => ({diagnoses: partState.staticData.diagnoses}))
   const [search, setSearch] = React.useState('')
+  const [cheked, setCheked] = React.useState<boolean[]>(diagnoses.map(_ => false))
   return (
     <div className={cn(stls.conteiner, {[stls.activDiagnoses]: visible}, {[stls.deactivDiagnoses]: !visible})}>
       <div className={stls.toolbar}>
@@ -23,8 +24,15 @@ export const Diagnoses: React.FC<Props> = ({visible}) => {
         />
       </div>
       <div className={stls.content}>
-        {diagnoses.filter(_ => true).sort().map(item => <div className={stls.item} key={item}>
-            <input type="checkbox"/> <span>{item}</span>
+        {diagnoses.filter(_ => true).sort().map((item, index) => <div
+            className={stls.item} key={item}
+            onClick={() => setCheked(prev => {
+              const nextState = [...prev]
+              nextState[index] = !prev[index]
+              return nextState
+            })}>
+            <input type="checkbox" checked={cheked[index]}/>
+            <span>{item}</span>
           </div>)}
       </div>
       <div className={stls.footer}>
