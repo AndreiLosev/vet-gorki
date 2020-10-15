@@ -39,6 +39,7 @@
     font-size: calcFluidFontSize(16, 25, 480, 1920);
     padding-left: 7px;
     padding-right: 7px;
+    font-size: 16px;
   };
 
   .search:focus {
@@ -60,7 +61,14 @@
   margin-right: 10px;
   overflow-y: auto;
 
-  .item { cursor: pointer };
+  .item {
+    cursor: pointer;
+    padding-top: 5px;
+    input:nth-child(1)  {margin-right: 5px };
+    width: 90%;
+  };
+
+  .item:hover { background-color: #f0f0f0 };
 };
 
 .footer {

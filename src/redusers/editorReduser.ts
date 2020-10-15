@@ -27,6 +27,11 @@ const initState = {
     date: '',
     weight: '',
     temperature: '',
+    diagnosis: '',
+    goalOfRequest: '',
+    visitResult: '',
+    age: '',
+    doctor: '',
   } as TShortData,
 }
 
