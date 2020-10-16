@@ -2,7 +2,8 @@
 
 .tooolbar {
   width: 100%;
-  height: 5.5%;
+  height: 3vw;
+  min-height: 40px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -16,6 +17,7 @@
 
   .search {
     height: 2vw;
+    min-height: 30px;
     width: 25%;
     border-radius: 5px;
     font-size: calcFluidFontSize(16, 25, 480, 1920);

@@ -21,10 +21,6 @@ export const Diagnoses: React.FC<Props> = ({visible}) => {
   const [search, setSearch] = React.useState('')
   const [cheked, setCheked] = React.useState<boolean[]>(diagnoses.map(_ => false))
   const actualDuagnoses = diagnoses.filter(item => item.match(new RegExp(search, 'i'))?.input)
-  React.useEffect(() => {
-    setCheked(actualDuagnoses.map(_ => false))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search])
   return (
     <div className={cn(stls.conteiner, {[stls.activDiagnoses]: visible}, {[stls.deactivDiagnoses]: !visible})}>
       <div className={stls.toolbar}>

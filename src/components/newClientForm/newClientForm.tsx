@@ -9,7 +9,7 @@ import {FormFild} from '../formFild/formFild'
 import {FormSubmit} from '../formSubmit/formSubmit'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
-interface IinitialFormValues {
+export interface IinitialClientForm {
   name: string;
   surname: string;
   patronymic: string;
@@ -25,7 +25,7 @@ type Props = { visible: boolean }
 
 export const NewClientForm: React.FC<Props> = ({visible}) => {
   const dispatch = useDispatch()
-  const formik = useFormik<IinitialFormValues>({
+  const formik = useFormik<IinitialClientForm>({
     initialValues: {
       name: '', surname: '', patronymic: '', locality: 'Горки',
       street: '', house: '', flat: '', notes: '', phone: '',
@@ -36,8 +36,9 @@ export const NewClientForm: React.FC<Props> = ({visible}) => {
       locality: Yup.string()
         .required('Это поле обязательно для заполнения'),
     }),
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async values => {
+      const sentData = {...values, phone: values.phone.match(/\d+/g)?.join('')}
+      alert(JSON.stringify(sentData))
     },
   })
   const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)
