@@ -26,4 +26,14 @@ export class Lib {
       setTimeout(() => insideFn(false), 700)
     }
   }
+
+  static phoneToDisplay = (phone: string) => {
+    const x1 = phone.slice(0, 3)
+    const x2 = phone.slice(3, 5)
+    const x3 = phone.slice(5, 8)
+    const x4 = phone.slice(8, 10)
+    const x5 = phone.slice(10, 12)
+    return `+${x1}(${x2}) ${x3} ${x4} ${x5}`
+
+  }
 }

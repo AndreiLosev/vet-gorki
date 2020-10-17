@@ -5,6 +5,10 @@
 	@include table($columns);
 };
 
+.activeRow {
+	background-color: aquamarine;
+}
+
 div.scrol {
 	overflow-y: auto;
 	height: 100%;

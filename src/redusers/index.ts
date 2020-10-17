@@ -1,4 +1,5 @@
-import {combineReducers} from 'redux'
+import {combineReducers, AnyAction} from 'redux'
+import {ThunkAction} from 'redux-thunk'
 import {clientsPageReduser} from './clientsPageReduser'
 import {editorReduser} from './editorReduser'
 import {staticDataReduser} from './staticDataReduser'
@@ -12,3 +13,5 @@ export const rootReduser = combineReducers({
 })
 
 export type TState = ReturnType<typeof rootReduser>
+
+export type AppAction = ThunkAction<void, TState, never, AnyAction>

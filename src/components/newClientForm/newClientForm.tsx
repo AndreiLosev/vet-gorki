@@ -37,8 +37,10 @@ export const NewClientForm: React.FC<Props> = ({visible}) => {
         .required('Это поле обязательно для заполнения'),
     }),
     onSubmit: async values => {
-      const sentData = {...values, phone: values.phone.match(/\d+/g)?.join('')}
-      alert(JSON.stringify(sentData))
+      const convertedPhone = values.phone.match(/\d+/g)?.join('')
+      const sentData = {...values, phone: convertedPhone ? convertedPhone : ''}
+      dispatch(ClientsActionCreater.createAddUser(sentData))
+      dispatch(ClientsActionCreater.createShowNewClientForm(false))
     },
   })
   const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)

@@ -1,11 +1,18 @@
 import React from 'react'
 import stls from './clientsHeader.module.scss'
-import {useDispatch} from 'react-redux'
+import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {SquareButton} from '../squareButton/squareButton'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
+
+interface IpartState {
+  clientsPage: { currentClient: string },
+}
+
 export const ClientsHeader = () => {
-  const dispatch = useDispatch()
+  const {partState: {currentClient}, dispatch} = useDispatchSelect(
+    (partState: IpartState) => ({currentClient: partState.clientsPage.currentClient}),
+  )
   return (
     <header className={stls.tooolbar}>
       <SquareButton color="white" symbol="+" size="size2" tooltip="Создать нового клиента"
@@ -15,7 +22,7 @@ export const ClientsHeader = () => {
         pressHeadnler={() => undefined}
       />
       <SquareButton color="white" symbol="&#215;" size="size2" tooltip="Удалить выброного клиента"
-        pressHeadnler={() => undefined}
+        pressHeadnler={() => dispatch(ClientsActionCreater.createDeleteUser(currentClient))}
       />
       <SquareButton color="white" symbol="&#128199;" size="size2" tooltip="Печать"
         pressHeadnler={() => undefined}
