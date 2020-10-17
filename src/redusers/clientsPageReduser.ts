@@ -7,10 +7,11 @@ export interface IClient extends IinitialClientForm {
 }
 
 const initState = {
-  showNewClientForm: false as boolean,
-  showNewPetForm: false as boolean,
-  IsFetching: false as boolean,
-  currentClient: '' as string,
+  showNewClientForm: false,
+  showNewPetForm: false,
+  IsFetching: false,
+  clientEditing: false,
+  currentClient: '',
   clients: {} as {[index: string]: IClient},
 }
 
@@ -27,8 +28,10 @@ export const clientsPageReduser: Reducer<TClientsPageState, TAction> = (state=in
     case ClientsActionType.SET_CLIENTS:
       return {...state, clients: action.pyload}
     case ClientsActionType.SET_CURRENT_CLIENT:
-      return {...state, currentClient: action.pyload}
+      return {...state, currentClient: action.pyload, clientEditing: false}
+    case ClientsActionType.CLIENT_EDITING_MODE:
+      return {...state, clientEditing: action.pyload}
     default:
-      return {...state}
+      return state
   }
 }

@@ -8,6 +8,7 @@ export class ClientsActionType {
   static SET_CLIENTS = 'SET_CLIENTS' as const
   static SET_CURRENT_CLIENT = 'SET_CURRENT_CLIENT' as const
   static IS_FETCHING = 'IS_FETCHING' as const
+  static CLIENT_EDITING_MODE = 'CLIENT_EDITING_MODE' as const
 }
 
 export class ClientsActionCreater {
@@ -26,11 +27,25 @@ export class ClientsActionCreater {
   static createIsFetching = (isFetching: boolean) =>
     ({ type: ClientsActionType.IS_FETCHING, pyload: isFetching })
 
+  static createClientEditingMode = (on: boolean) =>
+    ({ type: ClientsActionType.CLIENT_EDITING_MODE, pyload: on })
+
   static createAddUser = (newClient: IinitialClientForm): AppAction => async dispatch => {
     dispatch(ClientsActionCreater.createIsFetching(true))
     await Api.addDocToCollection('clients', newClient)
     const clients = await Api.findDocFrom<IinitialClientForm>('clients', 'surname', newClient.surname)
     dispatch(ClientsActionCreater.createSetClients(clients))
+    dispatch(ClientsActionCreater.createShowNewClientForm(false))
+    dispatch(ClientsActionCreater.createIsFetching(false))
+  }
+
+  static createUpdateUser = (newClient: IinitialClientForm, key: string): AppAction => async dispatch => {
+    dispatch(ClientsActionCreater.createIsFetching(true))
+    await Api.updateDoc('clients', key, newClient)
+    const clients = await Api.findDocFrom<IinitialClientForm>('clients', 'surname', newClient.surname)
+    dispatch(ClientsActionCreater.createSetClients(clients))
+    dispatch(ClientsActionCreater.createClientEditingMode(false))
+    dispatch(ClientsActionCreater.createShowNewClientForm(false))
     dispatch(ClientsActionCreater.createIsFetching(false))
   }
 
@@ -50,3 +65,4 @@ export type TAction =
   | ReturnType<typeof ClientsActionCreater.createSetClients>
   | ReturnType<typeof ClientsActionCreater.createSetCurrentClient>
   | ReturnType<typeof ClientsActionCreater.createIsFetching>
+  | ReturnType<typeof ClientsActionCreater.createClientEditingMode>

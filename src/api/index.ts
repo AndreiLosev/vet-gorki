@@ -16,7 +16,7 @@ firebase.initializeApp({
 const db = firebase.firestore();
 
 export class Api {
-  static addDocToCollection = async (collection: string, data: object) => {
+  static addDocToCollection = async <T>(collection: string, data: T) => {
     const result = await db.collection(collection).add(data)
     return result.id
   }
@@ -29,4 +29,7 @@ export class Api {
   }
 
   static deleteDoc = async (collection: string, id: string) => await db.collection(collection).doc(id).delete()
+
+  static updateDoc = async <T>(collection: string, id: string, data: T) =>
+    await db.collection(collection).doc(id).set(data)
 }

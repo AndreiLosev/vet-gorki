@@ -6,20 +6,32 @@ import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
 
 interface IpartState {
-  clientsPage: { currentClient: string },
+  clientsPage: {
+    currentClient: string,
+    clientEditing: boolean,
+  },
 }
 
 export const ClientsHeader = () => {
-  const {partState: {currentClient}, dispatch} = useDispatchSelect(
-    (partState: IpartState) => ({currentClient: partState.clientsPage.currentClient}),
+  const {partState: {currentClient, clientEditing}, dispatch} = useDispatchSelect(
+    (partState: IpartState) => ({
+      currentClient: partState.clientsPage.currentClient,
+      clientEditing: partState.clientsPage.clientEditing,
+    }),
   )
+  React.useEffect(() => {
+    if (clientEditing && currentClient) dispatch(ClientsActionCreater.createShowNewClientForm(true))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clientEditing])
   return (
     <header className={stls.tooolbar}>
       <SquareButton color="white" symbol="+" size="size2" tooltip="Создать нового клиента"
         pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewClientForm(true))}
       />
       <SquareButton color="white" symbol="&#9997;" size="size2" tooltip="Редактировать выброного клиента"
-        pressHeadnler={() => undefined}
+        pressHeadnler={() => {
+          dispatch(ClientsActionCreater.createClientEditingMode(true))
+        }}
       />
       <SquareButton color="white" symbol="&#215;" size="size2" tooltip="Удалить выброного клиента"
         pressHeadnler={() => dispatch(ClientsActionCreater.createDeleteUser(currentClient))}

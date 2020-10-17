@@ -1,6 +1,6 @@
 import React from 'react'
 import stls from './newClientForm.module.scss'
-import {useDispatch} from 'react-redux'
+import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import cn from 'classnames'
@@ -8,6 +8,8 @@ import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormSubmit} from '../formSubmit/formSubmit'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
+import {IClient} from '../../redusers/clientsPageReduser'
+import {Lib} from '../../utilites/lib'
 
 export interface IinitialClientForm {
   name: string;
@@ -23,12 +25,33 @@ export interface IinitialClientForm {
 
 type Props = { visible: boolean }
 
+interface IpartState {
+  clientsPage: {
+    clientEditing: boolean,
+    currentClient: string,
+    clients: {[index: string]: IClient},
+  },
+}
+
 export const NewClientForm: React.FC<Props> = ({visible}) => {
-  const dispatch = useDispatch()
+  const {partState: {clientEditing, currentClient, clients}, dispatch} = useDispatchSelect(
+    (partState: IpartState) => ({
+      clientEditing: partState.clientsPage.clientEditing,
+      currentClient: partState.clientsPage.currentClient,
+      clients: partState.clientsPage.clients,
+    }),
+  )
   const formik = useFormik<IinitialClientForm>({
     initialValues: {
-      name: '', surname: '', patronymic: '', locality: 'Горки',
-      street: '', house: '', flat: '', notes: '', phone: '',
+      name: clientEditing ? clients[currentClient].name : '',
+      surname: clientEditing ? clients[currentClient].surname : '',
+      patronymic: clientEditing ? clients[currentClient].patronymic : '',
+      locality: clientEditing ? clients[currentClient].locality : 'Горки',
+      street: clientEditing ? clients[currentClient].street : '',
+      house: clientEditing ? clients[currentClient].house : '',
+      flat: clientEditing ? clients[currentClient].flat : '',
+      notes: clientEditing ? clients[currentClient].notes : '',
+      phone: clientEditing ? Lib.phoneToDisplay(clients[currentClient].phone) : '',
     },
     validationSchema: Yup.object({
       surname: Yup.string()
@@ -40,7 +63,6 @@ export const NewClientForm: React.FC<Props> = ({visible}) => {
       const convertedPhone = values.phone.match(/\d+/g)?.join('')
       const sentData = {...values, phone: convertedPhone ? convertedPhone : ''}
       dispatch(ClientsActionCreater.createAddUser(sentData))
-      dispatch(ClientsActionCreater.createShowNewClientForm(false))
     },
   })
   const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)
