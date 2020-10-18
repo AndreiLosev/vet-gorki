@@ -62,7 +62,8 @@ export const NewClientForm: React.FC<Props> = ({visible}) => {
     onSubmit: async values => {
       const convertedPhone = values.phone.match(/\d+/g)?.join('')
       const sentData = {...values, phone: convertedPhone ? convertedPhone : ''}
-      dispatch(ClientsActionCreater.createAddUser(sentData))
+      if (clientEditing) { dispatch(ClientsActionCreater.createUpdateUser(sentData, currentClient)) }
+      else { dispatch(ClientsActionCreater.createAddUser(sentData)) }
     },
   })
   const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)
@@ -106,7 +107,10 @@ export const NewClientForm: React.FC<Props> = ({visible}) => {
       onSubmit={formik.handleSubmit}>
       <div className={stls.closeForm}>
         <SquareButton color="green" symbol="&#215;" size="size1"
-          pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewClientForm(false))}
+          pressHeadnler={() => {
+            dispatch(ClientsActionCreater.createShowNewClientForm(false))
+            dispatch(ClientsActionCreater.createClientEditingMode(false))
+          }}
         />
       </div>
       {contentData.map(item => (
@@ -124,7 +128,7 @@ export const NewClientForm: React.FC<Props> = ({visible}) => {
         />
       </div>
       <div className={stls.wrapp}>
-        <FormSubmit text="Создать" />
+        <FormSubmit text={clientEditing ? 'Сохранить' : 'Создать'} />
       </div>
     </form>
   )

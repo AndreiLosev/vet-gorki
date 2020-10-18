@@ -2,6 +2,7 @@ import React from 'react'
 import stls from './formFildAddOptions.module.scss'
 import cn from 'classnames'
 import InputMask from "react-input-mask"
+import {useShowNicely} from '../../utilites/useShowNicely'
 
 
 type Props = {
@@ -23,6 +24,7 @@ export const FormFildAddOptions: React.FC<Props> = ({
 }) => {
   const [showOptions, setShowOptions] = React.useState(false);
   const [blure, setBlure] = React.useState(false);
+  const [showInside, showOutsid] = useShowNicely(showOptions, 500)
   return (
     <div
       className={stls.wrapper}
@@ -46,8 +48,8 @@ export const FormFildAddOptions: React.FC<Props> = ({
         />
         <input type="button" className={stls.addOptions} value="+"/>
       </div>
-      {showOptions
-        ? <div className={stls.options}>
+      {showInside
+        ? <div className={cn(stls.options, {[stls.active]: showOutsid}, {[stls.deactive]: !showOutsid})}>
             {options.map(item => <span key={item} onClick={() => {
               setValue ? setValue(item) : (() => undefined)()
               setShowOptions(false);

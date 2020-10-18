@@ -83,13 +83,23 @@ div.wrapper {
     input:active {background-color: #fff};
   };
 
+  div.active {
+    max-height: 500px;
+    overflow-y: auto;
+    span { opacity: 1 };
+  }
+
+  div.deactive {
+    max-height: 0px;
+    span { opacity: 0 };
+  }
+
   div.options {
     position: absolute;
     align-self: flex-start;
     z-index: 1;
     top: 100%;
     background-color: #fff;
-    // margin-bottom: -100%;
     width: 89%;
     border-left: 2px solid #19aa8d;
     border-right: 2px solid #19aa8d;
@@ -100,7 +110,9 @@ div.wrapper {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: 0.5s;
     span {
+      transition: 0.5s;
       font-size: calcFluidFontSize(16, 24, 480, 1920);
       cursor: default;
       margin: 2px;

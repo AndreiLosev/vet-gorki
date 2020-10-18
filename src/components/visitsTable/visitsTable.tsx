@@ -12,7 +12,7 @@ export const VisitsTable = () => {
         <div>Вид</div>
         <div>Порода</div>
         <div>Пол</div>
-        <div>Возраст</div>
+        <div>Возрасclientsт</div>
         <div>Вес</div>
         <div>Темпе<wbr />ратура</div>
         <div>Дата посещения</div>

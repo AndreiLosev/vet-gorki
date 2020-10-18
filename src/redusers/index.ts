@@ -8,7 +8,7 @@ import {petCardPageReduser} from './petCardPageReduser'
 export const rootReduser = combineReducers({
   clientsPage: clientsPageReduser,
   editor: editorReduser,
-  staticData:staticDataReduser,
+  staticData: staticDataReduser,
   petCardPage: petCardPageReduser,
 })
 

@@ -30,7 +30,7 @@ export const ClientsHeader = () => {
       />
       <SquareButton color="white" symbol="&#9997;" size="size2" tooltip="Редактировать выброного клиента"
         pressHeadnler={() => {
-          dispatch(ClientsActionCreater.createClientEditingMode(true))
+          if (currentClient) dispatch(ClientsActionCreater.createClientEditingMode(true))
         }}
       />
       <SquareButton color="white" symbol="&#215;" size="size2" tooltip="Удалить выброного клиента"

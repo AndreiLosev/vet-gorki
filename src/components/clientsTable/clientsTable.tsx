@@ -20,7 +20,6 @@ export const ClientsTable = () => {
       currentClient: partState.clientsPage.currentClient,
     }),
   )
-  console.log(clients)
   return (
     <div className={cn('clientsTable')}>
       <div className={cn('row', 'header')}>
