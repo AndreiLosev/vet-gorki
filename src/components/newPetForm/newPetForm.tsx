@@ -28,15 +28,25 @@ interface IpartState {
   clientsPage: {
     currentClient: string,
     clients: {[index: string]: IClient},
+    selectedPetType: string,
   },
+  staticData: {
+    petType: string[],
+    breed: {[index: string]: string[]}
+  }
 }
 
 type Props = { visible: boolean }
 
 export const NewPetForm: React.FC<Props> = ({visible}) => {
-  const {partState: {currentClient, clients}, dispatch} = useDispatchSelect((partState: IpartState) => ({
+  const {partState: {
+    currentClient, clients, selectedPetType, petType, breed,
+  }, dispatch} = useDispatchSelect((partState: IpartState) => ({
     currentClient: partState.clientsPage.currentClient,
     clients: partState.clientsPage.clients,
+    selectedPetType: partState.clientsPage.selectedPetType,
+    petType: partState.staticData.petType,
+    breed: partState.staticData.breed,
   }))
   const owner = clients[currentClient]
   const formik = useFormik<IPetFormValues>({
@@ -99,14 +109,15 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
         />
       </div>
       <div className={stls.wrapp}>
-        <FormFildAddOptions tooltip="Вид" placeholder="Вид" options={['кот', 'собака', 'хомяк']}
+        <FormFildAddOptions tooltip="Вид" placeholder="Вид" options={petType}
           id="petType" name="petType" value={formik.values.petType} error={formik.errors.petType}
           onChange={handleChangeFor('petType')} setValue={setValueFor('petType')}
           addOptions={() => dispatch(ClientsActionCreater.createShowElement('showPetTypeOptions', true))}
         />
       </div>
       <div className={stls.wrapp}>
-        <FormFildAddOptions tooltip="Порода" placeholder="Порода" options={['бульдог', 'доберман', 'подмышка бомжачья']}
+        <FormFildAddOptions tooltip="Порода" placeholder="Порода"
+          options={breed[selectedPetType] ? breed[selectedPetType] : []}
           id="breed" name="breed" value={formik.values.breed} error={formik.errors.breed}
           onChange={handleChangeFor('breed')} setValue={setValueFor('breed')}
           addOptions={() => dispatch(ClientsActionCreater.createShowElement('showBreedOptions', true))}

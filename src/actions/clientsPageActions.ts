@@ -60,14 +60,13 @@ export class ClientsActionCreater {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
     const petID = await Api.addDocToCollection('pets', newPet)
     const currentClient = getState().clientsPage.currentClient
-    const petslist = getState().clientsPage.clients[currentClient].pets
-      ? getState().clientsPage.clients[currentClient].pets
-      : [] as string[]
-    petslist?.push(petID)
-    await Api.updateDoc('clients', currentClient, {pets: petslist})
+    const client = getState().clientsPage.clients[currentClient]
+    client.pets.push(petID)
+    await Api.updateDoc('clients', currentClient, {pets: client})
     const pet = await Api.findDocFromID<IPetFormValues>('pets', petID)
     dispatch(ClientsActionCreater.createSetPets([pet]))
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
+    dispatch(ClientsActionCreater.createShowElement('showNewPetForm', false))
   }
 }
 

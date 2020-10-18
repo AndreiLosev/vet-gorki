@@ -9,7 +9,7 @@ export interface IClient extends IinitialClientForm {
 }
 
 export interface IPets extends IPetFormValues {
-  visits?: string[]
+  visits: string[]
 }
 
 const initState = {
@@ -22,7 +22,7 @@ const initState = {
   selectedPetType: '',
   currentClient: '',
   clients: {} as {[index: string]: IClient},
-  pets: {} as IPets[],
+  pets: [] as IPets[],
 }
 
 export type TElementsName = 'showNewClientForm' | 'showNewPetForm' | 'showPetTypeOptions' | 'showBreedOptions'
@@ -45,7 +45,7 @@ export const clientsPageReduser: Reducer<TClientsPageState, TAction> = (state=in
     case ClientsActionType.SELECTED_PET_TYPE:
       return {...state, selectedPetType: action.pyload}
     case ClientsActionType.SET_PETS:
-      return {...state, pets: action.pyload}
+      return {...state, pets: action.pyload.map(item => ({...item, visits: [] as string[]}))}
     default:
       return state
   }
