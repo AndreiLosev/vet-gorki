@@ -108,8 +108,8 @@ export const NewClientForm: React.FC<Props> = ({visible}) => {
       <div className={stls.closeForm}>
         <SquareButton color="green" symbol="&#215;" size="size1"
           pressHeadnler={() => {
-            dispatch(ClientsActionCreater.createShowNewClientForm(false))
-            dispatch(ClientsActionCreater.createClientEditingMode(false))
+            dispatch(ClientsActionCreater.createShowElement('showNewClientForm', false))
+            dispatch(ClientsActionCreater.createShowElement('clientEditing', false))
           }}
         />
       </div>

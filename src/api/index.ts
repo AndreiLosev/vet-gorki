@@ -28,6 +28,11 @@ export class Api {
     return returData
   }
 
+  static findDocFromID = async <T>(collection: string, id: string) => {
+    const result = await db.collection(collection).doc(id).get()
+    return result.data() as T
+  }
+
   static deleteDoc = async (collection: string, id: string) => await db.collection(collection).doc(id).delete()
 
   static updateDoc = async <T>(collection: string, id: string, data: T) =>

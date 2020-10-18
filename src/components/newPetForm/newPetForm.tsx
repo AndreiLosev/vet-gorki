@@ -12,7 +12,7 @@ import {FormFildAddOptions} from '../formFildAddOptions/formFildAddOptions'
 import {FormSubmit} from '../formSubmit/formSubmit'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
-interface IinitialFormValues {
+export interface IPetFormValues {
   petName: string;
   petType: string;
   petGender: string;
@@ -39,7 +39,7 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
     clients: partState.clientsPage.clients,
   }))
   const owner = clients[currentClient]
-  const formik = useFormik<IinitialFormValues>({
+  const formik = useFormik<IPetFormValues>({
     initialValues: {
       petName: '', petType: '', petGender: '', castration: '',
       breed: '', color: '', ageYear: '', ageMonth: '', notes: '',
@@ -68,9 +68,12 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
           .min(2, 'должно быть Да или Нет')
     }),
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      dispatch(ClientsActionCreater.createAddPet(values))
     },
   })
+  React.useEffect(() => {
+    dispatch(ClientsActionCreater.createSelectedPetType(formik.values.petType))
+  }, [dispatch, formik.values.petType])
   const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)
   const setValueFor = (fild: string) => (text: string) => formik.setFieldValue(fild, text)
   return (
@@ -82,7 +85,7 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
       onSubmit={formik.handleSubmit}>
       <div className={stls.closeForm}>
         <SquareButton color="green" symbol="&#215;" size="size1" tooltip={undefined}
-          pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewPetForm(false))}
+          pressHeadnler={() => dispatch(ClientsActionCreater.createShowElement('showNewPetForm', false))}
         />
       </div>
       <div className={stls.wrapp}>
@@ -99,12 +102,14 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
         <FormFildAddOptions tooltip="Вид" placeholder="Вид" options={['кот', 'собака', 'хомяк']}
           id="petType" name="petType" value={formik.values.petType} error={formik.errors.petType}
           onChange={handleChangeFor('petType')} setValue={setValueFor('petType')}
+          addOptions={() => dispatch(ClientsActionCreater.createShowElement('showPetTypeOptions', true))}
         />
       </div>
       <div className={stls.wrapp}>
         <FormFildAddOptions tooltip="Порода" placeholder="Порода" options={['бульдог', 'доберман', 'подмышка бомжачья']}
           id="breed" name="breed" value={formik.values.breed} error={formik.errors.breed}
           onChange={handleChangeFor('breed')} setValue={setValueFor('breed')}
+          addOptions={() => dispatch(ClientsActionCreater.createShowElement('showBreedOptions', true))}
         />
       </div>
       <div className={stls.wrapp}>

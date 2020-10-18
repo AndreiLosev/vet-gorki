@@ -17,10 +17,11 @@ type Props = {
   options: string[],
   onChange?: (e: React.ChangeEvent<any>) => void,
   setValue?: (text: string) => void,
+  addOptions?: () => void,
 }
 
 export const FormFildAddOptions: React.FC<Props> = ({
-  tooltip, placeholder, value='', mask=[/\W/i], onChange, setValue, error, options,
+  tooltip, placeholder, value='', mask=[/\W/i], onChange, setValue, addOptions, error, options,
 }) => {
   const [showOptions, setShowOptions] = React.useState(false);
   const [blure, setBlure] = React.useState(false);
@@ -46,7 +47,7 @@ export const FormFildAddOptions: React.FC<Props> = ({
           value="&#8744;"
           onClick={() => setShowOptions(!showOptions)}
         />
-        <input type="button" className={stls.addOptions} value="+"/>
+        <input type="button" className={stls.addOptions} value="+" onClick={addOptions}/>
       </div>
       {showInside
         ? <div className={cn(stls.options, {[stls.active]: showOutsid}, {[stls.deactive]: !showOutsid})}>

@@ -20,17 +20,17 @@ export const ClientsHeader = () => {
     }),
   )
   React.useEffect(() => {
-    if (clientEditing && currentClient) dispatch(ClientsActionCreater.createShowNewClientForm(true))
+    if (clientEditing && currentClient) dispatch(ClientsActionCreater.createShowElement('showNewClientForm', true))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientEditing])
   return (
     <header className={stls.tooolbar}>
       <SquareButton color="white" symbol="+" size="size2" tooltip="Создать нового клиента"
-        pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewClientForm(true))}
+        pressHeadnler={() => dispatch(ClientsActionCreater.createShowElement('showNewClientForm', true))}
       />
       <SquareButton color="white" symbol="&#9997;" size="size2" tooltip="Редактировать выброного клиента"
         pressHeadnler={() => {
-          if (currentClient) dispatch(ClientsActionCreater.createClientEditingMode(true))
+          if (currentClient) dispatch(ClientsActionCreater.createShowElement('clientEditing', true))
         }}
       />
       <SquareButton color="white" symbol="&#215;" size="size2" tooltip="Удалить выброного клиента"
@@ -45,8 +45,8 @@ export const ClientsHeader = () => {
       />
       <SquareButton color="white" symbol="+1" size="size2" tooltip="Добавить питомца клиенту"
         pressHeadnler={() => {
-          if (currentClient) dispatch(ClientsActionCreater.createShowNewPetForm(true))
-          alert('Сначала выберете клиента')
+          if (currentClient) dispatch(ClientsActionCreater.createShowElement('showNewPetForm', true))
+          else alert('Сначала выберете клиента')
         }}
       />
       <SquareButton color="white" symbol="&#9998;" size="size2" tooltip="Редактировать питомца клиенту"

@@ -7,7 +7,7 @@ type Props = {
   visible: boolean,
   options: string[],
   tooltip?: string,
-  pressAdd: (actualOptions: string) => void,
+  pressAdd?: (actualOptions: string) => void,
   pressRemove: (actualOptions: string[]) => void,
   pressAddOptions: (selectedOptions: string[]) => void,
   pressClose: () => void,
@@ -46,10 +46,10 @@ export const WindowForAddingOptions: React.FC<Props> = ({
           </div>)}
       </div>
       <div className={stls.footer}>
-        <div className={stls.button}
-          onClick={() => pressAdd(selectedOptions)}>
+        {pressAdd ? <div className={stls.button}
+          onClick={() => pressAdd ? pressAdd(selectedOptions) : null}>
           Добавить
-        </div>
+        </div> : null}
         <div className={stls.button}
           onClick={pressClose}>
           Отмена
