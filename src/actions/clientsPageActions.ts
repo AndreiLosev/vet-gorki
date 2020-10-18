@@ -1,4 +1,5 @@
 import {AppAction} from '../redusers'
+import {TElementsName} from '../redusers/clientsPageReduser'
 import {IinitialClientForm} from '../components/newClientForm/newClientForm'
 import {Api} from '../api'
 
@@ -9,9 +10,15 @@ export class ClientsActionType {
   static SET_CURRENT_CLIENT = 'SET_CURRENT_CLIENT' as const
   static IS_FETCHING = 'IS_FETCHING' as const
   static CLIENT_EDITING_MODE = 'CLIENT_EDITING_MODE' as const
+  static PET_TYPE_OPTIONS = 'PET_TYPE_OPTIONS' as const
+  static BREED_OPTIONS = 'BREED_OPTIONS' as const
+  static SHOW_ELEMENT = 'SHOW_ELEMENT' as const
 }
 
 export class ClientsActionCreater {
+  static createShpwElement = (element: TElementsName, state: boolean) =>
+    ({ type: ClientsActionType.SHOW_ELEMENT, pyload: {element, state} })
+
   static createShowNewClientForm = (show: boolean) =>
     ({ type: ClientsActionType.SHOW_NEW_CLIENT_FORM, pyload: show })
 
@@ -29,6 +36,12 @@ export class ClientsActionCreater {
 
   static createClientEditingMode = (on: boolean) =>
     ({ type: ClientsActionType.CLIENT_EDITING_MODE, pyload: on })
+
+  static createPetTypeOptions = (show: boolean) =>
+    ({ type: ClientsActionType.PET_TYPE_OPTIONS, pyload: show })
+
+  static createBreedOptions = (show: boolean) =>
+    ({ type: ClientsActionType.BREED_OPTIONS, pyload: show })
 
   static createAddUser = (newClient: IinitialClientForm): AppAction => async dispatch => {
     dispatch(ClientsActionCreater.createIsFetching(true))
@@ -66,3 +79,6 @@ export type TAction =
   | ReturnType<typeof ClientsActionCreater.createSetCurrentClient>
   | ReturnType<typeof ClientsActionCreater.createIsFetching>
   | ReturnType<typeof ClientsActionCreater.createClientEditingMode>
+  | ReturnType<typeof ClientsActionCreater.createPetTypeOptions>
+  | ReturnType<typeof ClientsActionCreater.createBreedOptions>
+  | ReturnType<typeof ClientsActionCreater.createShpwElement>

@@ -44,7 +44,10 @@ export const ClientsHeader = () => {
         pressHeadnler={() => undefined}
       />
       <SquareButton color="white" symbol="+1" size="size2" tooltip="Добавить питомца клиенту"
-        pressHeadnler={() => dispatch(ClientsActionCreater.createShowNewPetForm(true))}
+        pressHeadnler={() => {
+          if (currentClient) dispatch(ClientsActionCreater.createShowNewPetForm(true))
+          alert('Сначала выберете клиента')
+        }}
       />
       <SquareButton color="white" symbol="&#9998;" size="size2" tooltip="Редактировать питомца клиенту"
         pressHeadnler={() => undefined}

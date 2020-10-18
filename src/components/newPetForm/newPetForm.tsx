@@ -1,9 +1,10 @@
 import React from 'react'
 import stls from './newPetForm.module.scss'
-import {useDispatch} from 'react-redux'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import cn from 'classnames'
+import {useDispatchSelect} from '../../utilites/useDispatchSelect'
+import {IClient} from '../../redusers/clientsPageReduser'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
@@ -23,10 +24,21 @@ interface IinitialFormValues {
   notes: string;
 }
 
+interface IpartState {
+  clientsPage: {
+    currentClient: string,
+    clients: {[index: string]: IClient},
+  },
+}
+
 type Props = { visible: boolean }
 
 export const NewPetForm: React.FC<Props> = ({visible}) => {
-  const dispatch = useDispatch()
+  const {partState: {currentClient, clients}, dispatch} = useDispatchSelect((partState: IpartState) => ({
+    currentClient: partState.clientsPage.currentClient,
+    clients: partState.clientsPage.clients,
+  }))
+  const owner = clients[currentClient]
   const formik = useFormik<IinitialFormValues>({
     initialValues: {
       petName: '', petType: '', petGender: '', castration: '',
@@ -62,7 +74,11 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
   const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)
   const setValueFor = (fild: string) => (text: string) => formik.setFieldValue(fild, text)
   return (
-    <form className={cn(stls.createNewPet, {[stls.activeCreateNewPet]: visible}, {[stls.deactivecreateNewPet]: !visible})}
+    <form className={cn(
+        stls.createNewPet,
+        {[stls.activeCreateNewPet]: visible},
+        {[stls.deactivecreateNewPet]: !visible},
+      )}
       onSubmit={formik.handleSubmit}>
       <div className={stls.closeForm}>
         <SquareButton color="green" symbol="&#215;" size="size1" tooltip={undefined}
@@ -70,7 +86,9 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
         />
       </div>
       <div className={stls.wrapp}>
-        <span className={stls.master}>Хозяин: {'Лосев Андрей Геннадтевич'}</span>
+        <span className={stls.master}>
+          Хозяин: {`${owner.surname} ${owner.name} ${owner.patronymic}`}
+        </span>
       </div>
       <div className={stls.wrapp}>
         <FormFild tooltip="Кличка" placeholder="Кличка" id="petName" name="petName"

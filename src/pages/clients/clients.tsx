@@ -11,6 +11,7 @@ import {VisitsTableToolbar} from '../../components/visitsTableToolbar/visitsTabl
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {NewPetForm} from '../../components/newPetForm/newPetForm'
 import {LoadingSpiner} from '../../components/loadingSpiner/LoadingSpiner'
+import {WindowForAddingOptions} from '../../components/windowForAddingOptions/windowForAddingOptions'
 
 
 interface IpartState {
