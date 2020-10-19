@@ -1,5 +1,5 @@
 import {AppAction} from '../redusers'
-import {TElementsName} from '../redusers/clientsPageReduser'
+import {TElementsName, IClient} from '../redusers/clientsPageReduser'
 import {IinitialClientForm} from '../components/newClientForm/newClientForm'
 import {IPetFormValues} from '../components/newPetForm/newPetForm'
 import {Api} from '../api'
@@ -37,9 +37,11 @@ export class ClientsActionCreater {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }
 
-  static createUpdateUser = (newClient: IinitialClientForm, key: string): AppAction => async dispatch => {
+  static createUpdateUser = (newClient: IinitialClientForm, key: string): AppAction => async (dispatch, getState) => {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
-    await Api.updateDoc('clients', key, newClient)
+    const oldClient = getState().clientsPage.clients[key]
+    const sendClient: IClient = {...newClient, pets: oldClient.pets}
+    await Api.updateDoc('clients', key, sendClient)
     const clients = await Api.findDocFrom<IinitialClientForm>('clients', 'surname', newClient.surname)
     dispatch(ClientsActionCreater.createSetClients(clients))
     dispatch(ClientsActionCreater.createShowElement('clientEditing', false))
@@ -68,6 +70,8 @@ export class ClientsActionCreater {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
     dispatch(ClientsActionCreater.createShowElement('showNewPetForm', false))
   }
+
+  // static createUpdatePet = (newPet:)
 }
 
 export type TAction =

@@ -12,7 +12,8 @@ export const VisitsTable = () => {
         <div>Вид</div>
         <div>Порода</div>
         <div>Пол</div>
-        <div>Возрасclientsт</div>
+        <div>Кострация</div>
+        <div>Возраст</div>
         <div>Вес</div>
         <div>Темпе<wbr />ратура</div>
         <div>Дата посещения</div>
@@ -24,6 +25,7 @@ export const VisitsTable = () => {
           <div>Хомяк</div>
           <div>домашний хомяк</div>
           <div>Ж</div>
+          <div>да</div>
           <div>1,5</div>
           <div>0,35</div>
           <div>36,6</div>
@@ -35,6 +37,7 @@ export const VisitsTable = () => {
           <div>Хомяк</div>
           <div>домашний хомяк</div>
           <div>Ж</div>
+          <div>да</div>
           <div>1,5</div>
           <div>0,35</div>
           <div>36,6</div>

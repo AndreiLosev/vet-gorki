@@ -34,7 +34,9 @@ export const ClientsHeader = () => {
         }}
       />
       <SquareButton color="white" symbol="&#215;" size="size2" tooltip="Удалить выброного клиента"
-        pressHeadnler={() => dispatch(ClientsActionCreater.createDeleteUser(currentClient))}
+        pressHeadnler={() => {
+          if (currentClient) dispatch(ClientsActionCreater.createDeleteUser(currentClient))
+        }}
       />
       <SquareButton color="white" symbol="&#128199;" size="size2" tooltip="Печать"
         pressHeadnler={() => undefined}

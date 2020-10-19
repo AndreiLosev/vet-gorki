@@ -45,7 +45,7 @@ export const clientsPageReduser: Reducer<TClientsPageState, TAction> = (state=in
     case ClientsActionType.SELECTED_PET_TYPE:
       return {...state, selectedPetType: action.pyload}
     case ClientsActionType.SET_PETS:
-      return {...state, pets: action.pyload.map(item => ({...item, visits: [] as string[]}))}
+      return {...state, pets: state.pets.concat(action.pyload.map(item => ({...item, visits: [] as string[]})))}
     default:
       return state
   }

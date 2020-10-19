@@ -1,9 +1,21 @@
 import React from 'react'
 import './petsTable.scss'
 import cn from 'classnames'
+import {useDispatchSelect} from '../../utilites/useDispatchSelect'
+import {IPets} from '../../redusers/clientsPageReduser'
 
+interface IpartState {
+  clientsPage: {
+    currentClient: string,
+    pets: IPets[],
+  },
+}
 
 export const PetsTable = () => {
+  const {partState: {currentClient, pets}} = useDispatchSelect((partStae: IpartState) => ({
+    currentClient: partStae.clientsPage.currentClient,
+    pets: partStae.clientsPage.pets,
+  }))
   return (
     <div className={cn('petsTable')}>
       <div className={cn('row', 'header')}>
@@ -14,13 +26,13 @@ export const PetsTable = () => {
         <div>Пол</div>
       </div>
       <div className="scrol">
-        <div className={cn('row', 'body')}>
-          <div>1</div>
-          <div>Ватрушка</div>
-          <div>Хомяк</div>
-          <div>Хомяк домашний</div>
-          <div>Ж</div>
-        </div>
+        {currentClient ? pets.map((item, index) => <div className={cn('row', 'body')}>
+          <div>{index + 1}</div>
+          <div>{item.petName}</div>
+          <div>{item.petType}</div>
+          <div>{item.ageYear}</div>
+          <div>{item.petGender}</div>
+        </div>) : null}
       </div>
     </div>
   )
