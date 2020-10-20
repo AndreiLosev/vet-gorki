@@ -91,8 +91,10 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
           .min(2, 'должно быть Да или Нет')
     }),
     onSubmit: values => {
-      if (petEditing) dispatch(ClientsActionCreater.createUpdatePet(values, currentPet))
-      else dispatch(ClientsActionCreater.createAddPet(values))
+      if (petEditing) dispatch(
+        ClientsActionCreater.createUpdatePet({...values, visits: pets[currentPet].visits}, currentPet)
+      )
+      else dispatch(ClientsActionCreater.createAddPet({...values, visits: [] as string[]}))
     },
   })
   React.useEffect(() => {

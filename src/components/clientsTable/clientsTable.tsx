@@ -35,6 +35,7 @@ export const ClientsTable = () => {
           onDoubleClick={() => {
             dispatch(ClientsActionCreater.createSetCurrentClient(item))
             dispatch(ClientsActionCreater.createGetPets(item))
+            dispatch(ClientsActionCreater.createSetCurrentPet(''))
           }}>
           <div>{index + 1}</div>
           <div>{`${clients[item].surname} ${clients[item].name} ${clients[item].patronymic}`}</div>

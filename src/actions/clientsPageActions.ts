@@ -1,6 +1,5 @@
 import {AppAction} from '../redusers'
 import {TElementsName, IClient, IPet} from '../redusers/clientsPageReduser'
-import {IinitialClientForm} from '../components/newClientForm/newClientForm'
 import {IPetFormValues} from '../components/newPetForm/newPetForm'
 import {Api} from '../api'
 
@@ -19,7 +18,7 @@ export class ClientsActionCreater {
 
   static createSetClients = (clients: {[index: string]: IClient}) =>
     ({ type: ClientsActionType.SET_CLIENTS, pyload: clients })
-  
+
   static createSetCurrentPet = (key: string) =>
     ({ type: ClientsActionType.SET_CURRENT_PET, pyload: key })
 
@@ -32,23 +31,48 @@ export class ClientsActionCreater {
   static createSetPets = (pets: {[index: string]: IPet}) =>
     ({ type: ClientsActionType.SET_PETS, pyload: pets })
 
-  static createAddUser = (newClient: IinitialClientForm): AppAction => async dispatch => {
+  static createSearch = (searchLine: string): AppAction => async dispatch => {
+    dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
+    dispatch(ClientsActionCreater.createSetCurrentClient(''))
+    dispatch(ClientsActionCreater.createSetCurrentPet(''))
+    if (searchLine) {
+      const phone = searchLine.match(/\d+/g)?.join('').replace(/375/, '')
+      const upperSerchLine = searchLine.slice(0, 1).toUpperCase() + searchLine.slice(1)
+      const loverSerchLine = searchLine.slice(0, 1).toLowerCase() + searchLine.slice(1)
+      const result = await Promise.all([
+        Api.findDocsFrom<IClient>('clients', upperSerchLine, 'surname'),
+        Api.findDocsFrom<IClient>('clients', loverSerchLine, 'surname'),
+        Api.findDocsFrom<IClient>('clients', `375${phone}`, 'phone'),
+        Api.findDocsFrom<IClient>('clients', upperSerchLine, 'locality'),
+        Api.findDocsFrom<IClient>('clients', loverSerchLine, 'locality'),
+        Api.findDocsFrom<IClient>('clients', upperSerchLine, 'street'),
+        Api.findDocsFrom<IClient>('clients', loverSerchLine, 'street'),
+      ])
+      const dispatchClients: {[intem: string]: IClient} = result
+        .reduce((acc, item) => ({...acc, ...item}), {})
+      dispatch(ClientsActionCreater.createSetClients(dispatchClients))
+    } else {
+      const question = window.confirm('Хотите запросить всех клиентов')
+      if (question) {
+        const result = await Api.getAll<IClient>('clients')
+        dispatch(ClientsActionCreater.createSetClients(result))
+      }
+    }
+    dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
+  }
+
+  static createAddUser = (newClient: IClient): AppAction => async dispatch => {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
     const clientID = await Api.addDocToCollection('clients', newClient)
-    const client = await Api.findDocFromID<IinitialClientForm>('clients', clientID)
-    // const clients = await Api.findDocFrom<IinitialClientForm>('clients', 'surname', newClient.surname)
-    const dispatchClient: {[index: string]: IClient} = {}
-    Object.keys(client).map(item => dispatchClient[item] = {...client[item], pets: []})
-    dispatch(ClientsActionCreater.createSetClients(dispatchClient))
+    const client = await Api.findDocFromID<IClient>('clients', clientID)
+    dispatch(ClientsActionCreater.createSetClients(client))
     dispatch(ClientsActionCreater.createShowElement('showNewClientForm', false))
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }
 
-  static createUpdateUser = (newClient: IinitialClientForm, currentClient: string): AppAction => async (dispatch, getState) => {
+  static createUpdateUser = (newClient: IClient, currentClient: string): AppAction => async (dispatch) => {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
-    const oldClient = getState().clientsPage.clients[currentClient]
-    const sendClient: IClient = {...newClient, pets: oldClient.pets}
-    await Api.updateDoc('clients', currentClient, sendClient)
+    await Api.updateDoc('clients', currentClient, newClient)
     const client = await Api.findDocFromID<IClient>('clients', currentClient)
     dispatch(ClientsActionCreater.createSetClients(client))
     dispatch(ClientsActionCreater.createShowElement('clientEditing', false))
@@ -65,16 +89,16 @@ export class ClientsActionCreater {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }
 
-  static createAddPet = (newPet: IPetFormValues): AppAction => async (dispatch, getState) => {
+  static createAddPet = (newPet: IPet): AppAction => async (dispatch, getState) => {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
     const petID = await Api.addDocToCollection('pets', newPet)
     const currentClient = getState().clientsPage.currentClient
     const client = getState().clientsPage.clients[currentClient]
     client.pets.push(petID)
-    Api.updateDoc('clients', currentClient, {pets: client})
+    Api.updateDoc('clients', currentClient, client)
     const oldPets = getState().clientsPage.pets
     const getNewPet = await Api.findDocFromID<IPetFormValues>('pets', petID)
-    const dispatchPets = {...oldPets, [petID]: {...getNewPet[petID], visits: [] as string[]} as IPet}
+    const dispatchPets = {...oldPets, [petID]: {...getNewPet[petID]} as IPet}
     dispatch(ClientsActionCreater.createSetPets(dispatchPets))
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
     dispatch(ClientsActionCreater.createShowElement('showNewPetForm', false))
@@ -84,20 +108,14 @@ export class ClientsActionCreater {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
     const petsList = getState().clientsPage.clients[currentClient].pets
     const pets = await Promise.all(petsList.map(item => Api.findDocFromID<IPet>('pets', item)))
-    const dispatchPets = {} as {[index: string]: IPet}
-    pets.forEach(item => {
-      const x = Object.entries(item)[0]
-      dispatchPets[x[0]] = x[1]
-    })
+    const dispatchPets: {[index: string]: IPet} = pets.reduce((acc, item) => ({...acc, ...item}), {})
     dispatch(ClientsActionCreater.createSetPets(dispatchPets))
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }
   // todoo
-  static createUpdatePet = (newPet: IPetFormValues, currentPet: string): AppAction => async (dispatch, getState) => {
+  static createUpdatePet = (newPet: IPet, currentPet: string): AppAction => async (dispatch, getState) => {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
-    const oldPet = getState().clientsPage.pets[currentPet]
-    const sendPet: IPet = {...newPet, visits: oldPet.visits}
-    await Api.updateDoc('pets', currentPet, sendPet)
+    await Api.updateDoc('pets', currentPet, newPet)
     const currentClient = getState().clientsPage.currentClient
     const petsList = getState().clientsPage.clients[currentClient].pets
     const pets = await Promise.all(petsList.map(item => Api.findDocFromID<IPet>('pets', item)))
@@ -107,16 +125,6 @@ export class ClientsActionCreater {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }
 
-  static createSearch = (searchLine: string): AppAction => async () => {
-    if (searchLine) {
-      const phone = searchLine.match(/\d+/g)?.join('')
-      const upperSerchLine = searchLine.slice(0, 1).toUpperCase() + searchLine.slice(1)
-      const loverSerchLine = searchLine.slice(0, 1).toLowerCase() + searchLine.slice(1)
-      console.log(searchLine.slice(1))
-      const x = await Api.findDocsFrom('clients', searchLine, 'surname')
-      console.log(x)
-    }
-  } 
 }
 
 export type TAction =

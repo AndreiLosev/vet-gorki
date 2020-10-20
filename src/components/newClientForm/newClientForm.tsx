@@ -62,8 +62,10 @@ export const NewClientForm: React.FC<Props> = ({visible}) => {
     onSubmit: async values => {
       const convertedPhone = values.phone.match(/\d+/g)?.join('')
       const sentData = {...values, phone: convertedPhone ? convertedPhone : ''}
-      if (clientEditing) { dispatch(ClientsActionCreater.createUpdateUser(sentData, currentClient)) }
-      else { dispatch(ClientsActionCreater.createAddUser(sentData)) }
+      if (clientEditing) { dispatch(
+        ClientsActionCreater.createUpdateUser({...sentData, pets: clients[currentClient].pets}, currentClient)
+      ) }
+      else { dispatch(ClientsActionCreater.createAddUser({...sentData, pets: [] as string[]})) }
     },
   })
   const handleChangeFor = (fild: string) => (e: React.ChangeEvent<any>) => formik.setFieldValue(fild, e.target.value)

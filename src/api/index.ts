@@ -21,12 +21,14 @@ export class Api {
     return result.id
   }
 
-  // static findDocFrom = async <T>(collection: string, key: string, value: string) => {
-  //   const result = await db.collection(collection).where(key, '==', value).get()
-  //   const returData: {[index: string]: T} = {}
-  //   result.forEach(item => {returData[item.id] = item.data() as T})
-  //   return returData
-  // }
+  static getAll = async <T>(collection: string) => {
+    const result = await db.collection(collection).get()
+    const returnData = {} as {[index: string]: T}
+    result.forEach(item => {
+      returnData[item.id] = item.data() as T
+    })
+    return returnData
+  }
 
   static findDocFromID = async <T>(collection: string, id: string) => {
     const result = await db.collection(collection).doc(id).get()
@@ -38,7 +40,7 @@ export class Api {
 
   static updateDoc = async <T>(collection: string, id: string, data: T) =>
     await db.collection(collection).doc(id).set(data)
-  
+
   static findDocsFrom = async <T>(collection: string, search: string, fild: string) => {
     const result = await db.collection('clients').orderBy(fild).startAt(search).endAt(search+"\uf8ff").get()
     const returnData = {} as {[x: string]: T}
