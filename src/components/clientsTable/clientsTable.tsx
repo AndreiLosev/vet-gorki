@@ -32,7 +32,10 @@ export const ClientsTable = () => {
         {Object.keys(clients).map((item, index) => <div
           className={cn('row', 'body', {'activeRow': currentClient === item})}
           key={item}
-          onDoubleClick={() => dispatch(ClientsActionCreater.createSetCurrentClient(item))}>
+          onDoubleClick={() => {
+            dispatch(ClientsActionCreater.createSetCurrentClient(item))
+            dispatch(ClientsActionCreater.createGetPets(item))
+          }}>
           <div>{index + 1}</div>
           <div>{`${clients[item].surname} ${clients[item].name} ${clients[item].patronymic}`}</div>
           <div>{`${clients[item].locality} ${clients[item].street} ${clients[item].house}-${clients[item].flat}`}</div>

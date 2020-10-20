@@ -4,7 +4,7 @@ import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import cn from 'classnames'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
-import {IClient} from '../../redusers/clientsPageReduser'
+import {IClient, IPet} from '../../redusers/clientsPageReduser'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
@@ -29,6 +29,9 @@ interface IpartState {
     currentClient: string,
     clients: {[index: string]: IClient},
     selectedPetType: string,
+    currentPet: string,
+    pets: {[index: string]: IPet},
+    petEditing: boolean,
   },
   staticData: {
     petType: string[],
@@ -40,19 +43,29 @@ type Props = { visible: boolean }
 
 export const NewPetForm: React.FC<Props> = ({visible}) => {
   const {partState: {
-    currentClient, clients, selectedPetType, petType, breed,
+    currentClient, clients, selectedPetType, petType, breed, currentPet, pets, petEditing,
   }, dispatch} = useDispatchSelect((partState: IpartState) => ({
     currentClient: partState.clientsPage.currentClient,
     clients: partState.clientsPage.clients,
     selectedPetType: partState.clientsPage.selectedPetType,
+    currentPet: partState.clientsPage.currentPet,
+    pets: partState.clientsPage.pets,
+    petEditing: partState.clientsPage.petEditing,
     petType: partState.staticData.petType,
     breed: partState.staticData.breed,
   }))
   const owner = clients[currentClient]
   const formik = useFormik<IPetFormValues>({
     initialValues: {
-      petName: '', petType: '', petGender: '', castration: '',
-      breed: '', color: '', ageYear: '', ageMonth: '', notes: '',
+      petName: currentPet ? pets[currentPet].petName : '',
+      petType: currentPet ? pets[currentPet].petName : '',
+      petGender: currentPet ? pets[currentPet].petName : '',
+      castration: currentPet ? pets[currentPet].petName : '',
+      breed: currentPet ? pets[currentPet].petName : '',
+      color: currentPet ? pets[currentPet].petName : '',
+      ageYear: currentPet ? pets[currentPet].petName : '',
+      ageMonth: currentPet ? pets[currentPet].petName : '',
+      notes: currentPet ? pets[currentPet].petName : '',
     },
     validationSchema: Yup.object({
       petType: Yup.string()
@@ -78,7 +91,8 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
           .min(2, 'должно быть Да или Нет')
     }),
     onSubmit: values => {
-      dispatch(ClientsActionCreater.createAddPet(values))
+      if (petEditing) dispatch(ClientsActionCreater.createUpdatePet(values, currentPet))
+      else dispatch(ClientsActionCreater.createAddPet(values))
     },
   })
   React.useEffect(() => {
@@ -157,7 +171,7 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
         />
       </div>
       <div className={stls.wrapp}>
-        <FormSubmit text="Создать" />
+        <FormSubmit text={petEditing ? 'Сохранить' : 'Создать'} />
       </div>
     </form>
   )

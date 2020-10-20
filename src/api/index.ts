@@ -21,20 +21,36 @@ export class Api {
     return result.id
   }
 
-  static findDocFrom = async <T>(collection: string, key: string, value: string) => {
-    const result = await db.collection(collection).where(key, '==', value).get()
-    const returData: {[index: string]: T} = {}
-    result.forEach(item => {returData[item.id] = item.data() as T})
-    return returData
-  }
+  // static findDocFrom = async <T>(collection: string, key: string, value: string) => {
+  //   const result = await db.collection(collection).where(key, '==', value).get()
+  //   const returData: {[index: string]: T} = {}
+  //   result.forEach(item => {returData[item.id] = item.data() as T})
+  //   return returData
+  // }
 
   static findDocFromID = async <T>(collection: string, id: string) => {
     const result = await db.collection(collection).doc(id).get()
-    return result.data() as T
+    if (result.data()) return {[id]: result.data() as T}
+    else throw new Error('в базе не наден элемент с таким id (Api.findDocFromID)')
   }
 
   static deleteDoc = async (collection: string, id: string) => await db.collection(collection).doc(id).delete()
 
   static updateDoc = async <T>(collection: string, id: string, data: T) =>
     await db.collection(collection).doc(id).set(data)
+  
+  static findDocsFrom = async <T>(collection: string, search: string, fild: string) => {
+    const result = await db.collection('clients').orderBy(fild).startAt(search).endAt(search+"\uf8ff").get()
+    const returnData = {} as {[x: string]: T}
+    result.forEach(item => {
+      if (item.data()) {
+        const x = item.data() as T
+        returnData[item.id] = x
+      } else {
+        throw new Error('Api.findDocsFrom')
+      }
+    })
+    return returnData
+  }
+    
 }

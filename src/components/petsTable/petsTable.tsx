@@ -2,19 +2,22 @@ import React from 'react'
 import './petsTable.scss'
 import cn from 'classnames'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
-import {IPets} from '../../redusers/clientsPageReduser'
+import {IPet} from '../../redusers/clientsPageReduser'
+import {ClientsActionCreater} from '../../actions/clientsPageActions'
 
 interface IpartState {
   clientsPage: {
     currentClient: string,
-    pets: IPets[],
+    pets: {[index: string]: IPet},
+    currentPet: string,
   },
 }
 
 export const PetsTable = () => {
-  const {partState: {currentClient, pets}} = useDispatchSelect((partStae: IpartState) => ({
+  const {partState: {currentClient, pets, currentPet},  dispatch} = useDispatchSelect((partStae: IpartState) => ({
     currentClient: partStae.clientsPage.currentClient,
     pets: partStae.clientsPage.pets,
+    currentPet: partStae.clientsPage.currentPet,
   }))
   return (
     <div className={cn('petsTable')}>
@@ -26,12 +29,14 @@ export const PetsTable = () => {
         <div>Пол</div>
       </div>
       <div className="scrol">
-        {currentClient ? pets.map((item, index) => <div className={cn('row', 'body')}>
+        {currentClient ? Object.keys(pets).map((item, index) => <div
+          className={cn('row', 'body', {'activeRow': currentPet === item})} key={item}
+          onDoubleClick={() => dispatch(ClientsActionCreater.createSetCurrentPet(item))}>
           <div>{index + 1}</div>
-          <div>{item.petName}</div>
-          <div>{item.petType}</div>
-          <div>{item.ageYear}</div>
-          <div>{item.petGender}</div>
+          <div>{pets[item].petName}</div>
+          <div>{pets[item].petType}</div>
+          <div>{pets[item].breed}</div>
+          <div>{pets[item].petGender}</div>
         </div>) : null}
       </div>
     </div>

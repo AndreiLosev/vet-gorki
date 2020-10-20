@@ -8,7 +8,7 @@ export interface IClient extends IinitialClientForm {
   pets: string[]
 }
 
-export interface IPets extends IPetFormValues {
+export interface IPet extends IPetFormValues {
   visits: string[]
 }
 
@@ -19,25 +19,23 @@ const initState = {
   showBreedOptions: false,
   IsFetching: false,
   clientEditing: false,
+  petEditing: false,
   selectedPetType: '',
   currentClient: '',
+  currentPet: '',
   clients: {} as {[index: string]: IClient},
-  pets: [] as IPets[],
+  pets: {} as {[index: string]: IPet},
 }
 
 export type TElementsName = 'showNewClientForm' | 'showNewPetForm' | 'showPetTypeOptions' | 'showBreedOptions'
-  | 'IsFetching' | 'clientEditing'
+  | 'IsFetching' | 'clientEditing' | 'petEditing'
 
 export type TClientsPageState = typeof initState
 
 export const clientsPageReduser: Reducer<TClientsPageState, TAction> = (state=initState, action) => {
   switch (action.type) {
     case ClientsActionType.SET_CLIENTS:
-      const newClients = {} as {[index: string]: IClient}
-      Object.keys(action.pyload).forEach(item => {
-        newClients[item] = {...action.pyload[item], pets: []}
-      })
-      return {...state, clients: newClients}
+      return {...state, clients: action.pyload}
     case ClientsActionType.SET_CURRENT_CLIENT:
       return {...state, currentClient: action.pyload, clientEditing: false}
     case ClientsActionType.SHOW_ELEMENT:
@@ -45,7 +43,9 @@ export const clientsPageReduser: Reducer<TClientsPageState, TAction> = (state=in
     case ClientsActionType.SELECTED_PET_TYPE:
       return {...state, selectedPetType: action.pyload}
     case ClientsActionType.SET_PETS:
-      return {...state, pets: state.pets.concat(action.pyload.map(item => ({...item, visits: [] as string[]})))}
+      return {...state, pets: action.pyload}
+    case ClientsActionType.SET_CURRENT_PET:
+      return {...state, currentPet: action.pyload}
     default:
       return state
   }
