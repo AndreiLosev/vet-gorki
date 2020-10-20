@@ -112,7 +112,7 @@ export class ClientsActionCreater {
     dispatch(ClientsActionCreater.createSetPets(dispatchPets))
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }
-  // todoo
+
   static createUpdatePet = (newPet: IPet, currentPet: string): AppAction => async (dispatch, getState) => {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
     await Api.updateDoc('pets', currentPet, newPet)
@@ -122,6 +122,15 @@ export class ClientsActionCreater {
     pets.forEach(item => dispatch(ClientsActionCreater.createSetPets(item)))
     dispatch(ClientsActionCreater.createShowElement('petEditing', false))
     dispatch(ClientsActionCreater.createShowElement('showNewPetForm', false))
+    dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
+  }
+
+  static createDeletePet = (currentPet: string): AppAction => async (dispatch, getState) => {
+    dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
+    Api.deleteDoc('pets', currentPet)
+    const nextPets = {...getState().clientsPage.pets}
+    delete nextPets[currentPet]
+    dispatch(ClientsActionCreater.createSetPets(nextPets))
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }
 
