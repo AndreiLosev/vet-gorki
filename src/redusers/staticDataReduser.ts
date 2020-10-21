@@ -22,7 +22,7 @@ export type TStaticDataState = typeof initState
 export const staticDataReduser: Reducer<TStaticDataState, TAction> = (state=initState, action) => {
   switch (action.type) {
     case StaticDataActionType.ADD_PET_TYPE:
-      return {...state, petType: [...state.petType, action.pyload]}
+      return {...state, petType: state.petType.concat(action.pyload)}
     case StaticDataActionType.REMOVE_PET_TYPE:
       return {...state, petType: state.petType.filter(item => !action.pyload.includes(item))}
     case StaticDataActionType.ADD_BREED:
@@ -30,7 +30,7 @@ export const staticDataReduser: Reducer<TStaticDataState, TAction> = (state=init
         ...state,
         breed: {
           ...state.breed,
-          [action.pyload.currentPetType]: [...state.breed[action.pyload.currentPetType], action.pyload.breed],
+          [action.pyload.currentPetType]: state.breed[action.pyload.currentPetType].concat(action.pyload.breed),
         },
       }
     case StaticDataActionType.REMOVE_BREED:
@@ -43,7 +43,7 @@ export const staticDataReduser: Reducer<TStaticDataState, TAction> = (state=init
         },
       }
     case StaticDataActionType.ADD_DIAGNOSES:
-      return {...state, diagnoses: [...state.diagnoses, action.pyload]}
+      return {...state, diagnoses: state.diagnoses.concat(action.pyload)}
     case StaticDataActionType.REMOVE_DIAGNOSES:
       return {...state, diagnoses: state.diagnoses.filter(item => !action.pyload.includes(item))}
     default:

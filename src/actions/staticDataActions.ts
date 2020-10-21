@@ -1,6 +1,5 @@
 import {AppAction} from '../redusers'
 import {Api} from '../api'
-import {TStaticDataState} from '../redusers/staticDataReduser'
 
 export class StaticDataActionType {
   static ADD_PET_TYPE = 'ADD_PET_TYPE' as const
@@ -12,27 +11,34 @@ export class StaticDataActionType {
 }
 
 export class StaticDataActionCreater {
-  static createAddPetType = (petType: string) =>
+  static createAddPetType = (petType: string[]) =>
     ({ type: StaticDataActionType.ADD_PET_TYPE, pyload: petType })
 
   static createRemovePetType = (petsType: string[]) =>
     ({ type: StaticDataActionType.REMOVE_PET_TYPE, pyload: petsType })
 
-  static createAddBreed = (breed: string, currentPetType: string) =>
+  static createAddBreed = (breed: string[], currentPetType: string) =>
     ({ type: StaticDataActionType.ADD_BREED, pyload: { breed, currentPetType} })
 
   static createRemoveBreed = (breeds: string[], currentPetType: string) =>
     ({ type: StaticDataActionType.REMOVE_BREED, pyload: {breeds, currentPetType} })
 
-  static createAddDiagnoses = (diagnose: string) =>
+  static createAddDiagnoses = (diagnose: string[]) =>
     ({ type: StaticDataActionType.ADD_DIAGNOSES, pyload: diagnose })
 
   static createRemoveDiagnoses = (diagnoses: string[]) =>
     ({ type: StaticDataActionType.REMOVE_DIAGNOSES, pyload: diagnoses })
 
   static createGetStatickData = (): AppAction => async dispatch => {
-    const result = await Api.getAll<TStaticDataState>('staticData')
-    // dispatch(StaticDataActionCreater.createAddPetType(result))
+    const result = await Api.updateDoc('staticData', 'staticData', {doctor: ['доктор №1', 'доктор №2', 'Кристина']})
+    console.log(result)
+    // const result = await Api.getAll('staticData') as TStaticDataState
+    // console.log(result)
+    // dispatch(StaticDataActionCreater.createAddPetType(result.petType))
+    // dispatch(StaticDataActionCreater.createAddDiagnoses(result.diagnoses))
+    // Object.keys(result.breed).forEach(item => {
+    //   dispatch(StaticDataActionCreater.createAddBreed(result.breed[item], item))
+    // })
   }
 }
 
