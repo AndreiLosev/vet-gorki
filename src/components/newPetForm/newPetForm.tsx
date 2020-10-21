@@ -58,14 +58,14 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
   const formik = useFormik<IPetFormValues>({
     initialValues: {
       petName: currentPet ? pets[currentPet].petName : '',
-      petType: currentPet ? pets[currentPet].petName : '',
-      petGender: currentPet ? pets[currentPet].petName : '',
-      castration: currentPet ? pets[currentPet].petName : '',
-      breed: currentPet ? pets[currentPet].petName : '',
-      color: currentPet ? pets[currentPet].petName : '',
-      ageYear: currentPet ? pets[currentPet].petName : '',
-      ageMonth: currentPet ? pets[currentPet].petName : '',
-      notes: currentPet ? pets[currentPet].petName : '',
+      petType: currentPet ? pets[currentPet].petType : '',
+      petGender: currentPet ? pets[currentPet].petGender : '',
+      castration: currentPet ? pets[currentPet].castration : '',
+      breed: currentPet ? pets[currentPet].breed : '',
+      color: currentPet ? pets[currentPet].color : '',
+      ageYear: currentPet ? pets[currentPet].ageYear : '',
+      ageMonth: currentPet ? pets[currentPet].ageMonth : '',
+      notes: currentPet ? pets[currentPet].notes : '',
     },
     validationSchema: Yup.object({
       petType: Yup.string()

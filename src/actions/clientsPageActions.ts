@@ -119,9 +119,10 @@ export class ClientsActionCreater {
     const currentClient = getState().clientsPage.currentClient
     const petsList = getState().clientsPage.clients[currentClient].pets
     const pets = await Promise.all(petsList.map(item => Api.findDocFromID<IPet>('pets', item)))
-    pets.forEach(item => dispatch(ClientsActionCreater.createSetPets(item)))
-    dispatch(ClientsActionCreater.createShowElement('petEditing', false))
+    const dispatchPets: {[index: string]: IPet} = pets.reduce((acc, item) => ({...acc, ...item}), {})
+    dispatch(ClientsActionCreater.createSetPets(dispatchPets))
     dispatch(ClientsActionCreater.createShowElement('showNewPetForm', false))
+    dispatch(ClientsActionCreater.createShowElement('petEditing', false))
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }
 

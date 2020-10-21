@@ -4,10 +4,11 @@ import {PetCardActionType, TAction} from '../actions/petCardActions'
 
 const initState = {
   showDiagnosesList: false,
+  showDoctorList: false,
   saved: false,
 }
 
-export type TStateBoolData = 'showDiagnosesList' | 'saved'
+export type TStateBoolData = 'showDiagnosesList' | 'saved' | 'showDoctorList'
 
 export type TPetCardPageState = typeof initState
 

@@ -1,3 +1,7 @@
+import {AppAction} from '../redusers'
+import {Api} from '../api'
+import {TStaticDataState} from '../redusers/staticDataReduser'
+
 export class StaticDataActionType {
   static ADD_PET_TYPE = 'ADD_PET_TYPE' as const
   static REMOVE_PET_TYPE = 'REMOVE_PET_TYPE' as const
@@ -10,19 +14,32 @@ export class StaticDataActionType {
 export class StaticDataActionCreater {
   static createAddPetType = (petType: string) =>
     ({ type: StaticDataActionType.ADD_PET_TYPE, pyload: petType })
-  
+
   static createRemovePetType = (petsType: string[]) =>
     ({ type: StaticDataActionType.REMOVE_PET_TYPE, pyload: petsType })
-  
-  static createAddBreed = (breed: string) =>
-    ({ type: StaticDataActionType.ADD_BREED, pyload: breed })
-  
-  static createRemoveBreed = (breeds: string[]) =>
-    ({ type: StaticDataActionType.REMOVE_BREED, pyload: breeds })
+
+  static createAddBreed = (breed: string, currentPetType: string) =>
+    ({ type: StaticDataActionType.ADD_BREED, pyload: { breed, currentPetType} })
+
+  static createRemoveBreed = (breeds: string[], currentPetType: string) =>
+    ({ type: StaticDataActionType.REMOVE_BREED, pyload: {breeds, currentPetType} })
 
   static createAddDiagnoses = (diagnose: string) =>
     ({ type: StaticDataActionType.ADD_DIAGNOSES, pyload: diagnose })
-  
+
   static createRemoveDiagnoses = (diagnoses: string[]) =>
     ({ type: StaticDataActionType.REMOVE_DIAGNOSES, pyload: diagnoses })
+
+  static createGetStatickData = (): AppAction => async dispatch => {
+    const result = await Api.getAll<TStaticDataState>('staticData')
+    // dispatch(StaticDataActionCreater.createAddPetType(result))
+  }
 }
+
+export type TAction =
+  | ReturnType<typeof StaticDataActionCreater.createAddPetType>
+  | ReturnType<typeof StaticDataActionCreater.createRemovePetType>
+  | ReturnType<typeof StaticDataActionCreater.createAddBreed>
+  | ReturnType<typeof StaticDataActionCreater.createRemoveBreed>
+  | ReturnType<typeof StaticDataActionCreater.createAddDiagnoses>
+  | ReturnType<typeof StaticDataActionCreater.createRemoveDiagnoses>

@@ -30,11 +30,7 @@ interface IpartState {
   }
 }
 
-type Props = {
-  location: { pathname: string }
-}
-
-export const Clients: React.FC<Props> = ({location: {pathname}}) => {
+export const Clients: React.FC<{}> = () => {
   const {partState: {
     showNewClientForm, showNewPetForm, IsFetching, showPetTypeOptions,
     showBreedOptions, selectedPetType, petType, breed,

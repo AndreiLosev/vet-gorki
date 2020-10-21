@@ -42,7 +42,7 @@ export class Api {
     await db.collection(collection).doc(id).set(data)
 
   static findDocsFrom = async <T>(collection: string, search: string, fild: string) => {
-    const result = await db.collection('clients').orderBy(fild).startAt(search).endAt(search+"\uf8ff").get()
+    const result = await db.collection(collection).orderBy(fild).startAt(search).endAt(search+"\uf8ff").get()
     const returnData = {} as {[x: string]: T}
     result.forEach(item => {
       if (item.data()) {

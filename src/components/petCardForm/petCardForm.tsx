@@ -9,6 +9,7 @@ import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
 import {Lib} from '../../utilites/lib'
+import { FormFildAddOptions } from '../formFildAddOptions/formFildAddOptions'
 
 interface IpartState {
   editor: {shortData: TShortData},
@@ -97,13 +98,14 @@ export const PetCardForm = () => {
         />
       </div>
       <div className={stls.wrapp}>
-        <FormFildWithOptions
+        <FormFildAddOptions
           placeholder="Врач" tooltip="Врач"
           value={shortData.doctor}
           onChange={(e: React.ChangeEvent<any>) =>
             dispatch(EditorActionCreater.createSetShortData('doctor', e.target.value))}
             setValue={(option: string) => dispatch(EditorActionCreater.createSetShortData('doctor', option))}
           options={staticData.doctor}
+          addOptions={() => dispatch(PetCardsActionCreater.createSetBoolData('showDoctorList', true))}
         />
       </div>
       <div className={stls.DateBirth}>

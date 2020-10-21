@@ -15,22 +15,33 @@ import {PetCardsActionCreater} from '../../actions/petCardActions'
 
 
 interface IpartState {
-  petCardPage: { showDiagnosesList: boolean },
-  staticData: { diagnoses: string[] },
+  petCardPage: {
+    showDiagnosesList: boolean,
+    showDoctorList: boolean,
+  },
+  staticData: {
+    diagnoses: string[],
+    doctor: string[],
+  },
   editor: { shortData: TShortData },
   clientsPage: { currentPet: string },
 }
 
-export const PetCard: React.FC<{}> = (props) => {
-  const {partState: {showDiagnosesList, diagnoses, shortData, currentPet}, dispatch} = useDispatchSelect(
-    (partSate: IpartState) => ({
-      showDiagnosesList: partSate.petCardPage.showDiagnosesList,
-      diagnoses: partSate.staticData.diagnoses,
-      shortData: partSate.editor.shortData,
-      currentPet: partSate.clientsPage.currentPet,
-    }),
+export const PetCard: React.FC<{}> = () => {
+  const {partState: {
+    showDiagnosesList, diagnoses, shortData, currentPet, showDoctorList, doctor,
+  }, dispatch} = useDispatchSelect(
+      (partSate: IpartState) => ({
+        showDiagnosesList: partSate.petCardPage.showDiagnosesList,
+        showDoctorList: partSate.petCardPage.showDoctorList,
+        diagnoses: partSate.staticData.diagnoses,
+        doctor: partSate.staticData.doctor,
+        shortData: partSate.editor.shortData,
+        currentPet: partSate.clientsPage.currentPet,
+      }),
   )
   const [showDiagnosesListInside, showDiagnosesListOutsid] = useShowNicely(showDiagnosesList, 1000)
+  const [showDoctorListInside, showDoctorListOutsid] = useShowNicely(showDoctorList, 1000)
   const [show, setShow] = React.useState(false)
   React.useEffect(() => { setShow(true) }, [])
   return (
@@ -51,6 +62,14 @@ export const PetCard: React.FC<{}> = (props) => {
         pressClose={() => dispatch(PetCardsActionCreater.createSetBoolData('showDiagnosesList', false))}
         pressRemove={() => null}
         tooltip="диагноз"
+      /> : null}
+      {showDoctorListInside ? <WindowForAddingOptions
+        visible={showDoctorListOutsid}
+        options={doctor}
+        pressAddOptions={() => null}
+        pressClose={() => dispatch(PetCardsActionCreater.createSetBoolData('showDoctorList', false))}
+        pressRemove={() => null}
+        tooltip="Врачь"
       /> : null}
       <div className={cn('content')}>
         <PetCardForm />
