@@ -1,6 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import './petCard.scss'
+import {Redirect} from 'react-router-dom'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {useShowNicely} from '../../utilites/useShowNicely'
 import {PetCardHeader} from '../../components/petCardHeader/petCardHeader'
@@ -16,20 +17,25 @@ import {PetCardsActionCreater} from '../../actions/petCardActions'
 interface IpartState {
   petCardPage: { showDiagnosesList: boolean },
   staticData: { diagnoses: string[] },
-  editor: {shortData: TShortData}
+  editor: { shortData: TShortData },
+  clientsPage: { currentPet: string },
 }
 
-export const PetCard: React.FC<{}> = () => {
-  const {partState: {showDiagnosesList, diagnoses, shortData}, dispatch} = useDispatchSelect(
+export const PetCard: React.FC<{}> = (props) => {
+  const {partState: {showDiagnosesList, diagnoses, shortData, currentPet}, dispatch} = useDispatchSelect(
     (partSate: IpartState) => ({
       showDiagnosesList: partSate.petCardPage.showDiagnosesList,
       diagnoses: partSate.staticData.diagnoses,
       shortData: partSate.editor.shortData,
+      currentPet: partSate.clientsPage.currentPet,
     }),
   )
   const [showDiagnosesListInside, showDiagnosesListOutsid] = useShowNicely(showDiagnosesList, 1000)
+  const [show, setShow] = React.useState(false)
+  React.useEffect(() => { setShow(true) }, [])
   return (
-    <div className={cn('petCardConteiner')}>
+    <div className={cn('petCardConteiner', {'activePetCard': show}, {'deactivePetCard': !show})}>
+      {currentPet ? null : <Redirect to='/clients' />}
       <PetCardHeader />
       {showDiagnosesListInside ? <WindowForAddingOptions
         visible={showDiagnosesListOutsid}
@@ -39,10 +45,10 @@ export const PetCard: React.FC<{}> = () => {
             'diagnosis',
             `${shortData.diagnosis}${shortData.diagnosis ? '\n' : ''}${selectedOptions}`,
           ))
-          dispatch(PetCardsActionCreater.createShowDiagnosesList(false))
+          dispatch(PetCardsActionCreater.createSetBoolData('showDiagnosesList', false))
         }}
         pressAddOptions={() => null}
-        pressClose={() => dispatch(PetCardsActionCreater.createShowDiagnosesList(false))}
+        pressClose={() => dispatch(PetCardsActionCreater.createSetBoolData('showDiagnosesList', false))}
         pressRemove={() => null}
         tooltip="диагноз"
       /> : null}

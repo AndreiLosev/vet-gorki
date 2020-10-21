@@ -4,6 +4,7 @@ import {Editor, EditorState, RichUtils} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {EditorActionCreater} from '../../actions/editorActions'
+import {PetCardsActionCreater} from '../../actions/petCardActions'
 import {TEditorState} from '../../redusers/editorReduser'
 import {FontButtons, UpperLowerIndex, FontSize} from './fontButtins'
 import {TextAlignmentButtins} from './textAlignmentButtons'
@@ -17,6 +18,7 @@ export const EditorConteiner = () => {
   const {partState: {editor, }, dispatch} = useDispatchSelect((partSate: IpartState) => ({editor: partSate.editor}))
   const nextEditorState = (editorState: EditorState) => dispatch(EditorActionCreater.createUpdatePage(editorState))
   const editorRef = React.useRef<any>(null)
+  React.useEffect(() => { dispatch(PetCardsActionCreater.createSetBoolData('saved', false)) }, [editor, dispatch])
   const handleKeyCommand = (command: any) => {
     const newState = RichUtils.handleKeyCommand(editor[editor.activeEditor], command);
     if (newState) {

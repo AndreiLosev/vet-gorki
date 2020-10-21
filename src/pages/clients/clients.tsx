@@ -30,7 +30,11 @@ interface IpartState {
   }
 }
 
-export const Clients: React.FC = () => {
+type Props = {
+  location: { pathname: string }
+}
+
+export const Clients: React.FC<Props> = ({location: {pathname}}) => {
   const {partState: {
     showNewClientForm, showNewPetForm, IsFetching, showPetTypeOptions,
     showBreedOptions, selectedPetType, petType, breed,
@@ -50,8 +54,10 @@ export const Clients: React.FC = () => {
   const [showPetFormInside, showPetFormOutsid] = useShowNicely(showNewPetForm, 700)
   const [showPetTypeOptionsInside, showPetTypeOptionsOutsid] = useShowNicely(showPetTypeOptions, 1000)
   const [showBreedOptionsInside, showBreedOptionsOutsid] = useShowNicely(showBreedOptions, 1000)
+  const [show, setShow] = React.useState(false)
+  React.useEffect(() => { setShow(true) }, [])
   return (
-    <div className={cn('clientsConteiner')}>
+    <div className={cn('clientsConteiner', {'activeClients': show}, {'deactiveClients': !show})}>
       {IsFetching ? <LoadingSpiner /> : null}
       {showPetTypeOptionsInside ? <WindowForAddingOptions
         visible={showPetTypeOptionsOutsid}

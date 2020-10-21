@@ -39,7 +39,7 @@ export const ClientsHeader = () => {
       <SquareButton color="white" symbol="+" size="size2" tooltip="Создать нового клиента"
         pressHeadnler={() => dispatch(ClientsActionCreater.createShowElement('showNewClientForm', true))}
       />
-      <SquareButton color="white" symbol="&#9997;" size="size2" tooltip="Редактировать выброного клиента"
+      <SquareButton color="white" symbol="♺" size="size2" tooltip="Редактировать выброного клиента"
         pressHeadnler={() => {
           if (currentClient) dispatch(ClientsActionCreater.createShowElement('clientEditing', true))
         }}

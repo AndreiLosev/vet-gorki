@@ -1,4 +1,5 @@
 import {Reducer, AnyAction} from 'redux'
+import {StaticDataActionType} from '../actions/staticDataActions'
 
 
 const initState = {

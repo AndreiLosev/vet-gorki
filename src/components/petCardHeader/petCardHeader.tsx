@@ -5,7 +5,7 @@ import {SquareButton} from '../squareButton/squareButton'
 
 
 export const PetCardHeader = () => {
-  const history = useHistory();
+  const history = useHistory()
   return (
     <header className={stls.tooolbar}>
       <SquareButton color="white" symbol="&#8629;" size="size2" tooltip="Назад"

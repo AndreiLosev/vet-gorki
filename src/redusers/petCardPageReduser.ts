@@ -3,15 +3,18 @@ import {PetCardActionType, TAction} from '../actions/petCardActions'
 
 
 const initState = {
-  showDiagnosesList: false as boolean,
+  showDiagnosesList: false,
+  saved: false,
 }
+
+export type TStateBoolData = 'showDiagnosesList' | 'saved'
 
 export type TPetCardPageState = typeof initState
 
 export const petCardPageReduser: Reducer<PetCardActionType, TAction> = (state=initState, action) => {
   switch (action.type) {
-    case PetCardActionType.SHOW_DIAGNOSES_LIST:
-      return {...state, showDiagnosesList: action.pyload}
+    case PetCardActionType.SET_BOOL_DATA:
+      return {...state, [action.pyload.fild]: action.pyload.state}
     default:
       return state
   }

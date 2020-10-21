@@ -1,13 +1,15 @@
+import {TStateBoolData} from '../redusers/petCardPageReduser'
+
 export class PetCardActionType {
-  static SHOW_DIAGNOSES_LIST = 'SHOW_DIAGNOSES_LIST' as const
+  static SET_BOOL_DATA = '' as const
 }
   
 export class PetCardsActionCreater {
-  static createShowDiagnosesList = (show: boolean) => {
-    return {type: PetCardActionType.SHOW_DIAGNOSES_LIST, pyload: show}
-  }
+
+  static createSetBoolData = (fild: TStateBoolData, state: boolean) =>
+    ({ type: PetCardActionType.SET_BOOL_DATA, pyload: { fild, state } })
 }
 
 export type TAction =
-  | ReturnType<typeof PetCardsActionCreater.createShowDiagnosesList>
+  | ReturnType<typeof PetCardsActionCreater.createSetBoolData>
     

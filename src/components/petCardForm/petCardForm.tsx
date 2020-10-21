@@ -87,7 +87,7 @@ export const PetCardForm = () => {
         <div className={stls.header}>
           <div>Диагноз:</div>
           <SquareButton color="green" symbol="+" size="size1"
-            pressHeadnler={() => dispatch(PetCardsActionCreater.createShowDiagnosesList(true))}
+            pressHeadnler={() => dispatch(PetCardsActionCreater.createSetBoolData('showDiagnosesList', true))}
           />
         </div>
         <textarea
@@ -109,6 +109,10 @@ export const PetCardForm = () => {
       <div className={stls.DateBirth}>
         <span>Возраст:</span>
         <span>99л 6м</span>
+      </div>
+      <div className={stls.DateBirth}>
+        <span>Кострация:</span>
+        <span>Да</span>
       </div>
     </div>
   )
