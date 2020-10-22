@@ -3,6 +3,7 @@ import cn from 'classnames'
 import './clients.scss'
 import {useShowNicely} from '../../utilites/useShowNicely'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
+import {StaticDataActionCreater} from '../../actions/staticDataActions'
 import {ClientsHeader} from '../../components/clientsHeader/clientsHeader'
 import {NewClientForm} from '../../components/newClientForm/newClientForm'
 import {ClientsTable} from '../../components/clientsTable/clientsTable'
@@ -59,16 +60,20 @@ export const Clients: React.FC<{}> = () => {
         visible={showPetTypeOptionsOutsid}
         tooltip="Вид"
         options={petType}
-        pressAddOptions={() => null}
-        pressRemove={() => null}
+        pressAddOptions={(options: string[]) =>
+          dispatch(StaticDataActionCreater.createSetNewData('petType', options))}
+        pressRemove={(options: string[]) =>
+          dispatch(StaticDataActionCreater.createSetNewData('petType', options, true))}
         pressClose={() => dispatch(ClientsActionCreater.createShowElement('showPetTypeOptions', false))}
       /> : null}
       {showBreedOptionsInside ? <WindowForAddingOptions
         visible={showBreedOptionsOutsid}
         tooltip="Вид"
         options={breed[selectedPetType] ? breed[selectedPetType] : []}
-        pressAddOptions={() => null}
-        pressRemove={() => null}
+        pressAddOptions={(options: string[]) =>
+          dispatch(StaticDataActionCreater.createSetNewData(undefined, options, false, selectedPetType))}
+        pressRemove={(options: string[]) =>
+          dispatch(StaticDataActionCreater.createSetNewData(undefined, options, true, selectedPetType))}
         pressClose={() => dispatch(ClientsActionCreater.createShowElement('showBreedOptions', false))}
       /> : null}
       <ClientsHeader />

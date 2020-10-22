@@ -7,7 +7,6 @@ import {EditorActionCreater} from '../../actions/editorActions'
 import {PetCardsActionCreater} from '../../actions/petCardActions'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
-import {FormFildWithOptions} from '../formFieldWithOptions/formFieldWithOptions'
 import {Lib} from '../../utilites/lib'
 import { FormFildAddOptions } from '../formFildAddOptions/formFildAddOptions'
 
@@ -65,7 +64,7 @@ export const PetCardForm = () => {
         </div>
       </div>
       <div className={stls.wrapp}>
-        <FormFildWithOptions
+        <FormFildAddOptions
           placeholder="Цель обращения" tooltip="Цель обращения"
           value={shortData.goalOfRequest}
           onChange={(e: React.ChangeEvent<any>) =>
@@ -75,7 +74,7 @@ export const PetCardForm = () => {
         />
       </div>
       <div className={stls.wrapp}>
-        <FormFildWithOptions
+        <FormFildAddOptions
           placeholder="Результат посещения" tooltip="Результат посещения"
           value={shortData.visitResult}
           onChange={(e: React.ChangeEvent<any>) =>

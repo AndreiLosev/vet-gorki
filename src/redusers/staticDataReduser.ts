@@ -3,8 +3,8 @@ import {StaticDataActionType, TAction} from '../actions/staticDataActions'
 
 
 const initState = {
-  goalOfRequest: ['консультация', 'вакцинация', 'операция', 'усыпление'],
-  visitResult: ['стало лучьше', 'стало хуже', 'сдох', 'cдох как и планировалось'],
+  goalOfRequest: [] as string[],
+  visitResult: [] as string[],
   doctor: [] as string[],
   diagnoses: [] as string[],
   breed: {} as { [index: string]: string[] },
@@ -16,37 +16,20 @@ export type TStaticDataState = typeof initState
 export const staticDataReduser: Reducer<TStaticDataState, TAction> = (state=initState, action) => {
   switch (action.type) {
     case StaticDataActionType.ADD_PET_TYPE:
-      return {...state, petType: state.petType.concat(action.pyload)}
-    case StaticDataActionType.REMOVE_PET_TYPE:
-      return {...state, petType: state.petType.filter(item => !action.pyload.includes(item))}
+      return {...state, petType: action.pyload}
     case StaticDataActionType.ADD_BREED:
-      const currentBreed = state.breed[action.pyload.currentPetType]
-        ? [...state.breed[action.pyload.currentPetType]]
-        : []
       return {
         ...state,
-        breed: {
-          ...state.breed,
-          [action.pyload.currentPetType]: currentBreed.concat(action.pyload.breeds),
-        },
-      }
-    case StaticDataActionType.REMOVE_BREED:
-      return {
-        ...state,
-        breed: {
-          ...state.breed,
-          [action.pyload.currentPetType]: state.breed[action.pyload.currentPetType]
-            .filter(item => !action.pyload.breeds.includes(item))
-        },
+        breed: {...state.breed, [action.pyload.currentPetType]: action.pyload.breeds},
       }
     case StaticDataActionType.ADD_DIAGNOSES:
-      return {...state, diagnoses: state.diagnoses.concat(action.pyload)}
-    case StaticDataActionType.REMOVE_DIAGNOSES:
-      return {...state, diagnoses: state.diagnoses.filter(item => !action.pyload.includes(item))}
+      return {...state, diagnoses: action.pyload}
     case StaticDataActionType.ADD_DOCTOR:
-      return {...state, doctor: state.doctor.concat(action.pyload)}
-    case StaticDataActionType.REMOVE_DOCTOR:
-      return {...state, doctor: state.doctor.filter(item => !action.pyload.includes(item))}
+      return {...state, doctor: action.pyload}
+    case StaticDataActionType.ADD_GOAL_OF_REQUEST:
+      return {...state, goalOfRequest: action.pyload}
+    case StaticDataActionType.ADD_VISIT_RESULT:
+      return {...state, visitResult: action.pyload}
     default:
       return state
   }

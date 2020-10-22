@@ -5,6 +5,8 @@ import {PetCardActionType, TAction} from '../actions/petCardActions'
 const initState = {
   showDiagnosesList: false,
   showDoctorList: false,
+  showGoalOfRequest: false,
+  showVisitResult: false,
   saved: false,
 }
 

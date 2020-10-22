@@ -19,15 +19,16 @@ export const WindowForAddingOptions: React.FC<Props> = ({
   const [search, setSearch] = React.useState('')
   const [cheked, setCheked] = React.useState<boolean[]>(options.map(_ => false))
   const actualDuagnoses = options.filter(item => item.match(new RegExp(search, 'i'))?.input)
-  const selectedOptions = actualDuagnoses.filter((_, index) => cheked[index]).join('\n')
+  const selectedOptions = actualDuagnoses.filter((_, index) => cheked[index])
+  const selectedOptionsStr = selectedOptions.join('\n')
   return (
     <div className={cn(stls.conteiner, {[stls.activDiagnoses]: visible}, {[stls.deactivDiagnoses]: !visible})}>
       <div className={stls.toolbar}>
         <SquareButton color={'white'} symbol="+" size="size2"
-          pressHeadnler={() => pressAddOptions(actualDuagnoses)} tooltip={`Добавить ${tooltip}`}
+          pressHeadnler={() => pressAddOptions([search])} tooltip={`Добавить ${tooltip}`}
         />
         <SquareButton color={'white'} symbol="&#215;" size="size2"
-          pressHeadnler={() => pressRemove(actualDuagnoses)} tooltip={`Удалить ${tooltip}`}
+          pressHeadnler={() => pressRemove(selectedOptions)} tooltip={`Удалить ${tooltip}`}
         />
         <input className={stls.search} type="text" placeholder={tooltip}
           value={search} onChange={e => setSearch(e.target.value)}
@@ -41,13 +42,13 @@ export const WindowForAddingOptions: React.FC<Props> = ({
               nextState[index] = !prev[index]
               return nextState
             })}>
-            <input type="checkbox" checked={cheked[index]} readOnly={true}/>
+            <input type="checkbox" checked={cheked[index]} readOnly={true} disabled={true}/>
             <span>{item}</span>
           </div>)}
       </div>
       <div className={stls.footer}>
         {pressAdd ? <div className={stls.button}
-          onClick={() => pressAdd ? pressAdd(selectedOptions) : null}>
+          onClick={() => pressAdd ? pressAdd(selectedOptionsStr) : null}>
           Добавить
         </div> : null}
         <div className={stls.button}

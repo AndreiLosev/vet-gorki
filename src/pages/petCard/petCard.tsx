@@ -12,16 +12,21 @@ import {WindowForAddingOptions} from '../../components/windowForAddingOptions/wi
 import {TShortData} from '../../redusers/editorReduser'
 import {EditorActionCreater} from '../../actions/editorActions'
 import {PetCardsActionCreater} from '../../actions/petCardActions'
+import {StaticDataActionCreater} from '../../actions/staticDataActions'
 
 
 interface IpartState {
   petCardPage: {
     showDiagnosesList: boolean,
     showDoctorList: boolean,
+    showGoalOfRequest: boolean,
+    showVisitResult: boolean,
   },
   staticData: {
     diagnoses: string[],
     doctor: string[],
+    goalOfRequest: string[],
+    visitResult: string[],
   },
   editor: { shortData: TShortData },
   clientsPage: { currentPet: string },
@@ -30,47 +35,70 @@ interface IpartState {
 export const PetCard: React.FC<{}> = () => {
   const {partState: {
     showDiagnosesList, diagnoses, shortData, currentPet, showDoctorList, doctor,
+    showGoalOfRequest, showVisitResult, goalOfRequest, visitResult,
   }, dispatch} = useDispatchSelect(
       (partSate: IpartState) => ({
         showDiagnosesList: partSate.petCardPage.showDiagnosesList,
         showDoctorList: partSate.petCardPage.showDoctorList,
+        showGoalOfRequest: partSate.petCardPage.showGoalOfRequest,
+        showVisitResult: partSate.petCardPage.showVisitResult,
         diagnoses: partSate.staticData.diagnoses,
         doctor: partSate.staticData.doctor,
         shortData: partSate.editor.shortData,
         currentPet: partSate.clientsPage.currentPet,
+        goalOfRequest: partSate.staticData.goalOfRequest,
+        visitResult: partSate.staticData.visitResult,
       }),
   )
   const [showDiagnosesListInside, showDiagnosesListOutsid] = useShowNicely(showDiagnosesList, 1000)
   const [showDoctorListInside, showDoctorListOutsid] = useShowNicely(showDoctorList, 1000)
+  const [showGoalOfRequestInside, showGoalOfRequestOutsid] = useShowNicely(showGoalOfRequest, 1000)
+  const [showVisitResultInside, showVisitResultOutsid] = useShowNicely(showVisitResult, 1000)
   const [show, setShow] = React.useState(false)
   React.useEffect(() => { setShow(true) }, [])
+  const data = [
+    {
+      visible1: showDiagnosesListInside, visible: showDiagnosesListOutsid, options: diagnoses, tooltip: "диагноз",
+      pressAdd : (selectedOptions: string) => {
+        dispatch(EditorActionCreater.createSetShortData(
+          'diagnosis',
+          `${shortData.diagnosis}${shortData.diagnosis ? '\n' : ''}${selectedOptions}`,
+        ))
+        dispatch(PetCardsActionCreater.createSetBoolData('showDiagnosesList', false))
+      },
+      pressAddOptions: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData('diagnoses', options)),
+      pressClose: () => dispatch(PetCardsActionCreater.createSetBoolData('showDiagnosesList', false)),
+      pressRemove: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData('doctor', options, true))
+    },
+    {
+      visible1: showDoctorListInside, visible: showDoctorListOutsid, options: doctor, tooltip: "Врачь",
+      pressAddOptions: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData('doctor', options)),
+      pressClose: () => dispatch(PetCardsActionCreater.createSetBoolData('showDoctorList', false)),
+      pressRemove: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData('doctor', options, true)),
+    },
+    {
+      visible1: showGoalOfRequestInside, visible: showGoalOfRequestOutsid,
+      options: goalOfRequest, tooltip: "Цель везита",
+      pressAddOptions: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData('goalOfRequest', options)),
+      pressClose: () => dispatch(PetCardsActionCreater.createSetBoolData('showDoctorList', false)),
+      pressRemove: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData('doctor', options, true)),
+    }
+  ]
   return (
     <div className={cn('petCardConteiner', {'activePetCard': show}, {'deactivePetCard': !show})}>
+      {data.map(item => item.visible1 ? <WindowForAddingOptions key={item.tooltip}
+        visible={item.visible} options={item.options} tooltip={item.tooltip}
+        pressAddOptions={item.pressAddOptions} pressAdd={item.pressAdd}
+        pressRemove={item.pressRemove} pressClose={item.pressClose}
+      /> : null)}
       {currentPet ? null : <Redirect to='/clients' />}
       <PetCardHeader />
-      {showDiagnosesListInside ? <WindowForAddingOptions
-        visible={showDiagnosesListOutsid}
-        options={diagnoses}
-        pressAdd={(selectedOptions: string) => {
-          dispatch(EditorActionCreater.createSetShortData(
-            'diagnosis',
-            `${shortData.diagnosis}${shortData.diagnosis ? '\n' : ''}${selectedOptions}`,
-          ))
-          dispatch(PetCardsActionCreater.createSetBoolData('showDiagnosesList', false))
-        }}
-        pressAddOptions={() => null}
-        pressClose={() => dispatch(PetCardsActionCreater.createSetBoolData('showDiagnosesList', false))}
-        pressRemove={() => null}
-        tooltip="диагноз"
-      /> : null}
-      {showDoctorListInside ? <WindowForAddingOptions
-        visible={showDoctorListOutsid}
-        options={doctor}
-        pressAddOptions={() => null}
-        pressClose={() => dispatch(PetCardsActionCreater.createSetBoolData('showDoctorList', false))}
-        pressRemove={() => null}
-        tooltip="Врачь"
-      /> : null}
       <div className={cn('content')}>
         <PetCardForm />
         <div className={cn('longData')}>
