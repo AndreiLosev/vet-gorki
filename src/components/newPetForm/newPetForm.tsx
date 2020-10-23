@@ -58,15 +58,15 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
   const owner = clients[currentClient]
   const formik = useFormik<IPetFormValues>({
     initialValues: {
-      petName: currentPet ? pets[currentPet].petName : '',
-      petType: currentPet ? pets[currentPet].petType : '',
-      petGender: currentPet ? pets[currentPet].petGender : '',
-      castration: currentPet ? pets[currentPet].castration : '',
-      breed: currentPet ? pets[currentPet].breed : '',
-      color: currentPet ? pets[currentPet].color : '',
-      ageYear: currentPet ? pets[currentPet].ageYear : '',
-      ageMonth: currentPet ? pets[currentPet].ageMonth : '',
-      notes: currentPet ? pets[currentPet].notes : '',
+      petName: (currentPet && petEditing) ? pets[currentPet].petName : '',
+      petType: (currentPet && petEditing) ? pets[currentPet].petType : '',
+      petGender: (currentPet && petEditing) ? pets[currentPet].petGender : '',
+      castration: (currentPet && petEditing) ? pets[currentPet].castration : '',
+      breed: (currentPet && petEditing) ? pets[currentPet].breed : '',
+      color: (currentPet && petEditing) ? pets[currentPet].color : '',
+      ageYear: (currentPet && petEditing) ? Lib.convertDateOfBirthToAge(new Date(pets[currentPet].age)).year : '',
+      ageMonth: (currentPet && petEditing) ? Lib.convertDateOfBirthToAge(new Date(pets[currentPet].age)).month : '',
+      notes: (currentPet && petEditing) ? pets[currentPet].notes : '',
     },
     validationSchema: Yup.object({
       petType: Yup.string()
@@ -75,7 +75,7 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
         .required('Это поле обязательно для заполнения'),
         ageYear: Yup.number()
           .typeError('должго быть числом')
-          .positive('дожно быть положительное число')
+          .min(0, 'дожно быть не меньше 0')
           .integer('должно быть целое число')
           .max(50, 'дожно быть не больше 50'),
         ageMonth: Yup.number()
@@ -91,10 +91,16 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
           .min(2, 'должно быть Да или Нет')
     }),
     onSubmit: values => {
+      const age = +Lib.convertAgeToDateOfBirth(values.ageYear, values.ageMonth)
+      const visids = pets[currentPet] ? pets[currentPet].visits : []
+      const sentData = Object.entries(values).reduce((acc, item) => {
+        if (item[0] === 'ageYear' || item[0] === 'ageMonth') return acc
+        else return {...acc, [item[0]]: item[1]}
+      }, {age: age, visits: visids} as IPet)
       if (petEditing) dispatch(
-        ClientsActionCreater.createUpdatePet({...values, visits: pets[currentPet].visits}, currentPet)
+        ClientsActionCreater.createUpdatePet(sentData, currentPet)
       )
-      else dispatch(ClientsActionCreater.createAddPet({...values, visits: [] as string[]}))
+      else dispatch(ClientsActionCreater.createAddPet(sentData))
     },
   })
   React.useEffect(() => {
@@ -110,8 +116,11 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
       )}
       onSubmit={formik.handleSubmit}>
       <div className={stls.closeForm}>
-        <SquareButton color="green" symbol="&#215;" size="size1" tooltip={undefined}
-          pressHeadnler={() => dispatch(ClientsActionCreater.createShowElement('showNewPetForm', false))}
+        <SquareButton color="green" symbol="&#215;" size="size1"
+          pressHeadnler={() => {
+            dispatch(ClientsActionCreater.createShowElement('showNewPetForm', false))
+            dispatch(ClientsActionCreater.createShowElement('petEditing', false))
+          }}
         />
       </div>
       <div className={stls.wrapp}>

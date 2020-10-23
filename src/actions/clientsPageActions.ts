@@ -1,6 +1,5 @@
 import {AppAction} from '../redusers'
 import {TElementsName, IClient, IPet} from '../redusers/clientsPageReduser'
-import {IPetFormValues} from '../components/newPetForm/newPetForm'
 import {Api} from '../api'
 
 export class ClientsActionType {
@@ -97,8 +96,8 @@ export class ClientsActionCreater {
     client.pets.push(petID)
     Api.updateDoc('clients', currentClient, client)
     const oldPets = getState().clientsPage.pets
-    const getNewPet = await Api.findDocFromID<IPetFormValues>('pets', petID)
-    const dispatchPets = {...oldPets, [petID]: {...getNewPet[petID]} as IPet}
+    const getNewPet = await Api.findDocFromID<IPet>('pets', petID)
+    const dispatchPets = {...oldPets, [petID]: {...getNewPet[petID]}}
     dispatch(ClientsActionCreater.createSetPets(dispatchPets))
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
     dispatch(ClientsActionCreater.createShowElement('showNewPetForm', false))

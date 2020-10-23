@@ -59,7 +59,7 @@ export class Lib {
     const ageMonth = monthNow - month
     const ageDay = dayNow - day
     const ageMonthDay = Math.round((ageMonth + ageDay / 30) * 100) / 100
-    if (ageMonthDay < 0) return [ageYear - 1, 12 + ageMonthDay]
-    else return [ageYear, ageMonthDay]
+    if (ageMonthDay < 0) return {year: (ageYear - 1).toString(), month: (12 + ageMonthDay).toString()}
+    else return {year: ageYear.toString(), month: ageMonthDay.toString()}
   }
 }

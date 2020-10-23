@@ -5,10 +5,13 @@ import {IPetFormValues} from '../components/newPetForm/newPetForm'
 
 
 export interface IClient extends IinitialClientForm {
+  
   pets: string[]
 }
 
-export interface IPet extends IPetFormValues {
+type IPet1 = Omit<IPetFormValues, 'ageYear'> 
+export interface IPet extends Omit<IPet1, 'ageMonth'> {
+  age: number
   visits: string[]
 }
 
