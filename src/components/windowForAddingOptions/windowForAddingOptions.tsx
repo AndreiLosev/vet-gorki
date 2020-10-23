@@ -17,19 +17,26 @@ export const WindowForAddingOptions: React.FC<Props> = ({
   visible, options, pressAdd, pressAddOptions, pressRemove, pressClose, tooltip
 }) => {
   const [search, setSearch] = React.useState('')
-  const [cheked, setCheked] = React.useState<boolean[]>(options.map(_ => false))
+  const [cheked, setCheked] = React.useState<{[index: string]: boolean}>(
+    options.reduce((acc, item) => ({...acc, ...{[item]: false}}), {})
+  )
   const actualDuagnoses = options.filter(item => item.match(new RegExp(search, 'i'))?.input)
-  const selectedOptions = actualDuagnoses.filter((_, index) => cheked[index])
-  console.log(selectedOptions)
+  const selectedOptions = actualDuagnoses.filter(item => cheked[item])
   const selectedOptionsStr = selectedOptions.join('\n')
   return (
     <div className={cn(stls.conteiner, {[stls.activDiagnoses]: visible}, {[stls.deactivDiagnoses]: !visible})}>
       <div className={stls.toolbar}>
         <SquareButton color={'white'} symbol="+" size="size2"
-          pressHeadnler={() => pressAddOptions([search])} tooltip={`Добавить ${tooltip}`}
+          pressHeadnler={() => {
+            pressAddOptions([search])
+            setSearch('')
+          }} tooltip={`Добавить ${tooltip}`}
         />
         <SquareButton color={'white'} symbol="&#215;" size="size2"
-          pressHeadnler={() => pressRemove(selectedOptions)} tooltip={`Удалить ${tooltip}`}
+          pressHeadnler={() => {
+            pressRemove(selectedOptions)
+            setSearch('')
+          }} tooltip={`Удалить ${tooltip}`}
         />
         <input className={stls.search} type="text" placeholder={tooltip}
           value={search} onChange={e => setSearch(e.target.value)}
@@ -38,12 +45,8 @@ export const WindowForAddingOptions: React.FC<Props> = ({
       <div className={stls.content}>
         {actualDuagnoses.sort().map((item, index) => <div
             className={stls.item} key={item}
-            onClick={() => setCheked(prev => {
-              const nextState = [...prev]
-              nextState[index] = !prev[index]
-              return nextState
-            })}>
-            <input type="checkbox" checked={cheked[index]} readOnly={true} onChange={undefined}/>
+            onClick={() => setCheked(prev => ({...prev, [item]: !prev[item]}))}>
+            <input type="checkbox" checked={cheked[item]} readOnly={true} onClick={undefined}/>
             <span>{item}</span>
           </div>)}
       </div>
