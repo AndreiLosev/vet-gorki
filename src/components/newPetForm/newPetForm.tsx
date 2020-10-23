@@ -4,6 +4,7 @@ import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import cn from 'classnames'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
+import {Lib} from '../../utilites/lib'
 import {IClient, IPet} from '../../redusers/clientsPageReduser'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
@@ -79,9 +80,8 @@ export const NewPetForm: React.FC<Props> = ({visible}) => {
           .max(50, 'дожно быть не больше 50'),
         ageMonth: Yup.number()
           .typeError('должго быть числом')
-          .positive('дожно быть положительное число')
-          .integer('должно быть целое число')
-          .max(11, 'дожно быть не больше 11'),
+          .min(0, 'дожно быть не меньше 0')
+          .max(11.99, 'дожно быть не больше 11.99'),
         petGender: Yup.string()
           .matches(/Ж|М/i, 'Дожно быть М или Ж')
           .max(1, 'Дожно быть М или Ж'),

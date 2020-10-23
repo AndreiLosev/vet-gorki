@@ -20,6 +20,7 @@ const initState = {
   IsFetching: false,
   clientEditing: false,
   petEditing: false,
+  loggedIn: false,
   selectedPetType: '',
   currentClient: '',
   currentPet: '',
@@ -28,7 +29,7 @@ const initState = {
 }
 
 export type TElementsName = 'showNewClientForm' | 'showNewPetForm' | 'showPetTypeOptions' | 'showBreedOptions'
-  | 'IsFetching' | 'clientEditing' | 'petEditing'
+  | 'IsFetching' | 'clientEditing' | 'petEditing' | 'loggedIn'
 
 export type TClientsPageState = typeof initState
 

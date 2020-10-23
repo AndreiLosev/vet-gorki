@@ -1,6 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import './clients.scss'
+import {Redirect} from 'react-router-dom'
 import {useShowNicely} from '../../utilites/useShowNicely'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 import {StaticDataActionCreater} from '../../actions/staticDataActions'
@@ -23,6 +24,7 @@ interface IpartState {
     IsFetching: boolean,
     showPetTypeOptions: boolean,
     showBreedOptions: boolean,
+    loggedIn: boolean,
     selectedPetType: string,
   },
   staticData: {
@@ -34,7 +36,7 @@ interface IpartState {
 export const Clients: React.FC<{}> = () => {
   const {partState: {
     showNewClientForm, showNewPetForm, IsFetching, showPetTypeOptions,
-    showBreedOptions, selectedPetType, petType, breed,
+    showBreedOptions, selectedPetType, petType, breed, loggedIn,
   }, dispatch} = useDispatchSelect(
     (partSate: IpartState) => ({
       showNewClientForm: partSate.clientsPage.showNewClientForm,
@@ -45,6 +47,7 @@ export const Clients: React.FC<{}> = () => {
       selectedPetType: partSate.clientsPage.selectedPetType,
       petType: partSate.staticData.petType,
       breed: partSate.staticData.breed,
+      loggedIn: partSate.clientsPage.loggedIn,
     })
   )
   const [showClientFormInside, showClientFormOutsid] = useShowNicely(showNewClientForm, 700)
@@ -55,6 +58,7 @@ export const Clients: React.FC<{}> = () => {
   React.useEffect(() => { setShow(true) }, [])
   return (
     <div className={cn('clientsConteiner', {'activeClients': show}, {'deactiveClients': !show})}>
+      {loggedIn ? null : <Redirect to='/login' />}
       {IsFetching ? <LoadingSpiner /> : null}
       {showPetTypeOptionsInside ? <WindowForAddingOptions
         visible={showPetTypeOptionsOutsid}

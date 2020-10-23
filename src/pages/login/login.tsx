@@ -6,6 +6,7 @@ import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import {useHistory} from 'react-router-dom'
 import {StaticDataActionCreater} from '../../actions/staticDataActions'
+import {ClientsActionCreater} from '../../actions/clientsPageActions'
 import {FormFild} from '../../components/formFild/formFild'
 import {FormSubmit} from '../../components/formSubmit/formSubmit'
 
@@ -27,7 +28,7 @@ export const Login: React.FC = () => {
       password: Yup.string(),
     }),
     onSubmit: values => {
-      console.log(values)
+      dispatch(ClientsActionCreater.createShowElement('loggedIn', true))
       history.push('/clients')
     },
   })

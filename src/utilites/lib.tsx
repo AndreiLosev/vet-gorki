@@ -34,6 +34,32 @@ export class Lib {
     const x4 = phone.slice(8, 10)
     const x5 = phone.slice(10, 12)
     return `+${x1}(${x2}) ${x3} ${x4} ${x5}`
+  }
 
+  static convertAgeToDateOfBirth = (year: string, month: string) => {
+    const now = new Date()
+    const yearNow = now.getFullYear()
+    const monthNow = now.getMonth()
+    const dayNow = now.getDate()
+    const yearInt = +year
+    const monthInt = Math.floor(+month)
+    const dayInt = Math.round((+month - monthInt) * 30)
+    return new Date(yearNow - yearInt, monthNow - monthInt, dayNow - dayInt)
+  }
+
+  static convertDateOfBirthToAge = (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    const day = date.getDate()
+    const now = new Date()
+    const yearNow = now.getFullYear()
+    const monthNow = now.getMonth()
+    const dayNow = now.getDate()
+    const ageYear = yearNow - year
+    const ageMonth = monthNow - month
+    const ageDay = dayNow - day
+    const ageMonthDay = Math.round((ageMonth + ageDay / 30) * 100) / 100
+    if (ageMonthDay < 0) return [ageYear - 1, 12 + ageMonthDay]
+    else return [ageYear, ageMonthDay]
   }
 }
