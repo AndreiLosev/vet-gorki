@@ -85,9 +85,18 @@ export const PetCard: React.FC<{}> = () => {
       options: goalOfRequest, tooltip: "Цель везита",
       pressAddOptions: (options: string[]) =>
         dispatch(StaticDataActionCreater.createSetNewData('goalOfRequest', options)),
-      pressClose: () => dispatch(PetCardsActionCreater.createSetBoolData('showDoctorList', false)),
+      pressClose: () => dispatch(PetCardsActionCreater.createSetBoolData('showGoalOfRequest', false)),
       pressRemove: (options: string[]) =>
-        dispatch(StaticDataActionCreater.createSetNewData('doctor', options, true)),
+        dispatch(StaticDataActionCreater.createSetNewData('goalOfRequest', options, true)),
+    },
+    {
+      visible1: showVisitResultInside, visible: showVisitResultOutsid,
+      options: visitResult, tooltip: "Результат посещения",
+      pressAddOptions: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData('visitResult', options)),
+      pressClose: () => dispatch(PetCardsActionCreater.createSetBoolData('showVisitResult', false)),
+      pressRemove: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData('visitResult', options, true)),
     }
   ]
   return (

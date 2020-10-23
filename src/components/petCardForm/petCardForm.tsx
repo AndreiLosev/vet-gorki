@@ -71,6 +71,7 @@ export const PetCardForm = () => {
             dispatch(EditorActionCreater.createSetShortData('goalOfRequest', e.target.value))}
           setValue={(option: string) => dispatch(EditorActionCreater.createSetShortData('goalOfRequest', option))}
           options={staticData.goalOfRequest}
+          addOptions={() => dispatch(PetCardsActionCreater.createSetBoolData('showGoalOfRequest', true))}
         />
       </div>
       <div className={stls.wrapp}>
@@ -81,6 +82,7 @@ export const PetCardForm = () => {
             dispatch(EditorActionCreater.createSetShortData('visitResult', e.target.value))}
           setValue={(option: string) => dispatch(EditorActionCreater.createSetShortData('visitResult', option))}
           options={staticData.visitResult}
+          addOptions={() => dispatch(PetCardsActionCreater.createSetBoolData('showVisitResult', true))}
         />
       </div>
       <div className={stls.diagnoses}>

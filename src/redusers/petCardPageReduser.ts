@@ -10,7 +10,8 @@ const initState = {
   saved: false,
 }
 
-export type TStateBoolData = 'showDiagnosesList' | 'saved' | 'showDoctorList'
+export type TStateBoolData = 'showDiagnosesList' | 'saved' |
+  'showDoctorList' |'showGoalOfRequest' | 'showVisitResult'
 
 export type TPetCardPageState = typeof initState
 

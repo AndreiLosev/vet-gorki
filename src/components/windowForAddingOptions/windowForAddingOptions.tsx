@@ -20,6 +20,7 @@ export const WindowForAddingOptions: React.FC<Props> = ({
   const [cheked, setCheked] = React.useState<boolean[]>(options.map(_ => false))
   const actualDuagnoses = options.filter(item => item.match(new RegExp(search, 'i'))?.input)
   const selectedOptions = actualDuagnoses.filter((_, index) => cheked[index])
+  console.log(selectedOptions)
   const selectedOptionsStr = selectedOptions.join('\n')
   return (
     <div className={cn(stls.conteiner, {[stls.activDiagnoses]: visible}, {[stls.deactivDiagnoses]: !visible})}>
@@ -42,7 +43,7 @@ export const WindowForAddingOptions: React.FC<Props> = ({
               nextState[index] = !prev[index]
               return nextState
             })}>
-            <input type="checkbox" checked={cheked[index]} readOnly={true} disabled={true}/>
+            <input type="checkbox" checked={cheked[index]} readOnly={true} onChange={undefined}/>
             <span>{item}</span>
           </div>)}
       </div>
