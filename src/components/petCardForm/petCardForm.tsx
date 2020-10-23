@@ -8,17 +8,26 @@ import {PetCardsActionCreater} from '../../actions/petCardActions'
 import {SquareButton} from '../squareButton/squareButton'
 import {FormFild} from '../formFild/formFild'
 import {Lib} from '../../utilites/lib'
-import { FormFildAddOptions } from '../formFildAddOptions/formFildAddOptions'
+import {FormFildAddOptions} from '../formFildAddOptions/formFildAddOptions'
+import {IPet} from '../../redusers/clientsPageReduser'
 
 interface IpartState {
   editor: {shortData: TShortData},
   staticData: TStaticDataState,
+  clientsPage: {
+    pets: {[index: string]: IPet},
+    currentPet: string,
+  },
 }
 
 export const PetCardForm = () => {
-  const {partState: {shortData, staticData}, dispatch} = useDispatchSelect((partState: IpartState) => ({
+  const {partState: {
+    shortData, staticData, pets, currentPet,
+  }, dispatch} = useDispatchSelect((partState: IpartState) => ({
     shortData: partState.editor.shortData,
     staticData: partState.staticData,
+    pets: partState.clientsPage.pets,
+    currentPet: partState.clientsPage.currentPet,
   }))
 
   const inputRef = React.useRef<any>(null)
@@ -35,6 +44,7 @@ export const PetCardForm = () => {
     if (inputRef.current instanceof HTMLInputElement)
     inputRef.current.setSelectionRange(shortData.temperature.length, shortData.temperature.length)
   }, [shortData.temperature])
+  const age = currentPet ? Lib.convertDateOfBirthToAge(new Date(pets[currentPet].age)) : {year: '0', month: '0'}
   return (
     <div className={stls.shortData}>
       <div className={stls.wrapp}>
@@ -111,11 +121,11 @@ export const PetCardForm = () => {
       </div>
       <div className={stls.DateBirth}>
         <span>Возраст:</span>
-        <span>99л 6м</span>
+        <span>{`${age.year} л. ${age.month} м.`}</span>
       </div>
       <div className={stls.DateBirth}>
         <span>Кострация:</span>
-        <span>Да</span>
+        <span>{currentPet ? pets[currentPet].castration: ''}</span>
       </div>
     </div>
   )

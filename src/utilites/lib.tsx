@@ -17,16 +17,6 @@ export class Lib {
     return result ? result[0] : ''
   }
 
-  static showNicely = (show: boolean, insideFn: any, outsidFn: any): void => {
-    if (show) {
-      insideFn(true)
-      setTimeout(() => outsidFn(true), 100)
-    } else {
-      outsidFn(false)
-      setTimeout(() => insideFn(false), 700)
-    }
-  }
-
   static phoneToDisplay = (phone: string) => {
     const x1 = phone.slice(0, 3)
     const x2 = phone.slice(3, 5)
@@ -58,7 +48,7 @@ export class Lib {
     const ageYear = yearNow - year
     const ageMonth = monthNow - month
     const ageDay = dayNow - day
-    const ageMonthDay = Math.round((ageMonth + ageDay / 30) * 100) / 100
+    const ageMonthDay = Math.round((ageMonth + ageDay / 30) * 10) / 10
     if (ageMonthDay < 0) return {year: (ageYear - 1).toString(), month: (12 + ageMonthDay).toString()}
     else return {year: ageYear.toString(), month: ageMonthDay.toString()}
   }
