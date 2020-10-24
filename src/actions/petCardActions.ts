@@ -33,6 +33,7 @@ export class PetCardsActionCreater {
       vaccinations: convertToRaw(getState().editor.vaccinations.getCurrentContent())
     }
     const visitID = await Api.addDocToCollection('visits', visitdataRaw)
+    dispatch(PetCardsActionCreater.createSetCurrentVisit(visitID))
     const currentPetKey = getState().clientsPage.currentPet
     const currentPet = getState().clientsPage.pets[currentPetKey]
     const newCurrentPet = {...currentPet, visits: [...currentPet.visits, visitID]}

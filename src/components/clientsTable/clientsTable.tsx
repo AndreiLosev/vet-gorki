@@ -20,6 +20,9 @@ export const ClientsTable = () => {
       currentClient: partState.clientsPage.currentClient,
     }),
   )
+  React.useEffect(() => {
+    dispatch(ClientsActionCreater.createSetCurrentPet(''))
+  }, [currentClient, dispatch])
   return (
     <div className={cn('clientsTable')}>
       <div className={cn('row', 'header')}>

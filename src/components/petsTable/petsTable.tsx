@@ -4,6 +4,7 @@ import cn from 'classnames'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {IPet} from '../../redusers/clientsPageReduser'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
+import {PetCardsActionCreater} from '../../actions/petCardActions'
 
 interface IpartState {
   clientsPage: {
@@ -19,6 +20,9 @@ export const PetsTable = () => {
     pets: partStae.clientsPage.pets,
     currentPet: partStae.clientsPage.currentPet,
   }))
+  React.useEffect(() => {
+    if (currentPet) dispatch(PetCardsActionCreater.createGetVisits())
+  }, [currentPet, dispatch])
   return (
     <div className={cn('petsTable')}>
       <div className={cn('row', 'header')}>
