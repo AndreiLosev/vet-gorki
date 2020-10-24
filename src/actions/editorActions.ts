@@ -1,6 +1,6 @@
 import {EditorState} from 'draft-js'
 import {TSimpleStyle} from '../utilites/editorUtils'
-import {TShortData} from '../redusers/editorReduser'
+import {TShortData, TEditorState} from '../redusers/editorReduser'
 
 export type TShortDataKey = keyof TShortData
 
@@ -12,6 +12,7 @@ export class EditorActionType {
   static SET_BLOCK_STYLE = 'SET_BLOCK_STYLE' as const
   static SET_ALIGNMENT = 'SET_ALIGNMENT' as const
   static SET_SHORT_DATA = 'SET_SHORT_DATE' as const
+  static LOAD_EDITORS_FROM_RAW = 'LOAD_EDITORS_FROM_RAW' as const
 }
 
 export class EditorActionCreater {
@@ -32,9 +33,12 @@ export class EditorActionCreater {
 
   static createSetAlignment = (alignment: "right" | "left" | "center") =>
     ({ type: EditorActionType.SET_ALIGNMENT, pyload: alignment })
-  
-  static createSetShortData = (fild: TShortDataKey, value: string) => 
+
+  static createSetShortData = (fild: TShortDataKey, value: string) =>
     ({ type: EditorActionType.SET_SHORT_DATA, pyload: { fild, value } })
+
+  static createLoadEditorsfromRaw = (editor: TEditorState) =>
+    ({type: EditorActionType.LOAD_EDITORS_FROM_RAW,  pyload: editor})
 }
 
 export type TAction =
@@ -45,3 +49,4 @@ export type TAction =
   | ReturnType<typeof EditorActionCreater.createSetAlignment>
   | ReturnType<typeof EditorActionCreater.createSetBlockStyle>
   | ReturnType<typeof EditorActionCreater.createSetShortData>
+  | ReturnType<typeof EditorActionCreater.createLoadEditorsfromRaw>

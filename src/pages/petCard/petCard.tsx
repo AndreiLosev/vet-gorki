@@ -13,6 +13,7 @@ import {TShortData} from '../../redusers/editorReduser'
 import {EditorActionCreater} from '../../actions/editorActions'
 import {PetCardsActionCreater} from '../../actions/petCardActions'
 import {StaticDataActionCreater} from '../../actions/staticDataActions'
+import {LoadingSpiner} from '../../components/loadingSpiner/LoadingSpiner'
 
 
 interface IpartState {
@@ -21,6 +22,7 @@ interface IpartState {
     showDoctorList: boolean,
     showGoalOfRequest: boolean,
     showVisitResult: boolean,
+    IsFetching: boolean,
   },
   staticData: {
     diagnoses: string[],
@@ -35,7 +37,7 @@ interface IpartState {
 export const PetCard: React.FC<{}> = () => {
   const {partState: {
     showDiagnosesList, diagnoses, shortData, currentPet, showDoctorList, doctor,
-    showGoalOfRequest, showVisitResult, goalOfRequest, visitResult,
+    showGoalOfRequest, showVisitResult, goalOfRequest, visitResult, IsFetching
   }, dispatch} = useDispatchSelect(
       (partSate: IpartState) => ({
         showDiagnosesList: partSate.petCardPage.showDiagnosesList,
@@ -48,6 +50,7 @@ export const PetCard: React.FC<{}> = () => {
         currentPet: partSate.clientsPage.currentPet,
         goalOfRequest: partSate.staticData.goalOfRequest,
         visitResult: partSate.staticData.visitResult,
+        IsFetching: partSate.petCardPage.IsFetching,
       }),
   )
   const [showDiagnosesListInside, showDiagnosesListOutsid] = useShowNicely(showDiagnosesList, 1000)
@@ -107,6 +110,7 @@ export const PetCard: React.FC<{}> = () => {
         pressRemove={item.pressRemove} pressClose={item.pressClose}
       /> : null)}
       {currentPet ? null : <Redirect to='/clients' />}
+      {IsFetching ? <LoadingSpiner /> : null}
       <PetCardHeader />
       <div className={cn('content')}>
         <PetCardForm />

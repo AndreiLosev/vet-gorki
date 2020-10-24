@@ -60,6 +60,8 @@ export const editorReduser: Reducer<TEditorState, TAction> = (state=initState, a
       return {...state, alignment: action.pyload}
     case EditorActionType.SET_SHORT_DATA:
       return {...state, shortData: {...state.shortData, [action.pyload.fild]: action.pyload.value}}
+    case EditorActionType.LOAD_EDITORS_FROM_RAW:
+      return {...action.pyload}
     default:
       return state
   }

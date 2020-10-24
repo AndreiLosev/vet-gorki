@@ -81,7 +81,9 @@ export class ClientsActionCreater {
 
   static createDeleteUser = (currentClient: string): AppAction => async (dispatch, getState) => {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
+    const petsList = getState().clientsPage.clients[currentClient].pets
     Api.deleteDoc('clients', currentClient)
+    petsList.forEach(item => Api.deleteDoc('pets', item))
     const nextClients = {...getState().clientsPage.clients}
     delete nextClients[currentClient]
     dispatch(ClientsActionCreater.createSetClients(nextClients))
