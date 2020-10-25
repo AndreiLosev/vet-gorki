@@ -37,6 +37,15 @@ export const PetCardForm = () => {
   }, [dispatch])
 
   React.useEffect(() => {
+    const age = currentPet ? Lib.convertDateOfBirthToAge(new Date(pets[currentPet].age)) : {year: '0', month: '0'}
+    dispatch(EditorActionCreater.createSetShortData(
+      'age',
+      `${age.year} л ${age.month} м`
+    ))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shortData.date])
+
+  React.useEffect(() => {
     if (inputRef.current instanceof HTMLInputElement)
     inputRef.current.setSelectionRange(shortData.weight.length, shortData.weight.length)
   }, [shortData.weight])
@@ -44,7 +53,6 @@ export const PetCardForm = () => {
     if (inputRef.current instanceof HTMLInputElement)
     inputRef.current.setSelectionRange(shortData.temperature.length, shortData.temperature.length)
   }, [shortData.temperature])
-  const age = currentPet ? Lib.convertDateOfBirthToAge(new Date(pets[currentPet].age)) : {year: '0', month: '0'}
   return (
     <div className={stls.shortData}>
       <div className={stls.wrapp}>
@@ -121,7 +129,7 @@ export const PetCardForm = () => {
       </div>
       <div className={stls.DateBirth}>
         <span>Возраст:</span>
-        <span>{`${age.year} л. ${age.month} м.`}</span>
+        <span>{shortData.age}</span>
       </div>
       <div className={stls.DateBirth}>
         <span>Кострация:</span>
