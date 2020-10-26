@@ -23,21 +23,24 @@ export const VisitsTableToolbar: React.FC<{}> = () => {
           pressHeadnler={() => {
             if (currentPet) {
               history.push('/petCard')
-              dispatch(PetCardsActionCreater.createAddVisits())
+              dispatch(PetCardsActionCreater.createAddVisits(currentPet))
             }
             else alert('Сначала выберети питомца')
           }}
         />
         <SquareButton color="green" symbol="♺" size="size1" tooltip="Редактировать выбраную запись"
           pressHeadnler={() => {
-            if (currentVisit) {
+            if (currentVisit && currentPet) {
               dispatch(PetCardsActionCreater.createEditVisit())
               history.push('/petCard')
-            }
+            } else { alert('не выбран питомец или визит') }
           }}
         />
         <SquareButton color="green" symbol="&#215;" size="size1" tooltip="Удалить выбраную запись"
-          pressHeadnler={() => { if (currentVisit) dispatch(PetCardsActionCreater.createDeleteVisit()) }}
+          pressHeadnler={() => {
+            if (currentVisit && currentPet) dispatch(PetCardsActionCreater.createDeleteVisit(currentPet))
+            else (alert('не выбран питомец или визит'))
+          }}
         />
     </div>
   )

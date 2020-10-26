@@ -5,6 +5,7 @@ import {Api} from '../api'
 import {IVisitsRaw} from '../redusers/petCardPageReduser'
 import {ClientsActionCreater} from './clientsPageActions'
 import {EditorActionCreater} from './editorActions'
+import {TEditorState} from '../redusers/editorReduser'
 
 export class PetCardActionType {
   static SET_BOOL_DATA = 'SET_BOOL_DATA' as const
@@ -23,7 +24,7 @@ export class PetCardsActionCreater {
   static createSetCurrentVisit = (id: string) =>
     ({ type: PetCardActionType.SET_CURRENT_VISIT, pyload: id })
 
-  static createAddVisits = (): AppAction => async (dispatch, getState) => {
+  static createAddVisits = (currentPetKey: string): AppAction => async (dispatch, getState) => {
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', true))
     const visitdataRaw: IVisitsRaw = {
       ...getState().editor,
@@ -34,10 +35,11 @@ export class PetCardsActionCreater {
     }
     const visitID = await Api.addDocToCollection('visits', visitdataRaw)
     dispatch(PetCardsActionCreater.createSetCurrentVisit(visitID))
-    const currentPetKey = getState().clientsPage.currentPet
     const currentPet = getState().clientsPage.pets[currentPetKey]
     const newCurrentPet = {...currentPet, visits: [...currentPet.visits, visitID]}
     Api.updateDoc('pets', currentPetKey, newCurrentPet)
+    const pets = getState().clientsPage.pets
+    dispatch(ClientsActionCreater.createSetPets({...pets, [currentPetKey]: newCurrentPet}))
     const oldVisits = getState().petCardPage.visits
     const newVisit = await Api.findDocFromID<IVisitsRaw>('visits', visitID)
     const mewVisits = {...oldVisits, [visitID]: newVisit[visitID]}
@@ -45,9 +47,8 @@ export class PetCardsActionCreater {
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', false))
   }
 
-  static createGetVisits = (): AppAction => async (dispatch, getState) => {
+  static createGetVisits = (currentPetId: string): AppAction => async (dispatch, getState) => {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
-    const currentPetId = getState().clientsPage.currentPet
     const visitsList = getState().clientsPage.pets[currentPetId].visits
     const visitsArr = await Promise.all(visitsList.map(item => Api.findDocFromID<IVisitsRaw>('visits', item)))
     const visits = visitsArr.reduce((acc, item) => ({...acc, ...item}), {} as {[id: string]: IVisitsRaw})
@@ -55,9 +56,8 @@ export class PetCardsActionCreater {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }
 
-  static createUpdateVisit = (): AppAction => async (dispatch, getState) => {
-    dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', false))
-    const currentVisitId = getState().petCardPage.currentVisit
+  static createUpdateVisit = (currentVisitId: string): AppAction => async (dispatch, getState) => {
+    dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', true))
     const visitdataRaw: IVisitsRaw = {
       ...getState().editor,
       history: {} as RawDraftContentState,
@@ -71,15 +71,31 @@ export class PetCardsActionCreater {
     const mewVisits = {...oldVisits, [currentVisitId]: newVisit[currentVisitId]}
     dispatch(PetCardsActionCreater.createSetVisits(mewVisits))
     dispatch(PetCardsActionCreater.createSetBoolData('saved', true))
+    const clearEditor: TEditorState = {
+      description: EditorState.createEmpty(),
+      recommendations: EditorState.createEmpty(),
+      vaccinations: EditorState.createEmpty(),
+      history: EditorState.createEmpty(),
+      activeEditor: 'description',
+      alignment: "left",
+      shortData: {
+        date: '', weight: '', temperature: '', diagnosis: '',
+        goalOfRequest: '', visitResult: '', age: '', doctor: '',
+      }
+    }
+    dispatch(EditorActionCreater.createLoadEditorsfromRaw(clearEditor))
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', false))
   }
 
-  static createDeleteVisit = (): AppAction => async (dispatch, getState) => {
+  static createDeleteVisit = (correntPetId: string): AppAction => async (dispatch, getState) => {
     dispatch(ClientsActionCreater.createShowElement('IsFetching', true))
     const currentVisitId = getState().petCardPage.currentVisit
     Api.deleteDoc('visits', currentVisitId)
     const nextVisit = {...getState().petCardPage.visits}
     delete nextVisit[currentVisitId]
+    const currentPet = getState().clientsPage.pets[correntPetId]
+    const newPet = {...currentPet, visits: currentPet.visits.filter(item => (item !== currentVisitId))}
+    dispatch(ClientsActionCreater.createUpdatePet(newPet, correntPetId))
     dispatch(PetCardsActionCreater.createSetVisits(nextVisit))
     dispatch(ClientsActionCreater.createShowElement('IsFetching', false))
   }

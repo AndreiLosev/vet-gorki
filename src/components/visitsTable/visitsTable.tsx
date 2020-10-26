@@ -3,7 +3,6 @@ import './visitsTable.scss'
 import cn from 'classnames'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {IVisitsRaw} from '../../redusers/petCardPageReduser'
-import {Lib} from '../../utilites/lib'
 import { PetCardsActionCreater } from '../../actions/petCardActions'
 
 interface IpartState{
@@ -18,9 +17,6 @@ export const VisitsTable = () => {
     visits: partState.petCardPage.visits,
     currentVisit: partState.petCardPage.currentVisit,
   }))
-  Object.keys(visits).forEach(item => {
-    console.log(visits[item].shortData.age)
-  })
   return (
     <div className={cn('visitsTable')}>
       <div className={cn('row', 'header')}>
@@ -45,9 +41,7 @@ export const VisitsTable = () => {
           <div>{visits[item].shortData.diagnosis}</div>
           <div>{visits[item].shortData.doctor}</div>
           <div>{visits[item].shortData.date}</div>
-          <div>
-            {Object.values(Lib.convertDateOfBirthToAge(new Date(visits[item].shortData.age)))}
-          </div>
+          <div>{visits[item].shortData.age}</div>
           <div>{visits[item].shortData.weight}</div>
           <div>{visits[item].shortData.temperature}</div>
           <div>{visits[item].shortData.date}</div>

@@ -6,13 +6,17 @@ import {SquareButton} from '../squareButton/squareButton'
 import {PetCardsActionCreater} from '../../actions/petCardActions'
 
 interface IpartSttate {
-  petCardPage: { saved: boolean }
+  petCardPage: {
+    saved: boolean,
+    currentVisit: string,
+  }
 }
 
 export const PetCardHeader = () => {
   const history = useHistory()
-  const {partState: {saved}, dispatch} = useDispatchSelect((partState: IpartSttate) => ({
-    saved: partState.petCardPage.saved
+  const {partState: {saved, currentVisit}, dispatch} = useDispatchSelect((partState: IpartSttate) => ({
+    saved: partState.petCardPage.saved,
+    currentVisit: partState.petCardPage.currentVisit
   }))
   return (
     <header className={stls.tooolbar}>
@@ -20,13 +24,13 @@ export const PetCardHeader = () => {
         pressHeadnler={() => {
           if (!saved) {
             const answer = window.confirm('сохранить данные перед выходом')
-            if (answer) dispatch(PetCardsActionCreater.createUpdateVisit())
+            if (answer) dispatch(PetCardsActionCreater.createUpdateVisit(currentVisit))
           }
           history.push('/clients')
         }}
       />
       <SquareButton color="white" symbol="&#128190;" size="size2" tooltip="Сохранить"
-        pressHeadnler={() => dispatch(PetCardsActionCreater.createUpdateVisit())}
+        pressHeadnler={() => dispatch(PetCardsActionCreater.createUpdateVisit(currentVisit))}
       />
       <SquareButton color="white" symbol="&#128199;" size="size2" tooltip="Печать"
         pressHeadnler={() => undefined}

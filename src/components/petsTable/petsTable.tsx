@@ -21,7 +21,7 @@ export const PetsTable = () => {
     currentPet: partStae.clientsPage.currentPet,
   }))
   React.useEffect(() => {
-    if (currentPet) dispatch(PetCardsActionCreater.createGetVisits())
+    if (currentPet) dispatch(PetCardsActionCreater.createGetVisits(currentPet))
   }, [currentPet, dispatch])
   return (
     <div className={cn('petsTable')}>

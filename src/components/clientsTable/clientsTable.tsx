@@ -21,7 +21,7 @@ export const ClientsTable = () => {
     }),
   )
   React.useEffect(() => {
-    dispatch(ClientsActionCreater.createSetCurrentPet(''))
+    if (!currentClient) dispatch(ClientsActionCreater.createSetCurrentPet(''))
   }, [currentClient, dispatch])
   return (
     <div className={cn('clientsTable')}>
