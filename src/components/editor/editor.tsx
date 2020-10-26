@@ -35,7 +35,7 @@ export const EditorConteiner = () => {
       <div className={stls.toolBar}>
         <FontButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
         <ColorButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
-        <TextAlignmentButtins alignment={editor.alignment} dispatch={dispatch}/>
+        <TextAlignmentButtins alignment={editor.alignment[editor.activeEditor]} dispatch={dispatch}/>
         <ListButtons dispatch={dispatch} currentStyle={currentBlockStyle}/>
       </div>
       <div className={stls.editorTextarea} onClick={() => {
@@ -46,7 +46,7 @@ export const EditorConteiner = () => {
           handleKeyCommand={handleKeyCommand}
           onChange={nextEditorState}
           customStyleMap={{...UpperLowerIndex, ...FontSize, ...backgroundColors, ...colors}}
-          textAlignment={editor.alignment}
+          textAlignment={editor.alignment[editor.activeEditor]}
           ref={editorRef}
         />
       </div>

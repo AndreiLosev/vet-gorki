@@ -1,15 +1,20 @@
 import {Reducer} from 'redux'
 import {PetCardActionType, TAction} from '../actions/petCardActions'
 import {TShortData, TEditorNames} from './editorReduser'
-import {RawDraftContentState} from 'draft-js'
+import {TAligment} from '../redusers/editorReduser'
 
 export interface IVisitsRaw {
-  description: RawDraftContentState
-  recommendations: RawDraftContentState
-  vaccinations: RawDraftContentState
-  history: RawDraftContentState
+  description: string,
+  recommendations: string,
+  vaccinations: string,
+  history: string,
   activeEditor: TEditorNames
-  alignment: "right" | "left" | "center"
+  alignment: {
+    description: TAligment,
+    recommendations: TAligment,
+    vaccinations: TAligment,
+    history: TAligment,
+  }
   shortData: TShortData
 }
 

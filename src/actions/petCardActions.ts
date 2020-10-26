@@ -1,6 +1,6 @@
 import {TStateBoolData} from '../redusers/petCardPageReduser'
 import {AppAction} from '../redusers'
-import {convertToRaw, EditorState, RawDraftContentState, convertFromRaw} from 'draft-js'
+import {convertToRaw, EditorState, convertFromRaw} from 'draft-js'
 import {Api} from '../api'
 import {IVisitsRaw} from '../redusers/petCardPageReduser'
 import {ClientsActionCreater} from './clientsPageActions'
@@ -28,10 +28,10 @@ export class PetCardsActionCreater {
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', true))
     const visitdataRaw: IVisitsRaw = {
       ...getState().editor,
-      history: {} as RawDraftContentState,
-      description: convertToRaw(getState().editor.description.getCurrentContent()),
-      recommendations: convertToRaw(getState().editor.recommendations.getCurrentContent()),
-      vaccinations: convertToRaw(getState().editor.vaccinations.getCurrentContent())
+      history: JSON.stringify({}),
+      description: JSON.stringify(convertToRaw(getState().editor.description.getCurrentContent())),
+      recommendations: JSON.stringify(convertToRaw(getState().editor.recommendations.getCurrentContent())),
+      vaccinations: JSON.stringify(convertToRaw(getState().editor.vaccinations.getCurrentContent())),
     }
     const visitID = await Api.addDocToCollection('visits', visitdataRaw)
     dispatch(PetCardsActionCreater.createSetCurrentVisit(visitID))
@@ -60,10 +60,10 @@ export class PetCardsActionCreater {
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', true))
     const visitdataRaw: IVisitsRaw = {
       ...getState().editor,
-      history: {} as RawDraftContentState,
-      description: convertToRaw(getState().editor.description.getCurrentContent()),
-      recommendations: convertToRaw(getState().editor.recommendations.getCurrentContent()),
-      vaccinations: convertToRaw(getState().editor.vaccinations.getCurrentContent())
+      history: JSON.stringify({}),
+      description: JSON.stringify(convertToRaw(getState().editor.description.getCurrentContent())),
+      recommendations: JSON.stringify(convertToRaw(getState().editor.recommendations.getCurrentContent())),
+      vaccinations: JSON.stringify(convertToRaw(getState().editor.vaccinations.getCurrentContent())),
     }
     await Api.updateDoc('visits', currentVisitId, visitdataRaw)
     const oldVisits = getState().petCardPage.visits
@@ -77,7 +77,10 @@ export class PetCardsActionCreater {
       vaccinations: EditorState.createEmpty(),
       history: EditorState.createEmpty(),
       activeEditor: 'description',
-      alignment: "left",
+      alignment: {
+        description: 'left', recommendations: 'left',
+        vaccinations: 'left', history: 'left',
+      },
       shortData: {
         date: '', weight: '', temperature: '', diagnosis: '',
         goalOfRequest: '', visitResult: '', age: '', doctor: '',
@@ -106,9 +109,9 @@ export class PetCardsActionCreater {
     const editor = {
       ...rawEditor,
       history: EditorState.createEmpty(),
-      description: EditorState.createWithContent(convertFromRaw(rawEditor.description)),
-      recommendations: EditorState.createWithContent(convertFromRaw(rawEditor.recommendations)),
-      vaccinations: EditorState.createWithContent(convertFromRaw(rawEditor.vaccinations)),
+      description: EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditor.description))),
+      recommendations: EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditor.recommendations))),
+      vaccinations: EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditor.vaccinations))),
     }
     dispatch(EditorActionCreater.createLoadEditorsfromRaw(editor))
   }
