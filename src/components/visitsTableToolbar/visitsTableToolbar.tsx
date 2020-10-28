@@ -17,6 +17,9 @@ export const VisitsTableToolbar: React.FC<{}> = () => {
     currentVisit: partState.petCardPage.currentVisit,
   }))
   const history = useHistory()
+  React.useEffect(() => {
+    dispatch(PetCardsActionCreater.createSetCurrentVisit(''))
+  }, [currentPet, dispatch])
   return (
     <div className={stls.buttonWrap}>
         <SquareButton color="green" symbol="+" size="size1" tooltip="Добавить новую запись"

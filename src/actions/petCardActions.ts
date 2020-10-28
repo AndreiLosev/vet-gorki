@@ -67,10 +67,8 @@ export class PetCardsActionCreater {
     }
     await Api.updateDoc('visits', currentVisitId, visitdataRaw)
     const oldVisits = getState().petCardPage.visits
-    const newVisit = await Api.findDocFromID<IVisitsRaw>('visits', currentVisitId)
-    const mewVisits = {...oldVisits, [currentVisitId]: newVisit[currentVisitId]}
+    const mewVisits = {...oldVisits, [currentVisitId]: visitdataRaw}
     dispatch(PetCardsActionCreater.createSetVisits(mewVisits))
-    dispatch(PetCardsActionCreater.createSetBoolData('saved', true))
     const clearEditor: TEditorState = {
       description: EditorState.createEmpty(),
       recommendations: EditorState.createEmpty(),
@@ -88,6 +86,7 @@ export class PetCardsActionCreater {
     }
     dispatch(EditorActionCreater.createLoadEditorsfromRaw(clearEditor))
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', false))
+    dispatch(PetCardsActionCreater.createSetBoolData('saved', true))
   }
 
   static createDeleteVisit = (correntPetId: string): AppAction => async (dispatch, getState) => {

@@ -48,6 +48,7 @@ export const EditorConteiner = () => {
           customStyleMap={{...UpperLowerIndex, ...FontSize, ...backgroundColors, ...colors}}
           textAlignment={editor.alignment[editor.activeEditor]}
           ref={editorRef}
+          readOnly={editor.activeEditor === 'history'}
         />
       </div>
     </div>
