@@ -12,6 +12,16 @@ export class Lib {
     return `${hours}:${minuts} ${day}.${month}.${year}`
   }
 
+  static dateFromString = (date: string) => {
+    const hours = date.slice(0, 2)
+    const minuts = date.slice(3, 5)
+    const day = date.slice(6, 7)
+    const month = date.slice(9, 11)
+    const year = date.slice(12, 16)
+    const Date1 = new Date(+year, +month, +day, +hours, +minuts)
+    return Date1
+  }
+
   static extractingMeaning = (str: string) => {
     const result = /\d*[.,]?[0-9]*/g.exec(str)
     return result ? result[0] : ''

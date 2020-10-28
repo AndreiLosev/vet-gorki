@@ -4,6 +4,9 @@ import {useHistory} from 'react-router-dom'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {SquareButton} from '../squareButton/squareButton'
 import {PetCardsActionCreater} from '../../actions/petCardActions'
+import {TEditorState} from '../../redusers/editorReduser'
+import {EditorState} from 'draft-js'
+import {EditorActionCreater} from '../../actions/editorActions'
 
 interface IpartSttate {
   petCardPage: {
@@ -27,6 +30,22 @@ export const PetCardHeader = () => {
             if (answer) dispatch(PetCardsActionCreater.createUpdateVisit(currentVisit))
           }
           history.push('/clients')
+          const clearEditor: TEditorState = {
+            description: EditorState.createEmpty(),
+            recommendations: EditorState.createEmpty(),
+            vaccinations: EditorState.createEmpty(),
+            history: EditorState.createEmpty(),
+            activeEditor: 'description',
+            alignment: {
+              description: 'left', recommendations: 'left',
+              vaccinations: 'left', history: 'left',
+            },
+            shortData: {
+              date: '', weight: '', temperature: '', diagnosis: '',
+              goalOfRequest: '', visitResult: '', age: '', doctor: '',
+            }
+          }
+          dispatch(EditorActionCreater.createLoadEditorsfromRaw(clearEditor))
         }}
       />
       <SquareButton color="white" symbol="&#128190;" size="size2" tooltip="Сохранить"

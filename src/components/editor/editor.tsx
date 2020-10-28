@@ -1,5 +1,6 @@
 import React from 'react'
 import stls from './editor.module.scss'
+import cn from 'classnames'
 import {Editor, EditorState, RichUtils} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
@@ -38,7 +39,8 @@ export const EditorConteiner = () => {
         <TextAlignmentButtins alignment={editor.alignment[editor.activeEditor]} dispatch={dispatch}/>
         <ListButtons dispatch={dispatch} currentStyle={currentBlockStyle}/>
       </div>
-      <div className={stls.editorTextarea} onClick={() => {
+      <div className={stls.buffer} />
+      <div className={cn(stls.editorTextarea, 'scrol')} onClick={() => {
         if (editorRef.current) editorRef.current.focus()
       }}>
         <Editor
@@ -51,6 +53,7 @@ export const EditorConteiner = () => {
           readOnly={editor.activeEditor === 'history'}
         />
       </div>
+      <div className={stls.buffer} />
     </div>
   )
 }

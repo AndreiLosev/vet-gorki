@@ -1,11 +1,11 @@
 import {TStateBoolData} from '../redusers/petCardPageReduser'
 import {AppAction} from '../redusers'
-import {convertToRaw, EditorState, convertFromRaw} from 'draft-js'
+import {convertToRaw, EditorState, convertFromRaw, ContentState, convertFromHTML} from 'draft-js'
 import {Api} from '../api'
 import {IVisitsRaw} from '../redusers/petCardPageReduser'
 import {ClientsActionCreater} from './clientsPageActions'
 import {EditorActionCreater} from './editorActions'
-import {TEditorState} from '../redusers/editorReduser'
+import {Lib} from '../utilites/lib'
 
 export class PetCardActionType {
   static SET_BOOL_DATA = 'SET_BOOL_DATA' as const
@@ -69,22 +69,6 @@ export class PetCardsActionCreater {
     const oldVisits = getState().petCardPage.visits
     const mewVisits = {...oldVisits, [currentVisitId]: visitdataRaw}
     dispatch(PetCardsActionCreater.createSetVisits(mewVisits))
-    const clearEditor: TEditorState = {
-      description: EditorState.createEmpty(),
-      recommendations: EditorState.createEmpty(),
-      vaccinations: EditorState.createEmpty(),
-      history: EditorState.createEmpty(),
-      activeEditor: 'description',
-      alignment: {
-        description: 'left', recommendations: 'left',
-        vaccinations: 'left', history: 'left',
-      },
-      shortData: {
-        date: '', weight: '', temperature: '', diagnosis: '',
-        goalOfRequest: '', visitResult: '', age: '', doctor: '',
-      }
-    }
-    dispatch(EditorActionCreater.createLoadEditorsfromRaw(clearEditor))
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', false))
     dispatch(PetCardsActionCreater.createSetBoolData('saved', true))
   }
@@ -105,9 +89,29 @@ export class PetCardsActionCreater {
   static createEditVisit = (): AppAction => async (dispatch, getState) => {
     const currentVisitId = getState().petCardPage.currentVisit
     const rawEditor = getState().petCardPage.visits[currentVisitId]
+    const visits = getState().petCardPage.visits
+    const visitsArr = Object.values(visits).map(item => item)
+    visitsArr.sort((a, b) => {
+      const a1 = +Lib.dateFromString(a.shortData.date)
+      const b1 = +Lib.dateFromString(b.shortData.date)
+      return +a1 - +b1
+    })
+    const historyEditor = visitsArr.reduce((acc, item) => {
+      const newAcc = acc.getBlocksAsArray()
+      const date = convertFromHTML(`<u><strong>${item.shortData.date} : ${item.shortData.doctor}</strong></u>`)
+      const descriptionText = convertFromHTML('<b>Описание лечения<b>', undefined, undefined)
+      const description = convertFromRaw(JSON.parse(item.description)).getBlocksAsArray()
+      const recommendationsText = convertFromHTML('<b>Рекомендации и назначения</b>')
+      const recommendations = convertFromRaw(JSON.parse(item.recommendations)).getBlocksAsArray()
+      const blocksAsArray = newAcc.concat(
+        date.contentBlocks, descriptionText.contentBlocks,
+        description, recommendationsText.contentBlocks, recommendations
+      )
+      return ContentState.createFromBlockArray(blocksAsArray)
+    }, EditorState.createEmpty().getCurrentContent())
     const editor = {
       ...rawEditor,
-      history: EditorState.createEmpty(),
+      history: EditorState.createWithContent(historyEditor),
       description: EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditor.description))),
       recommendations: EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditor.recommendations))),
       vaccinations: EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditor.vaccinations))),

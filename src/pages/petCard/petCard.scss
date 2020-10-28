@@ -11,8 +11,9 @@
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-  padding: 5px;
+	padding: 5px;
   transition: 0.7s;
+  overflow: hidden;
 
 	.content {
 		display: flex;

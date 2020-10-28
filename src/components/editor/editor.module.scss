@@ -9,9 +9,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
+  overflow-y: hidden;
 
   .toolBar {
-    flex-grow: 1;
+    flex: 1 1 10%;
     margin: 5px;
     display: flex;
     align-items: center;
@@ -32,9 +33,14 @@
 
   .editorTextarea {
     padding: 8px;
-    flex-grow: 99;
+    max-height: 700px;
+    flex: 0 0 90%;
     margin: 5px;
     box-shadow: inset 1px 1px 5px -1px;
     cursor: text;
   };
 };
+
+.buffer {
+  height: 15px;
+}
