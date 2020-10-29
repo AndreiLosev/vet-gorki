@@ -4,6 +4,7 @@ import cn from 'classnames'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {IVisitsRaw} from '../../redusers/petCardPageReduser'
 import { PetCardsActionCreater } from '../../actions/petCardActions'
+import {Lib} from '../../utilites/lib'
 
 interface IpartState{
   petCardPage: {
@@ -17,6 +18,11 @@ export const VisitsTable = () => {
     visits: partState.petCardPage.visits,
     currentVisit: partState.petCardPage.currentVisit,
   }))
+  const rows = Object.keys(visits).map(item => item).sort((a, b) => {
+    const a1 = +Lib.dateFromString(visits[a].shortData.date)
+    const b1 = +Lib.dateFromString(visits[b].shortData.date)
+    return b1 - a1
+  })
   return (
     <div className={cn('visitsTable')}>
       <div className={cn('row', 'header')}>
@@ -32,7 +38,7 @@ export const VisitsTable = () => {
         <div>Дата посещения</div>
       </div>
       <div className="scrol">
-        {Object.keys(visits).map((item, index) => <div
+        {rows.map((item, index) => <div
           className={cn('row', 'body', {'activeRow': currentVisit === item})} key={item}
           onDoubleClick={() => dispatch(PetCardsActionCreater.createSetCurrentVisit(item))}>
           <div>{index + 1}</div>

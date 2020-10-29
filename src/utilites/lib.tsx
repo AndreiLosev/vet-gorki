@@ -17,8 +17,8 @@ export class Lib {
   static dateFromString = (date: string) => {
     const hours = date.slice(0, 2)
     const minuts = date.slice(3, 5)
-    const day = date.slice(6, 7)
-    const month = date.slice(9, 11)
+    const day = date.slice(6, 8)
+    const month = +date.slice(9, 11) - 1
     const year = date.slice(12, 16)
     const Date1 = new Date(+year, +month, +day, +hours, +minuts)
     return Date1

@@ -33,14 +33,10 @@ export const PetCardForm = () => {
   const inputRef = React.useRef<any>(null)
 
   React.useEffect(() => {
-    dispatch(EditorActionCreater.createSetShortData('date', Lib.converDate(Date.now())))
-  }, [dispatch])
-
-  React.useEffect(() => {
     const age = currentPet ? Lib.convertDateOfBirthToAge(new Date(pets[currentPet].age)) : {year: '0', month: '0'}
     dispatch(EditorActionCreater.createSetShortData(
       'age',
-      `${age.year} л ${age.month} м`
+      `${age.year} л ${age.month} м`,
     ))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shortData.date])

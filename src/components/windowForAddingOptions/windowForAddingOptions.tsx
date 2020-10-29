@@ -43,10 +43,10 @@ export const WindowForAddingOptions: React.FC<Props> = ({
         />
       </div>
       <div className={stls.content}>
-        {actualDuagnoses.sort().map((item, index) => <div
+        {actualDuagnoses.sort().map(item => <div
             className={stls.item} key={item}
-            onClick={() => setCheked(prev => ({...prev, [item]: !prev[item]}))}>
-            <input type="checkbox" checked={cheked[item]} readOnly={true} onClick={undefined}/>
+            onMouseDown={() => setCheked(prev => ({...prev, [item]: !prev[item]}))}>
+            <input type="checkbox" checked={cheked[item]} readOnly={true} onClick={e => e.preventDefault()}/>
             <span>{item}</span>
           </div>)}
       </div>
