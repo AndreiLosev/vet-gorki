@@ -1,3 +1,5 @@
+import {ContentState, SelectionState, Modifier} from 'draft-js'
+
 export class Lib {
   static converDate = (rafDate: number): string => {
     const addNull = (value: number): string => {
@@ -61,5 +63,18 @@ export class Lib {
     const ageMonthDay = Math.round((ageMonth + ageDay / 30) * 10) / 10
     if (ageMonthDay < 0) return {year: (ageYear - 1).toString(), month: (12 + ageMonthDay).toString()}
     else return {year: ageYear.toString(), month: ageMonthDay.toString()}
+  }
+
+  static contentBlockArrayFromText = (text: string, styles: string[]) => {
+    const dateRaf = ContentState.createFromText(text)
+    const selectionDateRaf = SelectionState.createEmpty('').merge({
+      anchorKey: dateRaf.getFirstBlock().getKey(),
+      anchorOffset: 0,  
+      focusOffset: dateRaf.getLastBlock().getText().length, 
+      focusKey: dateRaf.getLastBlock().getKey(),
+    })
+    return styles.reduce((acc, item) =>
+      Modifier.applyInlineStyle(acc, selectionDateRaf, item),
+      dateRaf).getBlocksAsArray()
   }
 }

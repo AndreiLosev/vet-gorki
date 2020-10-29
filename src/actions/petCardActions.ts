@@ -1,6 +1,6 @@
 import {TStateBoolData} from '../redusers/petCardPageReduser'
 import {AppAction} from '../redusers'
-import {convertToRaw, EditorState, convertFromRaw, ContentState, convertFromHTML} from 'draft-js'
+import {convertToRaw, EditorState, convertFromRaw, ContentState} from 'draft-js'
 import {Api} from '../api'
 import {IVisitsRaw} from '../redusers/petCardPageReduser'
 import {ClientsActionCreater} from './clientsPageActions'
@@ -98,14 +98,23 @@ export class PetCardsActionCreater {
     })
     const historyEditor = visitsArr.reduce((acc, item) => {
       const newAcc = acc.getBlocksAsArray()
-      const date = convertFromHTML(`<u><strong>${item.shortData.date} : ${item.shortData.doctor}</strong></u>`)
-      const descriptionText = convertFromHTML('<b>Описание лечения<b>', undefined, undefined)
+      const date = Lib.contentBlockArrayFromText(
+        `\n      ${item.shortData.date}  Врачь: ${item.shortData.doctor}      \n`,
+        ['BOLD', 'FONT_SIZE_20', 'UNDERLINE'],
+      )
+      const descriptionText = Lib.contentBlockArrayFromText(
+        '\n     Описание лечения     \n',
+        ['BOLD', 'FONT_SIZE_16', 'UNDERLINE'],
+      )
       const description = convertFromRaw(JSON.parse(item.description)).getBlocksAsArray()
-      const recommendationsText = convertFromHTML('<b>Рекомендации и назначения</b>')
+      const recommendationsText = Lib.contentBlockArrayFromText(
+        '\n     Рекомендации и назначения     \n',
+        ['BOLD', 'FONT_SIZE_16', 'UNDERLINE'],
+      )
       const recommendations = convertFromRaw(JSON.parse(item.recommendations)).getBlocksAsArray()
       const blocksAsArray = newAcc.concat(
-        date.contentBlocks, descriptionText.contentBlocks,
-        description, recommendationsText.contentBlocks, recommendations
+        date, descriptionText,
+        description, recommendationsText, recommendations
       )
       return ContentState.createFromBlockArray(blocksAsArray)
     }, EditorState.createEmpty().getCurrentContent())
