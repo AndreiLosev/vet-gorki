@@ -1,6 +1,6 @@
 import React from 'react'
 import stls from './visitsTableToolbar.module.scss'
-import {useHistory} from 'react-router-dom'
+import {NavigatorContext} from '../../navigation'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {SquareButton} from '../squareButton/squareButton'
 import {PetCardsActionCreater} from '../../actions/petCardActions'
@@ -16,7 +16,7 @@ export const VisitsTableToolbar: React.FC<{}> = () => {
     currentPet: partState.clientsPage.currentPet,
     currentVisit: partState.petCardPage.currentVisit,
   }))
-  const history = useHistory()
+  const {goTo} = React.useContext(NavigatorContext)
   React.useEffect(() => {
     dispatch(PetCardsActionCreater.createSetCurrentVisit(''))
   }, [currentPet, dispatch])
@@ -25,7 +25,7 @@ export const VisitsTableToolbar: React.FC<{}> = () => {
         <SquareButton color="green" symbol="+" size="size1" tooltip="Добавить новую запись"
           pressHeadnler={() => {
             if (currentPet) {
-              history.push('/petCard')
+              goTo('petCart')
               dispatch(PetCardsActionCreater.createAddVisits(currentPet))
             }
             else alert('Сначала выберети питомца')
@@ -35,7 +35,7 @@ export const VisitsTableToolbar: React.FC<{}> = () => {
           pressHeadnler={() => {
             if (currentVisit && currentPet) {
               dispatch(PetCardsActionCreater.createEditVisit())
-              history.push('/petCard')
+              goTo('petCart')
             } else { alert('не выбран питомец или визит') }
           }}
         />

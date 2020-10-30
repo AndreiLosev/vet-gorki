@@ -4,7 +4,7 @@ import './login.scss'
 import {useDispatch} from 'react-redux'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
-import {useHistory} from 'react-router-dom'
+import {NavigatorContext} from '../../navigation'
 import {StaticDataActionCreater} from '../../actions/staticDataActions'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 import {FormFild} from '../../components/formFild/formFild'
@@ -15,9 +15,9 @@ export interface ILoginForm {
   password: string
 }
 
-export const Login: React.FC = () => {
+export const Login: React.FC<{}> = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
+  const {goTo} = React.useContext(NavigatorContext)
   const formik = useFormik<ILoginForm>({
     initialValues: {
       name: '',
@@ -29,7 +29,7 @@ export const Login: React.FC = () => {
     }),
     onSubmit: values => {
       dispatch(ClientsActionCreater.createShowElement('loggedIn', true))
-      history.push('/clients')
+      goTo('clients')
     },
   })
   React.useEffect(() => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import './petCard.scss'
-import {Redirect} from 'react-router-dom'
+import {NavigatorContext} from '../../navigation'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {useShowNicely} from '../../utilites/useShowNicely'
 import {PetCardHeader} from '../../components/petCardHeader/petCardHeader'
@@ -53,12 +53,14 @@ export const PetCard: React.FC<{}> = () => {
         IsFetching: partSate.petCardPage.IsFetching,
       }),
   )
+  const {goTo} = React.useContext(NavigatorContext)
   const [showDiagnosesListInside, showDiagnosesListOutsid] = useShowNicely(showDiagnosesList, 1000)
   const [showDoctorListInside, showDoctorListOutsid] = useShowNicely(showDoctorList, 1000)
   const [showGoalOfRequestInside, showGoalOfRequestOutsid] = useShowNicely(showGoalOfRequest, 1000)
   const [showVisitResultInside, showVisitResultOutsid] = useShowNicely(showVisitResult, 1000)
+  if (!currentPet) goTo('clients')
   const [show, setShow] = React.useState(false)
-  React.useEffect(() => { setShow(true) }, [])
+  React.useEffect(() => setShow(true), [])
   const data = [
     {
       visible1: showDiagnosesListInside, visible: showDiagnosesListOutsid, options: diagnoses, tooltip: "диагноз",
@@ -109,7 +111,6 @@ export const PetCard: React.FC<{}> = () => {
         pressAddOptions={item.pressAddOptions} pressAdd={item.pressAdd}
         pressRemove={item.pressRemove} pressClose={item.pressClose}
       /> : null)}
-      {currentPet ? null : <Redirect to='/clients' />}
       {IsFetching ? <LoadingSpiner /> : null}
       <PetCardHeader />
       <div className={cn('content')}>

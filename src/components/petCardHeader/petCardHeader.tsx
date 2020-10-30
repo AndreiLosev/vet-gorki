@@ -1,6 +1,6 @@
 import React from 'react'
 import stls from './petCardHeader.module.scss'
-import {useHistory} from 'react-router-dom'
+import {NavigatorContext} from '../../navigation'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {SquareButton} from '../squareButton/squareButton'
 import {PetCardsActionCreater} from '../../actions/petCardActions'
@@ -16,7 +16,7 @@ interface IpartSttate {
 }
 
 export const PetCardHeader = () => {
-  const history = useHistory()
+  const {goTo} = React.useContext(NavigatorContext)
   const {partState: {saved, currentVisit}, dispatch} = useDispatchSelect((partState: IpartSttate) => ({
     saved: partState.petCardPage.saved,
     currentVisit: partState.petCardPage.currentVisit
@@ -29,7 +29,7 @@ export const PetCardHeader = () => {
             const answer = window.confirm('сохранить данные перед выходом')
             if (answer) dispatch(PetCardsActionCreater.createUpdateVisit(currentVisit))
           }
-          history.push('/clients')
+          goTo('clients')
           const clearEditor: TEditorState = {
             description: EditorState.createEmpty(),
             recommendations: EditorState.createEmpty(),

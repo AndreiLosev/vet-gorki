@@ -1,8 +1,16 @@
 @import 'microtip/microtip';
 
-.activePetCard { opacity: 1 };
+.activePetCard {
+  opacity: 1;
+  z-index: 0;
+  position: relative;
+};
 
-.deactivePetCard { opacity: 0 };
+.deactivePetCard {
+	opacity: 0;
+  position: absolute;
+  z-index: 5;
+};
 
 .petCardConteiner {
 	display: flex;
@@ -12,7 +20,7 @@
 	align-items: center;
 	flex-direction: column;
 	padding: 5px;
-  transition: 0.7s;
+  transition: 0.5s;
   overflow: hidden;
 
 	.content {

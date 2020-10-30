@@ -1,7 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import './clients.scss'
-import {Redirect} from 'react-router-dom'
+import {NavigatorContext} from '../../navigation'
 import {useShowNicely} from '../../utilites/useShowNicely'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 import {StaticDataActionCreater} from '../../actions/staticDataActions'
@@ -50,15 +50,16 @@ export const Clients: React.FC<{}> = () => {
       loggedIn: partSate.clientsPage.loggedIn,
     })
   )
+  const {goTo} = React.useContext(NavigatorContext)
   const [showClientFormInside, showClientFormOutsid] = useShowNicely(showNewClientForm, 700)
   const [showPetFormInside, showPetFormOutsid] = useShowNicely(showNewPetForm, 700)
   const [showPetTypeOptionsInside, showPetTypeOptionsOutsid] = useShowNicely(showPetTypeOptions, 1000)
   const [showBreedOptionsInside, showBreedOptionsOutsid] = useShowNicely(showBreedOptions, 1000)
+  if (!loggedIn) goTo('login')
   const [show, setShow] = React.useState(false)
-  React.useEffect(() => { setShow(true) }, [])
+  React.useEffect(() => setShow(true), [])
   return (
     <div className={cn('clientsConteiner', {'activeClients': show}, {'deactiveClients': !show})}>
-      {loggedIn ? null : <Redirect to='/login' />}
       {IsFetching ? <LoadingSpiner /> : null}
       {showPetTypeOptionsInside ? <WindowForAddingOptions
         visible={showPetTypeOptionsOutsid}
