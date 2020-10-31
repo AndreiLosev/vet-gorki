@@ -5,18 +5,27 @@ import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {IVisitsRaw} from '../../redusers/petCardPageReduser'
 import { PetCardsActionCreater } from '../../actions/petCardActions'
 import {Lib} from '../../utilites/lib'
+import { IPet } from '../../redusers/clientsPageReduser'
 
 interface IpartState{
   petCardPage: {
     visits: {[id: string]: IVisitsRaw },
     currentVisit: string,
+  },
+  clientsPage: {
+    currentPet: string,
+    pets: {[index: string]: IPet},
   }
 }
 
 export const VisitsTable = () => {
-  const {partState: {visits, currentVisit}, dispatch} = useDispatchSelect((partState: IpartState) => ({
+  const {partState: {
+    visits, currentVisit, pets, currentPet
+  }, dispatch} = useDispatchSelect((partState: IpartState) => ({
     visits: partState.petCardPage.visits,
     currentVisit: partState.petCardPage.currentVisit,
+    pets: partState.clientsPage.pets,
+    currentPet: partState.clientsPage.currentPet,
   }))
   const rows = Object.keys(visits).map(item => item).sort((a, b) => {
     const a1 = +Lib.dateFromString(visits[a].shortData.date)
@@ -46,7 +55,7 @@ export const VisitsTable = () => {
           <div>{visits[item].shortData.visitResult}</div>
           <div>{visits[item].shortData.diagnosis}</div>
           <div>{visits[item].shortData.doctor}</div>
-          <div>{visits[item].shortData.date}</div>
+          <div>{pets[currentPet].castration}</div>
           <div>{visits[item].shortData.age}</div>
           <div>{visits[item].shortData.weight}</div>
           <div>{visits[item].shortData.temperature}</div>

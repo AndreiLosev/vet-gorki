@@ -23,12 +23,14 @@ interface IpartState {
     showGoalOfRequest: boolean,
     showVisitResult: boolean,
     IsFetching: boolean,
+    showTemplate: boolean,
   },
   staticData: {
     diagnoses: string[],
     doctor: string[],
     goalOfRequest: string[],
     visitResult: string[],
+    templateNames: string[],
   },
   editor: { shortData: TShortData },
   clientsPage: { currentPet: string },
@@ -36,8 +38,8 @@ interface IpartState {
 
 export const PetCard: React.FC<{}> = () => {
   const {partState: {
-    showDiagnosesList, diagnoses, shortData, currentPet, showDoctorList, doctor,
-    showGoalOfRequest, showVisitResult, goalOfRequest, visitResult, IsFetching
+    showDiagnosesList, diagnoses, shortData, currentPet, showDoctorList, doctor, templateNames,
+    showGoalOfRequest, showVisitResult, goalOfRequest, visitResult, IsFetching, showTemplate,
   }, dispatch} = useDispatchSelect(
       (partSate: IpartState) => ({
         showDiagnosesList: partSate.petCardPage.showDiagnosesList,
@@ -51,6 +53,8 @@ export const PetCard: React.FC<{}> = () => {
         goalOfRequest: partSate.staticData.goalOfRequest,
         visitResult: partSate.staticData.visitResult,
         IsFetching: partSate.petCardPage.IsFetching,
+        showTemplate: partSate.petCardPage.showTemplate,
+        templateNames: partSate.staticData.templateNames,
       }),
   )
   const {goTo} = React.useContext(NavigatorContext)
@@ -58,6 +62,7 @@ export const PetCard: React.FC<{}> = () => {
   const [showDoctorListInside, showDoctorListOutsid] = useShowNicely(showDoctorList, 1000)
   const [showGoalOfRequestInside, showGoalOfRequestOutsid] = useShowNicely(showGoalOfRequest, 1000)
   const [showVisitResultInside, showVisitResultOutsid] = useShowNicely(showVisitResult, 1000)
+  const [showTemplateInside, showTemplateOutsid] = useShowNicely(showTemplate, 1000)
   if (!currentPet) goTo('clients')
   const [show, setShow] = React.useState(false)
   React.useEffect(() => setShow(true), [])
@@ -102,7 +107,19 @@ export const PetCard: React.FC<{}> = () => {
       pressClose: () => dispatch(PetCardsActionCreater.createSetBoolData('showVisitResult', false)),
       pressRemove: (options: string[]) =>
         dispatch(StaticDataActionCreater.createSetNewData('visitResult', options, true)),
-    }
+    },
+    {
+      visible1: showTemplateInside, visible: showTemplateOutsid, options: templateNames, tooltip: "шаблон",
+      pressAdd : (selectedOptions: string) => {
+        dispatch(StaticDataActionCreater.createGetTemplate(selectedOptions.slice(0, selectedOptions.length)))
+      },
+      pressAddOptions: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetTemplate(options[0])),
+      pressClose: () => dispatch(PetCardsActionCreater.createSetBoolData('showTemplate', false)),
+      pressRemove: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createRemoveTemplate(options[0])),
+      singleChoice: true,
+  },
   ]
   return (
     <div className={cn('petCardConteiner', {'activePetCard': show}, {'deactivePetCard': !show})}>
@@ -110,6 +127,7 @@ export const PetCard: React.FC<{}> = () => {
         visible={item.visible} options={item.options} tooltip={item.tooltip}
         pressAddOptions={item.pressAddOptions} pressAdd={item.pressAdd}
         pressRemove={item.pressRemove} pressClose={item.pressClose}
+        singleChoice={item.singleChoice}
       /> : null)}
       {IsFetching ? <LoadingSpiner /> : null}
       <PetCardHeader />

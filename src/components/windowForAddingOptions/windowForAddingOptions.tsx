@@ -7,6 +7,7 @@ type Props = {
   visible: boolean,
   options: string[],
   tooltip?: string,
+  singleChoice?: boolean,
   pressAdd?: (actualOptions: string) => void,
   pressRemove: (actualOptions: string[]) => void,
   pressAddOptions: (selectedOptions: string[]) => void,
@@ -14,7 +15,7 @@ type Props = {
 }
 
 export const WindowForAddingOptions: React.FC<Props> = ({
-  visible, options, pressAdd, pressAddOptions, pressRemove, pressClose, tooltip
+  visible, options, pressAdd, pressAddOptions, pressRemove, pressClose, tooltip, singleChoice,
 }) => {
   const [search, setSearch] = React.useState('')
   const [cheked, setCheked] = React.useState<{[index: string]: boolean}>(
@@ -22,7 +23,6 @@ export const WindowForAddingOptions: React.FC<Props> = ({
   )
   const actualDuagnoses = options.filter(item => item.match(new RegExp(search, 'i'))?.input)
   const selectedOptions = actualDuagnoses.filter(item => cheked[item])
-  const selectedOptionsStr = selectedOptions.join('\n')
   return (
     <div className={cn(stls.conteiner, {[stls.activDiagnoses]: visible}, {[stls.deactivDiagnoses]: !visible})}>
       <div className={stls.toolbar}>
@@ -45,14 +45,18 @@ export const WindowForAddingOptions: React.FC<Props> = ({
       <div className={stls.content}>
         {actualDuagnoses.sort().map(item => <div
             className={stls.item} key={item}
-            onMouseDown={() => setCheked(prev => ({...prev, [item]: !prev[item]}))}>
+            onMouseDown={() => {
+              if (singleChoice) setCheked(prev => Object.keys(prev)
+                .reduce((acc, elem) => ({...acc, [elem]: elem === item ? !prev[item] : false}), prev))
+              else setCheked(prev => ({...prev, [item]: !prev[item]}))
+            }}>
             <input type="checkbox" checked={cheked[item]} readOnly={true} onClick={e => e.preventDefault()}/>
             <span>{item}</span>
           </div>)}
       </div>
       <div className={stls.footer}>
         {pressAdd ? <div className={stls.button}
-          onClick={() => pressAdd ? pressAdd(selectedOptionsStr) : null}>
+          onClick={() => pressAdd ? pressAdd(selectedOptions.join('\n')) : null}>
           Добавить
         </div> : null}
         <div className={stls.button}

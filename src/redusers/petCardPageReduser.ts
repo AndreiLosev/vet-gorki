@@ -25,12 +25,13 @@ const initState = {
   showVisitResult: false,
   IsFetching: false,
   saved: false,
+  showTemplate: false,
   currentVisit: '',
   visits: {} as {[id: string]: IVisitsRaw}
 }
 
 export type TStateBoolData = 'showDiagnosesList' | 'saved' | 'IsFetching' |
-  'showDoctorList' |'showGoalOfRequest' | 'showVisitResult'
+  'showDoctorList' |'showGoalOfRequest' | 'showVisitResult' | 'showTemplate'
 
 export type TPetCardPageState = typeof initState
 

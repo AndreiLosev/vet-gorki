@@ -9,6 +9,7 @@ const initState = {
   diagnoses: [] as string[],
   breed: {} as { [index: string]: string[] },
   petType: [] as string[],
+  templateNames: [] as string[],
 }
 
 export type TStaticDataState = typeof initState
@@ -30,6 +31,8 @@ export const staticDataReduser: Reducer<TStaticDataState, TAction> = (state=init
       return {...state, goalOfRequest: action.pyload}
     case StaticDataActionType.ADD_VISIT_RESULT:
       return {...state, visitResult: action.pyload}
+    case StaticDataActionType.ADD_TEMPLATE_NAMES:
+      return {...state, templateNames: action.pyload}
     default:
       return state
   }
