@@ -4,7 +4,8 @@ const contextInit = {
   login: true,
   clients: false,
   petCart: false,
-  goTo: (page: 'login' | 'clients' | 'petCart') => {}
+  print: false,
+  goTo: (page: 'login' | 'clients' | 'petCart' | 'print') => {}
 }
 
 export const NavigatorContext = React.createContext(contextInit)
@@ -18,6 +19,7 @@ export const ContexProvider: React.FC<Props> = ({child}) => {
     login: true,
     clients: false,
     petCart: false,
+    print: false,
   })
   type TPage = keyof typeof navigator
   const goTo = (page: TPage) => {
