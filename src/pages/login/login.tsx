@@ -35,7 +35,6 @@ export const Login: React.FC<{}> = () => {
   React.useEffect(() => {
     dispatch(StaticDataActionCreater.createGetStatickData())
   }, [dispatch])
-  goTo('print')
   return (
     <div className={cn('loginConteiner')}>
       <form className={cn('formBorder')}  onSubmit={formik.handleSubmit}>

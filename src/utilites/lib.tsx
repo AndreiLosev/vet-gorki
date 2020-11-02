@@ -69,8 +69,8 @@ export class Lib {
     const dateRaf = ContentState.createFromText(text)
     const selectionDateRaf = SelectionState.createEmpty('').merge({
       anchorKey: dateRaf.getFirstBlock().getKey(),
-      anchorOffset: 0,  
-      focusOffset: dateRaf.getLastBlock().getText().length, 
+      anchorOffset: 0,
+      focusOffset: dateRaf.getLastBlock().getText().length,
       focusKey: dateRaf.getLastBlock().getKey(),
     })
     return styles.reduce((acc, item) =>

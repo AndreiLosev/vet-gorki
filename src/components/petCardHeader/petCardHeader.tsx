@@ -63,13 +63,18 @@ export const PetCardHeader = () => {
           dispatch(EditorActionCreater.createLoadEditorsfromRaw(clearEditor))
         }}
       />
-      <SquareButton color="white" symbol="&#128190;" size="size2" tooltip="Сохранить"
+      <SquareButton color="white" symbol="&#8721;" size="size2" tooltip="Сохранить"
         pressHeadnler={() => dispatch(PetCardsActionCreater.createUpdateVisit(currentVisit))}
       />
-      <SquareButton color="white" symbol="&#128199;" size="size2" tooltip="Печать"
-        pressHeadnler={() => undefined}
+      <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Печать"
+        pressHeadnler={() => {
+          if (currentVisit && currentPet) {
+            dispatch(PetCardsActionCreater.createPrintData(currentVisit))
+            goTo('print')
+          } else alert('не выбран питомец или клиент')
+        }}
       />
-      <SquareButton color="white" symbol="&#128040;" size="size2" tooltip="Шаблоны"
+      <SquareButton color="white" symbol="&#916;" size="size2" tooltip="Шаблоны"
         pressHeadnler={() => dispatch(PetCardsActionCreater.createSetBoolData('showTemplate', true))}
       />
       <div className={stls.clientAndPet}>

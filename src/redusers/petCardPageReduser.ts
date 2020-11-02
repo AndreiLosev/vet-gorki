@@ -1,4 +1,5 @@
 import {Reducer} from 'redux'
+import {EditorState} from 'draft-js'
 import {PetCardActionType, TAction} from '../actions/petCardActions'
 import {TShortData, TEditorNames} from './editorReduser'
 import {TAligment} from '../redusers/editorReduser'
@@ -27,7 +28,8 @@ const initState = {
   saved: false,
   showTemplate: false,
   currentVisit: '',
-  visits: {} as {[id: string]: IVisitsRaw}
+  visits: {} as {[id: string]: IVisitsRaw},
+  print: EditorState.createEmpty(),
 }
 
 export type TStateBoolData = 'showDiagnosesList' | 'saved' | 'IsFetching' |
@@ -43,6 +45,8 @@ export const petCardPageReduser: Reducer<TPetCardPageState, TAction> = (state=in
       return {...state, currentVisit: action.pyload}
     case PetCardActionType.SET_VISITS:
       return {...state, visits: action.pyload}
+    case PetCardActionType.SET_PRINT:
+      return {...state, print: action.pyload}
     default:
       return state
   }

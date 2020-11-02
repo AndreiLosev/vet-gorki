@@ -107,7 +107,7 @@ export const PetCardForm = () => {
           />
         </div>
         <textarea
-          className={stls.diagnosesFild} rows={15}
+          className={stls.diagnosesFild} rows={10}
           value={shortData.diagnosis}
           onChange={e => dispatch(EditorActionCreater.createSetShortData('diagnosis', e.target.value))}
         />

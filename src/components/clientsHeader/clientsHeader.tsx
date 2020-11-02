@@ -3,6 +3,8 @@ import stls from './clientsHeader.module.scss'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {SquareButton} from '../squareButton/squareButton'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
+import {PetCardsActionCreater} from '../../actions/petCardActions'
+import {NavigatorContext} from '../../navigation'
 
 
 interface IpartState {
@@ -12,17 +14,22 @@ interface IpartState {
     clientEditing: boolean,
     petEditing: boolean,
   },
+  petCardPage: {
+    currentVisit: string,
+  },
 }
 
 export const ClientsHeader = () => {
-  const {partState: {currentClient, currentPet, clientEditing, petEditing}, dispatch} = useDispatchSelect(
+  const {partState: {currentClient, currentPet, clientEditing, petEditing, currentVisit}, dispatch} = useDispatchSelect(
     (partState: IpartState) => ({
       currentClient: partState.clientsPage.currentClient,
       currentPet: partState.clientsPage.currentPet,
       clientEditing: partState.clientsPage.clientEditing,
-      petEditing: partState.clientsPage.petEditing
+      petEditing: partState.clientsPage.petEditing,
+      currentVisit: partState.petCardPage.currentVisit,
     }),
   )
+  const {goTo} = React.useContext(NavigatorContext)
   const [searchLine, setSearchLine] = React.useState('')
   React.useEffect(() => {
     if (clientEditing && currentClient)
@@ -49,13 +56,18 @@ export const ClientsHeader = () => {
           if (currentClient) dispatch(ClientsActionCreater.createDeleteUser(currentClient))
         }}
       />
-      <SquareButton color="white" symbol="&#128199;" size="size2" tooltip="Печать"
-        pressHeadnler={() => undefined}
+      <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Печать"
+        pressHeadnler={() => {
+          if (currentPet && currentVisit) {
+            dispatch(PetCardsActionCreater.createPrintData(currentVisit))
+            goTo('print')
+          } else alert('не выбран питомец или визит')
+        }}
       />
       <input className={stls.search} type="text" placeholder="Фамилия, Адрес, Телефон"
         value={searchLine} onChange={e => setSearchLine(e.target.value)}
       />
-      <SquareButton color="white" symbol="&#128270;" size="size2" tooltip="Поиск"
+      <SquareButton color="white" symbol="&#128269;" size="size2" tooltip="Поиск"
         pressHeadnler={() => dispatch(ClientsActionCreater.createSearch(searchLine))}
       />
       <SquareButton color="white" symbol="+1" size="size2" tooltip="Добавить питомца клиенту"

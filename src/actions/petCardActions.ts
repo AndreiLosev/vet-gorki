@@ -11,6 +11,7 @@ export class PetCardActionType {
   static SET_BOOL_DATA = 'SET_BOOL_DATA' as const
   static SET_VISITS = 'SET_VISITS' as const
   static SET_CURRENT_VISIT = 'SET_CURRENT_VISIT' as const
+  static SET_PRINT = 'SET_PRINT' as const
 }
 
 export class PetCardsActionCreater {
@@ -23,6 +24,9 @@ export class PetCardsActionCreater {
 
   static createSetCurrentVisit = (id: string) =>
     ({ type: PetCardActionType.SET_CURRENT_VISIT, pyload: id })
+
+  static createSetPrint = (print: EditorState) =>
+    ({ type: PetCardActionType.SET_PRINT, pyload: print })
 
   static createAddVisits = (currentPetKey: string): AppAction => async (dispatch, getState) => {
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', true))
@@ -127,9 +131,30 @@ export class PetCardsActionCreater {
     }
     dispatch(EditorActionCreater.createLoadEditorsfromRaw(editor))
   }
+
+  static createPrintData = (currentVisitID: string): AppAction => (dispatch, getState) => {
+    const visit = getState().petCardPage.visits[currentVisitID]
+    const shortData = visit.shortData
+    const data = Lib.contentBlockArrayFromText(new Date().toLocaleDateString(), [])
+    const doctor = Lib.contentBlockArrayFromText(`Врачь: ${shortData.doctor}`, [])
+    const temperature = Lib.contentBlockArrayFromText(`Температура: ${shortData.temperature}`, [])
+    const goalOfRequest = Lib.contentBlockArrayFromText(`Цель визита: ${shortData.goalOfRequest}`, [])
+    const weight = Lib.contentBlockArrayFromText(`Вес: ${shortData.weight}`, [])
+    const visitResult = Lib.contentBlockArrayFromText(`Результат посещения: ${shortData.visitResult}`, [])
+    const discriptionLabel = Lib.contentBlockArrayFromText(`Описание лечения:`, [])
+    const discription = convertFromRaw(JSON.parse(visit.description)).getBlocksAsArray()
+    const recommendationsLabel = Lib.contentBlockArrayFromText(`Рекомендации и назначения:`, [])
+    const recommendations = convertFromRaw(JSON.parse(visit.recommendations)).getBlocksAsArray()
+    const result = ContentState.createFromBlockArray(data.concat(
+      doctor, temperature, goalOfRequest, weight, visitResult, discriptionLabel,
+      discription, recommendationsLabel, recommendations,
+    ))
+    dispatch(PetCardsActionCreater.createSetPrint(EditorState.createWithContent(result)))
+  }
 }
 
 export type TAction =
   | ReturnType<typeof PetCardsActionCreater.createSetBoolData>
   | ReturnType<typeof PetCardsActionCreater.createSetVisits>
   | ReturnType<typeof PetCardsActionCreater.createSetCurrentVisit>
+  | ReturnType<typeof PetCardsActionCreater.createSetPrint>
