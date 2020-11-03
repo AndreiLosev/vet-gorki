@@ -1,11 +1,9 @@
 import React from 'react'
 import stls from './editor.module.scss'
-import {Dispatch} from 'redux';
 import {EditorState} from 'draft-js'
 import {EditorUtils} from '../../utilites/editorUtils'
 import {TwoStateButton} from '../twoStateButton/twoStateButton'
 import {TEditorState} from '../../redusers/editorReduser'
-import {EditorActionCreater} from '../../actions/editorActions'
 import {ManyStateButton} from '../manyStateButton/manyStateButton'
 
 type localState = {[index: string]: {symbol: string | JSX.Element, tooltip: string, activation: any}}
@@ -14,40 +12,16 @@ interface IpartState {editor: TEditorState}
 
 type Props = {
   currentEditor: EditorState,
-  dispatch: Dispatch,
+  pressHeandlers: {[index: string]: any},
 }
 
-export const FontButtons: React.FC<Props> = ({currentEditor, dispatch}) => {
+export const FontButtons: React.FC<Props> = ({currentEditor, pressHeandlers}) => {
   const font: localState = {
-    BOLD:
-      {
-        symbol: <strong>B</strong>, tooltip: 'жирный',
-        activation: EditorUtils.switchStyle('BOLD', EditorActionCreater.createSetSimbleStyle, dispatch)
-      },
-    ITALIC:
-      {
-        symbol: <i>I</i>, tooltip: 'курсив',
-        activation: EditorUtils.switchStyle('ITALIC', EditorActionCreater.createSetSimbleStyle, dispatch)
-      },
-    UNDERLINE:
-      {
-        symbol: <u>U</u>, tooltip: 'подчёркнутый',
-        activation: EditorUtils.switchStyle('UNDERLINE', EditorActionCreater.createSetSimbleStyle, dispatch)
-      },
-    UPPERINDEX:
-      {
-        symbol: <span>A&#178;</span>, tooltip: 'верхний индекс',
-        activation: EditorUtils.switchStyle(
-          'UPPERINDEX', EditorActionCreater.createSetXorStyle, dispatch, Object.keys(UpperLowerIndex),
-        )
-      },
-    LOWERINDEX:
-      {
-        symbol: <span>A&#7530;</span>, tooltip: 'нижний индекс',
-        activation: EditorUtils.switchStyle(
-          'LOWERINDEX', EditorActionCreater.createSetXorStyle, dispatch,  Object.keys(UpperLowerIndex),
-        )
-      },
+    BOLD:{ symbol: <strong>B</strong>, tooltip: 'жирный', activation: pressHeandlers['BOLD'] },
+    ITALIC: { symbol: <i>I</i>, tooltip: 'курсив', activation: pressHeandlers['ITALIC'] },
+    UNDERLINE: { symbol: <u>U</u>, tooltip: 'подчёркнутый', activation: pressHeandlers['UNDERLINE'] },
+    UPPERINDEX: { symbol: <span>A&#178;</span>, tooltip: 'верхний индекс', activation: pressHeandlers['UPPERINDEX'] },
+    LOWERINDEX: { symbol: <span>A&#7530;</span>, tooltip: 'нижний индекс', activation: pressHeandlers['LOWERINDEX'] },
   }
   const currentFontSize = EditorUtils.findXorStyle(/FONT_SIZE/, currentEditor)
   return (
@@ -57,7 +31,7 @@ export const FontButtons: React.FC<Props> = ({currentEditor, dispatch}) => {
           currentOption={FontSize[currentFontSize] ? FontSize[currentFontSize]: {fontSize: '14px'}}
           responsiveStyle="text"
           options={Object.entries(FontSize)}
-          pressHender={(style: string) => dispatch(EditorActionCreater.createSetXorStyle(style, Object.keys(FontSize)))}
+          pressHender={pressHeandlers['fontSize']}
         />
           {Object.keys(font).map(item => <TwoStateButton
             symbol={font[item].symbol}

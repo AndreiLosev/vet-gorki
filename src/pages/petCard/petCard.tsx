@@ -112,6 +112,7 @@ export const PetCard: React.FC<{}> = () => {
       visible1: showTemplateInside, visible: showTemplateOutsid, options: templateNames, tooltip: "шаблон",
       pressAdd : (selectedOptions: string) => {
         dispatch(StaticDataActionCreater.createGetTemplate(selectedOptions.slice(0, selectedOptions.length)))
+        dispatch(PetCardsActionCreater.createSetBoolData('showTemplate', false))
       },
       pressAddOptions: (options: string[]) =>
         dispatch(StaticDataActionCreater.createSetTemplate(options[0])),

@@ -1,5 +1,4 @@
-import {Dispatch, AnyAction} from 'redux'
-import {RichUtils, EditorState} from 'draft-js'
+import {RichUtils, EditorState, ContentState, SelectionState, Modifier} from 'draft-js'
 
 export type TSimpleStyle = 'BOLD' | 'ITALIC' | 'UNDERLINE'
 
@@ -21,7 +20,7 @@ export class EditorUtils {
   static onBlockStyle = (command: string, editorState: EditorState): EditorState =>
     RichUtils.toggleBlockType(editorState, command)
 
-  static switchStyle = (style: string, callback: any, dispatch: Dispatch<AnyAction>, styleList?: string[]) =>
+  static switchStyle = (style: string, callback: any, dispatch: any, styleList?: string[]) =>
     (_: any, e: React.MouseEvent) => {
     e.preventDefault()
     dispatch(callback(style, styleList))
@@ -29,4 +28,17 @@ export class EditorUtils {
 
   static findXorStyle = (template: RegExp, editorState: EditorState) => editorState
     .getCurrentInlineStyle().toArray().filter(item => item ? item.match(template) : false)[0]
+
+  static contentBlockArrayFromText = (text: string, styles: string[]) => {
+    const dateRaf = ContentState.createFromText(text)
+    const selectionDateRaf = SelectionState.createEmpty('').merge({
+      anchorKey: dateRaf.getFirstBlock().getKey(),
+      anchorOffset: 0,
+      focusOffset: dateRaf.getLastBlock().getText().length,
+      focusKey: dateRaf.getLastBlock().getKey(),
+    })
+    return styles.reduce((acc, item) =>
+      Modifier.applyInlineStyle(acc, selectionDateRaf, item),
+      dateRaf).getBlocksAsArray()
+  }
 }

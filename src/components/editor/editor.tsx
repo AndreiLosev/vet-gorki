@@ -3,6 +3,7 @@ import stls from './editor.module.scss'
 import cn from 'classnames'
 import {Editor, EditorState, RichUtils} from 'draft-js';
 import 'draft-js/dist/Draft.css';
+import {EditorUtils} from '../../utilites/editorUtils'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {EditorActionCreater} from '../../actions/editorActions'
 import {PetCardsActionCreater} from '../../actions/petCardActions'
@@ -34,7 +35,19 @@ export const EditorConteiner = () => {
   return (
     <div className={stls.editorWrapper}>
       <div className={stls.toolBar}>
-        <FontButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
+        <FontButtons currentEditor={editor[editor.activeEditor]} pressHeandlers={{
+          BOLD: EditorUtils.switchStyle('BOLD', EditorActionCreater.createSetSimbleStyle, dispatch),
+          ITALIC: EditorUtils.switchStyle('ITALIC', EditorActionCreater.createSetSimbleStyle, dispatch),
+          UNDERLINE: EditorUtils.switchStyle('UNDERLINE', EditorActionCreater.createSetSimbleStyle, dispatch),
+          UPPERINDEX: EditorUtils.switchStyle(
+            'UPPERINDEX', EditorActionCreater.createSetXorStyle, dispatch, Object.keys(UpperLowerIndex),
+          ),
+          LOWERINDEX: EditorUtils.switchStyle(
+            'LOWERINDEX', EditorActionCreater.createSetXorStyle, dispatch,  Object.keys(UpperLowerIndex),
+          ),
+          fontSize: (style: string) => dispatch(EditorActionCreater.createSetXorStyle(style, Object.keys(FontSize)))
+        }}
+        />
         <ColorButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
         <TextAlignmentButtins alignment={editor.alignment[editor.activeEditor]} dispatch={dispatch}/>
         <ListButtons dispatch={dispatch} currentStyle={currentBlockStyle}/>

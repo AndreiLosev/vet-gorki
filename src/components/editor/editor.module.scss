@@ -17,21 +17,10 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-
-    .fonts {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px dashed #19aa8d;
-      padding: 5px;
-      border-radius: 5px;
-      margin-left: 5px;
-      :not(:first-child) {margin-left: 5px;}
-      * { font-size: calcFluidFontSize(12, 20, 480, 1920) };
-    }
   };
 
   .editorTextarea {
+    width: 210mm;
     padding: 8px;
     max-height: 700px;
     flex: 0 0 90%;
@@ -43,4 +32,16 @@
 
 .buffer {
   height: 15px;
+}
+
+.fonts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed #19aa8d;
+  padding: 5px;
+  border-radius: 5px;
+  margin-left: 5px;
+  :not(:first-child) {margin-left: 5px;}
+  * { font-size: calcFluidFontSize(12, 20, 480, 1920) };
 }

@@ -6,6 +6,7 @@ import {IVisitsRaw} from '../redusers/petCardPageReduser'
 import {ClientsActionCreater} from './clientsPageActions'
 import {EditorActionCreater} from './editorActions'
 import {Lib} from '../utilites/lib'
+import {EditorUtils} from '../utilites/editorUtils'
 
 export class PetCardActionType {
   static SET_BOOL_DATA = 'SET_BOOL_DATA' as const
@@ -102,16 +103,16 @@ export class PetCardsActionCreater {
     })
     const historyEditor = visitsArr.reduce((acc, item) => {
       const newAcc = acc.getBlocksAsArray()
-      const date = Lib.contentBlockArrayFromText(
+      const date = EditorUtils.contentBlockArrayFromText(
         `\n      ${item.shortData.date}  Врачь: ${item.shortData.doctor}      \n`,
         ['BOLD', 'FONT_SIZE_20', 'UNDERLINE'],
       )
-      const descriptionText = Lib.contentBlockArrayFromText(
+      const descriptionText = EditorUtils.contentBlockArrayFromText(
         '\n     Описание лечения     \n',
         ['BOLD', 'FONT_SIZE_16', 'UNDERLINE'],
       )
       const description = convertFromRaw(JSON.parse(item.description)).getBlocksAsArray()
-      const recommendationsText = Lib.contentBlockArrayFromText(
+      const recommendationsText = EditorUtils.contentBlockArrayFromText(
         '\n     Рекомендации и назначения     \n',
         ['BOLD', 'FONT_SIZE_16', 'UNDERLINE'],
       )
@@ -135,15 +136,15 @@ export class PetCardsActionCreater {
   static createPrintData = (currentVisitID: string): AppAction => (dispatch, getState) => {
     const visit = getState().petCardPage.visits[currentVisitID]
     const shortData = visit.shortData
-    const data = Lib.contentBlockArrayFromText(new Date().toLocaleDateString(), [])
-    const doctor = Lib.contentBlockArrayFromText(`Врачь: ${shortData.doctor}`, [])
-    const temperature = Lib.contentBlockArrayFromText(`Температура: ${shortData.temperature}`, [])
-    const goalOfRequest = Lib.contentBlockArrayFromText(`Цель визита: ${shortData.goalOfRequest}`, [])
-    const weight = Lib.contentBlockArrayFromText(`Вес: ${shortData.weight}`, [])
-    const visitResult = Lib.contentBlockArrayFromText(`Результат посещения: ${shortData.visitResult}`, [])
-    const discriptionLabel = Lib.contentBlockArrayFromText(`Описание лечения:`, [])
+    const data = EditorUtils.contentBlockArrayFromText(new Date().toLocaleDateString(), [])
+    const doctor = EditorUtils.contentBlockArrayFromText(`Врачь: ${shortData.doctor}`, [])
+    const temperature = EditorUtils.contentBlockArrayFromText(`Температура: ${shortData.temperature}`, [])
+    const goalOfRequest = EditorUtils.contentBlockArrayFromText(`Цель визита: ${shortData.goalOfRequest}`, [])
+    const weight = EditorUtils.contentBlockArrayFromText(`Вес: ${shortData.weight}`, [])
+    const visitResult = EditorUtils.contentBlockArrayFromText(`Результат посещения: ${shortData.visitResult}`, [])
+    const discriptionLabel = EditorUtils.contentBlockArrayFromText(`Описание лечения:`, [])
     const discription = convertFromRaw(JSON.parse(visit.description)).getBlocksAsArray()
-    const recommendationsLabel = Lib.contentBlockArrayFromText(`Рекомендации и назначения:`, [])
+    const recommendationsLabel = EditorUtils.contentBlockArrayFromText(`Рекомендации и назначения:`, [])
     const recommendations = convertFromRaw(JSON.parse(visit.recommendations)).getBlocksAsArray()
     const result = ContentState.createFromBlockArray(data.concat(
       doctor, temperature, goalOfRequest, weight, visitResult, discriptionLabel,
