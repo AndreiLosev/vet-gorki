@@ -7,6 +7,13 @@ export const centered = <svg width="15" height="30">
   <line x1="3" y1="24" x2="12" y2="24" strokeWidth="2" />
 </svg>
 
+export const justify = <svg width="15" height="30">
+  <line x1="0" y1="6" x2="15" y2="6" strokeWidth="2" />
+  <line x1="0" y1="12" x2="15" y2="12" strokeWidth="2" />
+  <line x1="0" y1="18" x2="15" y2="18" strokeWidth="2" />
+  <line x1="0" y1="24" x2="15" y2="24" strokeWidth="2" />
+</svg>
+
 export const leftAligned = <svg width="15" height="30">
   <line x1="0" y1="6" x2="15" y2="6" strokeWidth="2" />
   <line x1="0" y1="12" x2="12" y2="12" strokeWidth="2" />

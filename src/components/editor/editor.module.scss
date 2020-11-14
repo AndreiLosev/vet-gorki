@@ -45,3 +45,24 @@
   :not(:first-child) {margin-left: 5px;}
   * { font-size: calcFluidFontSize(12, 20, 480, 1920) };
 }
+
+.FONT_SIZE_10 { font-size: 10px }
+.FONT_SIZE_12 { font-size: 12px }
+.FONT_SIZE_14 { font-size: 14px }
+.FONT_SIZE_16 { font-size: 16px }
+.FONT_SIZE_18 { font-size: 18px }
+.FONT_SIZE_20 { font-size: 20px }
+.FONT_SIZE_22 { font-size: 22px }
+.FONT_SIZE_24 { font-size: 24px }
+.FONT_SIZE_26 { font-size: 26px }
+.FONT_SIZE_28 { font-size: 28px }
+.FONT_SIZE_30 { font-size: 30px }
+.FONT_SIZE_32 { font-size: 32px }
+.FONT_SIZE_34 { font-size: 34px }
+.FONT_SIZE_36 { font-size: 36px }
+.FONT_SIZE_38 { font-size: 38px }
+.FONT_SIZE_40 { font-size: 40px }
+.textLeft { text-align: left }
+.textCenter { text-align: center }
+.textRight { text-align: right }
+.textJustify { text-align: justify }

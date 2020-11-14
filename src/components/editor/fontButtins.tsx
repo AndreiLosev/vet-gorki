@@ -3,12 +3,9 @@ import stls from './editor.module.scss'
 import {EditorState} from 'draft-js'
 import {EditorUtils} from '../../utilites/editorUtils'
 import {TwoStateButton} from '../twoStateButton/twoStateButton'
-import {TEditorState} from '../../redusers/editorReduser'
 import {ManyStateButton} from '../manyStateButton/manyStateButton'
 
 type localState = {[index: string]: {symbol: string | JSX.Element, tooltip: string, activation: any}}
-
-interface IpartState {editor: TEditorState}
 
 type Props = {
   currentEditor: EditorState,

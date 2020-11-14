@@ -1,35 +1,36 @@
 import React from 'react'
 import stls from './editor.module.scss'
-import {Dispatch} from 'redux'
-import {EditorUtils} from '../../utilites/editorUtils'
-import {EditorActionCreater} from '../../actions/editorActions'
+import {EditorState} from 'draft-js'
 import {TwoStateButton} from '../twoStateButton/twoStateButton'
-import {centered, leftAligned, rightAligned} from './svgImg'
+import {centered, leftAligned, rightAligned, justify} from './svgImg'
 
 type localState = {
-  [index: string]: {symbol: string | JSX.Element, active: "left" | "right" | "center", tooltip: string}
+  [index: string]: {symbol: string | JSX.Element, active: string, tooltip: string}
 }
 
 type Props = {
-  alignment: "left" | "right" | "center",
-  dispatch: Dispatch,
+  currentEditor: EditorState,
+  pressHeandlers: {[index: string]: any},
 }
 
-export const TextAlignmentButtins: React.FC<Props> = ({alignment, dispatch}) => {
+export const TextAlignmentButtins: React.FC<Props> = ({currentEditor, pressHeandlers}) => {
   const buttonData: localState = {
-    leftAligned: {symbol: leftAligned, active: 'left', tooltip: 'по левому краю'},
-    centered: {symbol: centered, active: 'center', tooltip: 'по центру'},
-    rightAligned: {symbol: rightAligned, active: 'right', tooltip: 'по правому краю'},
+    left: {symbol: leftAligned, active: 'textLeft', tooltip: 'по левому краю'},
+    center: {symbol: centered, active: 'textCenter', tooltip: 'по центру'},
+    right: {symbol: rightAligned, active: 'textRight', tooltip: 'по правому краю'},
+    justify: {symbol: justify, active: 'textJustify', tooltip: 'по ширине'},
+  }
+  const activeCheck = (eState: EditorState) => {
+    const key = eState.getSelection().getStartKey()
+    return eState.getCurrentContent().getBlockForKey(key).getData().get('textAlign')
   }
   return (
     <div className={stls.fonts}>
       <div className={stls.text}>Выравнивание</div>
         {Object.keys(buttonData).map(item => <TwoStateButton
           symbol={buttonData[item].symbol}
-          active={buttonData[item].active === alignment}
-          pressHender={EditorUtils.switchStyle(
-            buttonData[item].active, EditorActionCreater.createSetAlignment, dispatch,
-          )}
+          active={buttonData[item].active === activeCheck(currentEditor)}
+          pressHender={pressHeandlers[item]}
           key1={item} key={item}
           square={true} tooltip={buttonData[item].tooltip}
         />)}

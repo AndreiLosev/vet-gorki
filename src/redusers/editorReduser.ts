@@ -23,12 +23,6 @@ const initState = {
   vaccinations: EditorState.createEmpty(),
   history: EditorState.createEmpty(),
   activeEditor: 'description' as TEditorNames,
-  alignment: {
-    description: 'left' as TAligment,
-    recommendations: 'left' as TAligment,
-    vaccinations: 'left' as TAligment,
-    history: 'left' as TAligment,
-  },
   shortData: {
     date: '',
     weight: '',
@@ -62,8 +56,8 @@ export const editorReduser: Reducer<TEditorState, TAction> = (state=initState, a
       }
     case EditorActionType.SET_BLOCK_STYLE:
       return {...state, [state.activeEditor]: EditorUtils.onBlockStyle(action.pyload, state[state.activeEditor])}
-    case EditorActionType.SET_ALIGNMENT:
-      return {...state, alignment: {...state.alignment, [state.activeEditor]: action.pyload}}
+    case EditorActionType.SET_METADATA_FOR_BLOCK:
+      return {...state, [state.activeEditor]: EditorUtils.setBlockMetaData(action.pyload, state[state.activeEditor])}
     case EditorActionType.SET_SHORT_DATA:
       return {...state, shortData: {...state.shortData, [action.pyload.fild]: action.pyload.value}}
     case EditorActionType.LOAD_EDITORS_FROM_RAW:

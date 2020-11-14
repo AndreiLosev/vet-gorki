@@ -51,10 +51,6 @@ export const PetCardHeader = () => {
             vaccinations: EditorState.createEmpty(),
             history: EditorState.createEmpty(),
             activeEditor: 'description',
-            alignment: {
-              description: 'left', recommendations: 'left',
-              vaccinations: 'left', history: 'left',
-            },
             shortData: {
               date: '', weight: '', temperature: '', diagnosis: '',
               goalOfRequest: '', visitResult: '', age: '', doctor: '',

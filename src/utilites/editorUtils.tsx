@@ -1,4 +1,5 @@
 import {RichUtils, EditorState, ContentState, SelectionState, Modifier} from 'draft-js'
+import {Map} from 'immutable'
 
 export type TSimpleStyle = 'BOLD' | 'ITALIC' | 'UNDERLINE'
 
@@ -20,7 +21,12 @@ export class EditorUtils {
   static onBlockStyle = (command: string, editorState: EditorState): EditorState =>
     RichUtils.toggleBlockType(editorState, command)
 
-  static switchStyle = (style: string, callback: any, dispatch: any, styleList?: string[]) =>
+  static setBlockMetaData = (metaData: {[x: string]: string}, eState: EditorState) => {
+    const newContentState = Modifier.mergeBlockData(eState.getCurrentContent(), eState.getSelection(), Map(metaData))
+    return EditorState.createWithContent(newContentState)
+  }
+
+  static switchStyle = (style: any, callback: any, dispatch: any, styleList?: string[]) =>
     (_: any, e: React.MouseEvent) => {
     e.preventDefault()
     dispatch(callback(style, styleList))
@@ -39,6 +45,7 @@ export class EditorUtils {
     })
     return styles.reduce((acc, item) =>
       Modifier.applyInlineStyle(acc, selectionDateRaf, item),
-      dateRaf).getBlocksAsArray()
+      dateRaf)
+      .getBlocksAsArray()
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import stls from './editor.module.scss'
 import cn from 'classnames'
-import {Editor, EditorState, RichUtils} from 'draft-js';
+import {Editor, EditorState, RichUtils, ContentBlock} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import {EditorUtils} from '../../utilites/editorUtils'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
@@ -21,6 +21,12 @@ export const EditorConteiner = () => {
   const nextEditorState = (editorState: EditorState) => dispatch(EditorActionCreater.createUpdatePage(editorState))
   const editorRef = React.useRef<any>(null)
   React.useEffect(() => { dispatch(PetCardsActionCreater.createSetBoolData('saved', false)) }, [editor, dispatch])
+  React.useEffect(() => {
+    const text = editor[editor.activeEditor].getCurrentContent().getPlainText('')
+    const currentFontSize = EditorUtils.findXorStyle(/FONT_SIZE/, editor[editor.activeEditor])
+    if (!text && !currentFontSize)
+      dispatch(EditorActionCreater.createSetXorStyle('FONT_SIZE_14', Object.keys(FontSize)))
+  }, [dispatch, editor])
   const handleKeyCommand = (command: any) => {
     const newState = RichUtils.handleKeyCommand(editor[editor.activeEditor], command);
     if (newState) {
@@ -49,8 +55,21 @@ export const EditorConteiner = () => {
         }}
         />
         <ColorButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
-        <TextAlignmentButtins alignment={editor.alignment[editor.activeEditor]} dispatch={dispatch}/>
-        <ListButtons dispatch={dispatch} currentStyle={currentBlockStyle}/>
+        <TextAlignmentButtins currentEditor={editor[editor.activeEditor]} pressHeandlers={
+          Object.entries({ left: 'textLeft', center: 'textCenter', right: 'textRight', justify: 'textJustify' })
+            .reduce((acc, item) => ({...acc, ...{[item[0]]: EditorUtils.switchStyle(
+              {textAlign: item[1]}, EditorActionCreater.createSetMeataDataForBlock, dispatch
+            )}}), {})
+        }
+        />
+        <ListButtons currentStyle={currentBlockStyle} pressHeandlers={{
+          markingList: () => EditorUtils.switchStyle(
+            'unordered-list-item', EditorActionCreater.createSetBlockStyle, dispatch,
+          ),
+          numberedList: () => EditorUtils.switchStyle(
+            'ordered-list-item', EditorActionCreater.createSetBlockStyle, dispatch,
+          ),
+        }}/>
       </div>
       <div className={stls.buffer} />
       <div className={cn(stls.editorTextarea, 'scrol')} onClick={() => {
@@ -61,9 +80,16 @@ export const EditorConteiner = () => {
           handleKeyCommand={handleKeyCommand}
           onChange={nextEditorState}
           customStyleMap={{...UpperLowerIndex, ...FontSize, ...backgroundColors, ...colors}}
-          textAlignment={editor.alignment[editor.activeEditor]}
           ref={editorRef}
           readOnly={editor.activeEditor === 'history'}
+          blockStyleFn={(block: ContentBlock) => {
+            if (block.getType() === 'unordered-list-item' || block.getType() === 'ordered-list-item') {
+              const fontSizeClass = block.getInlineStyleAt(0)
+              .toArray().filter(item => item ? item.match(/FONT_SIZE/) : false)[0]
+              console.log(fontSizeClass)
+              return fontSizeClass ? stls[fontSizeClass] : ''
+            } else return ''
+          }}
         />
       </div>
       <div className={stls.buffer} />

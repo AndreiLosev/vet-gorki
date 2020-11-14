@@ -1,8 +1,5 @@
 import React from 'react'
 import stls from './editor.module.scss'
-import {Dispatch} from 'redux'
-import {EditorUtils} from '../../utilites/editorUtils'
-import {EditorActionCreater} from '../../actions/editorActions'
 import {TwoStateButton} from '../twoStateButton/twoStateButton'
 import {numberedList, markingList} from './svgImg'
 
@@ -16,10 +13,10 @@ type localState = {
 
 type Props = {
   currentStyle: string,
-  dispatch: Dispatch
+  pressHeandlers: {[index: string]: any},
 }
 
-export const ListButtons: React.FC<Props> = ({dispatch, currentStyle}) => {
+export const ListButtons: React.FC<Props> = ({currentStyle, pressHeandlers}) => {
   const buttonData: localState = {
     markingList: {symbol: markingList, active: 'unordered-list-item', tooltip: 'маркировочный'},
     numberedList: {symbol: numberedList, active: 'ordered-list-item', tooltip: 'нумеровочный'},
@@ -30,9 +27,7 @@ export const ListButtons: React.FC<Props> = ({dispatch, currentStyle}) => {
       {Object.keys(buttonData).map(item => <TwoStateButton
         symbol={buttonData[item].symbol}
         active={buttonData[item].active === currentStyle}
-        pressHender={EditorUtils.switchStyle(
-          buttonData[item].active, EditorActionCreater.createSetBlockStyle, dispatch,
-        )}
+        pressHender={pressHeandlers[item]()}
         key1={buttonData[item].active} key={item}
         square={true} tooltip={buttonData[item].tooltip}
       />)}
