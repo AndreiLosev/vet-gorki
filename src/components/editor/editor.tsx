@@ -1,8 +1,9 @@
 import React from 'react'
 import stls from './editor.module.scss'
+import './editor.scss'
 import cn from 'classnames'
 import {Editor, EditorState, RichUtils, ContentBlock} from 'draft-js';
-import 'draft-js/dist/Draft.css';
+// import 'draft-js/dist/Draft.css';
 import {EditorUtils} from '../../utilites/editorUtils'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {EditorActionCreater} from '../../actions/editorActions'
@@ -83,12 +84,7 @@ export const EditorConteiner = () => {
           ref={editorRef}
           readOnly={editor.activeEditor === 'history'}
           blockStyleFn={(block: ContentBlock) => {
-            if (block.getType() === 'unordered-list-item' || block.getType() === 'ordered-list-item') {
-              const fontSizeClass = block.getInlineStyleAt(0)
-              .toArray().filter(item => item ? item.match(/FONT_SIZE/) : false)[0]
-              console.log(fontSizeClass)
-              return fontSizeClass ? stls[fontSizeClass] : ''
-            } else return ''
+            return block.getData().get('textAlign')
           }}
         />
       </div>
