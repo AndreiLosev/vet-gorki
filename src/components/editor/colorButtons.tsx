@@ -1,8 +1,6 @@
 import React from 'react'
 import stls from './editor.module.scss'
-import {Dispatch} from 'redux';
 import {EditorState} from 'draft-js'
-import {EditorActionCreater} from '../../actions/editorActions'
 import {EditorUtils} from '../../utilites/editorUtils'
 import {ManyStateButton} from '../manyStateButton/manyStateButton'
 
@@ -12,30 +10,25 @@ type localState = {
     currentOption: {[x: string]: string},
     responsiveStyle: "text" | "color" | "bacground",
     option: Array<[string, {[x: string]: string}]>,
-    pressHender: (arg1?: any, arg2?: any) => void,
   }
 }
 
 type Props = {
   currentEditor: EditorState,
-  dispatch: Dispatch,
+  pressHeandlers: {[index: string]: any},
 }
 
-export const ColorButtons: React.FC<Props> = ({currentEditor, dispatch}) => {
+export const ColorButtons: React.FC<Props> = ({currentEditor, pressHeandlers}) => {
   const currentColor = EditorUtils.findXorStyle(/color/, currentEditor)
-  const currentBColor = EditorUtils.findXorStyle(/bcolor/, currentEditor)
+  const currentBColor = EditorUtils.findXorStyle(/bacground/, currentEditor)
   const buttonData: localState = {
     bacground: {
       symbol: 'A', responsiveStyle: 'bacground', option: Object.entries(backgroundColors),
       currentOption: backgroundColors[currentBColor] ? backgroundColors[currentBColor] : {backgroundColor: '#fff'},
-      pressHender: (style: string) =>
-        dispatch(EditorActionCreater.createSetXorStyle(style, Object.keys(backgroundColors)))
     },
     color: {
       symbol: 'A', responsiveStyle: "color", option: Object.entries(colors),
       currentOption: colors[currentColor] ? colors[currentColor] : {backgroundColor: '#fff'},
-      pressHender: (style: string) =>
-        dispatch(EditorActionCreater.createSetXorStyle(style, Object.keys(colors)))
     },
   }
 
@@ -45,7 +38,7 @@ export const ColorButtons: React.FC<Props> = ({currentEditor, dispatch}) => {
       {Object.keys(buttonData).map(item => <ManyStateButton
         symbol={buttonData[item].symbol}
         currentOption={buttonData[item].currentOption}
-        pressHender={buttonData[item].pressHender}
+        pressHender={pressHeandlers[item]}
         key={item} responsiveStyle={buttonData[item].responsiveStyle}
         options={buttonData[item].option}
       />)}
@@ -53,22 +46,22 @@ export const ColorButtons: React.FC<Props> = ({currentEditor, dispatch}) => {
   )
 }
 export const backgroundColors: {[x: string]: {[x: string]: string}} = {
-  bcolorf44336: { backgroundColor: '#f44336' },
-  bcolore91e63: { backgroundColor: '#e91e63' },
-  bcolor9c27b0: { backgroundColor: '#9c27b0' },
-  bcolor673ab7: { backgroundColor: '#673ab7' },
-  bcolor3f51b5: { backgroundColor: '#3f51b5' },
-  bcolor2196f3: { backgroundColor: '#2196f3' },
-  bcolor03a9f4: { backgroundColor: '#03a9f4' },
-  bcolor00bcd4: { backgroundColor: '#00bcd4' },
-  bcolor009688: { backgroundColor: '#009688' },
-  bcolor4caf50: { backgroundColor: '#4caf50' },
-  bcolorcddc39: { backgroundColor: '#cddc39' },
-  bcolorffeb3b: { backgroundColor: '#ffeb3b' },
-  bcolorffc107: { backgroundColor: '#ffc107' },
-  bcolorff9800: { backgroundColor: '#ff9800' },
-  bcolorfff: { backgroundColor: '#fff' },
-  bcolor000: { backgroundColor: '#000' },
+  bacgroundf44336: { backgroundColor: '#f44336' },
+  bacgrounde91e63: { backgroundColor: '#e91e63' },
+  bacground9c27b0: { backgroundColor: '#9c27b0' },
+  bacground673ab7: { backgroundColor: '#673ab7' },
+  bacground3f51b5: { backgroundColor: '#3f51b5' },
+  bacground2196f3: { backgroundColor: '#2196f3' },
+  bacground03a9f4: { backgroundColor: '#03a9f4' },
+  bacground00bcd4: { backgroundColor: '#00bcd4' },
+  bacground009688: { backgroundColor: '#009688' },
+  bacground4caf50: { backgroundColor: '#4caf50' },
+  bacgroundcddc39: { backgroundColor: '#cddc39' },
+  bacgroundffeb3b: { backgroundColor: '#ffeb3b' },
+  bacgroundffc107: { backgroundColor: '#ffc107' },
+  bacgroundff9800: { backgroundColor: '#ff9800' },
+  bacgroundfff: { backgroundColor: '#fff' },
+  bacground000: { backgroundColor: '#000' },
 }
 
 export const colors: {[x: string]: {[x: string]: string}} = {

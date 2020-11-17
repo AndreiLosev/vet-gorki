@@ -1,4 +1,4 @@
-import {RichUtils, EditorState, ContentState, SelectionState, Modifier} from 'draft-js'
+import {RichUtils, EditorState, ContentState, SelectionState, Modifier, ContentBlock} from 'draft-js'
 import {Map} from 'immutable'
 
 export type TSimpleStyle = 'BOLD' | 'ITALIC' | 'UNDERLINE'
@@ -48,4 +48,19 @@ export class EditorUtils {
       dateRaf)
       .getBlocksAsArray()
   }
+
+  static blockStyleFn = (...fans: Array<(block: ContentBlock) => string>) => (block: ContentBlock) =>
+    fans.map(item => item(block)).join(' ')
+
+  static blockFontSize = (block: ContentBlock) => {
+    const blockType = block.getType()
+    if (blockType === 'unordered-list-item' || blockType === 'ordered-list-item') {
+      const inlineFontSizeStyle = block.getInlineStyleAt(0).toArray()
+        .filter(item => item ? item.match(/FONT_SIZE/) : false)[0]
+      return inlineFontSizeStyle
+    }
+    return ''
+  }
+
+  static blockTextAligen = (block: ContentBlock) => block.getData().get('textAlign')
 }

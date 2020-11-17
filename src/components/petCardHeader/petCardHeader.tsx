@@ -62,7 +62,7 @@ export const PetCardHeader = () => {
       <SquareButton color="white" symbol="&#8721;" size="size2" tooltip="Сохранить"
         pressHeadnler={() => dispatch(PetCardsActionCreater.createUpdateVisit(currentVisit))}
       />
-      <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Печать"
+      <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Подготовка к печати"
         pressHeadnler={() => {
           if (currentVisit && currentPet) {
             dispatch(PetCardsActionCreater.createPrintData(currentVisit))

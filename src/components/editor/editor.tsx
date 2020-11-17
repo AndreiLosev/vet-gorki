@@ -2,7 +2,7 @@ import React from 'react'
 import stls from './editor.module.scss'
 import './editor.scss'
 import cn from 'classnames'
-import {Editor, EditorState, RichUtils, ContentBlock} from 'draft-js';
+import {Editor, EditorState, RichUtils} from 'draft-js';
 // import 'draft-js/dist/Draft.css';
 import {EditorUtils} from '../../utilites/editorUtils'
 import {useDispatchSelect} from '../../utilites/useDispatchSelect'
@@ -55,7 +55,12 @@ export const EditorConteiner = () => {
           fontSize: (style: string) => dispatch(EditorActionCreater.createSetXorStyle(style, Object.keys(FontSize)))
         }}
         />
-        <ColorButtons currentEditor={editor[editor.activeEditor]} dispatch={dispatch} />
+        <ColorButtons currentEditor={editor[editor.activeEditor]} pressHeandlers={{
+          bacground: (style: string) =>
+            dispatch(EditorActionCreater.createSetXorStyle(style, Object.keys(backgroundColors))),
+          color: (style: string) =>
+            dispatch(EditorActionCreater.createSetXorStyle(style, Object.keys(backgroundColors))),
+        }} />
         <TextAlignmentButtins currentEditor={editor[editor.activeEditor]} pressHeandlers={
           Object.entries({ left: 'textLeft', center: 'textCenter', right: 'textRight', justify: 'textJustify' })
             .reduce((acc, item) => ({...acc, ...{[item[0]]: EditorUtils.switchStyle(
@@ -83,9 +88,7 @@ export const EditorConteiner = () => {
           customStyleMap={{...UpperLowerIndex, ...FontSize, ...backgroundColors, ...colors}}
           ref={editorRef}
           readOnly={editor.activeEditor === 'history'}
-          blockStyleFn={(block: ContentBlock) => {
-            return block.getData().get('textAlign')
-          }}
+          blockStyleFn={EditorUtils.blockStyleFn(EditorUtils.blockFontSize, EditorUtils.blockTextAligen)}
         />
       </div>
       <div className={stls.buffer} />

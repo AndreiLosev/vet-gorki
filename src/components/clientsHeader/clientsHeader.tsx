@@ -56,7 +56,7 @@ export const ClientsHeader = () => {
           if (currentClient) dispatch(ClientsActionCreater.createDeleteUser(currentClient))
         }}
       />
-      <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Печать"
+      <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Подготовка к печати"
         pressHeadnler={() => {
           if (currentPet && currentVisit) {
             dispatch(PetCardsActionCreater.createPrintData(currentVisit))
