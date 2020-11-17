@@ -65,8 +65,7 @@ export const PetCardHeader = () => {
       <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Подготовка к печати"
         pressHeadnler={() => {
           if (currentVisit && currentPet) {
-            dispatch(PetCardsActionCreater.createPrintData(currentVisit))
-            goTo('print')
+            dispatch(PetCardsActionCreater.createSetBoolData('showPrintOptions', true))
           } else alert('не выбран питомец или клиент')
         }}
       />

@@ -4,7 +4,6 @@ import {useDispatchSelect} from '../../utilites/useDispatchSelect'
 import {SquareButton} from '../squareButton/squareButton'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
 import {PetCardsActionCreater} from '../../actions/petCardActions'
-import {NavigatorContext} from '../../navigation'
 
 
 interface IpartState {
@@ -29,7 +28,6 @@ export const ClientsHeader = () => {
       currentVisit: partState.petCardPage.currentVisit,
     }),
   )
-  const {goTo} = React.useContext(NavigatorContext)
   const [searchLine, setSearchLine] = React.useState('')
   React.useEffect(() => {
     if (clientEditing && currentClient)
@@ -59,8 +57,7 @@ export const ClientsHeader = () => {
       <SquareButton color="white" symbol="&#128438;" size="size2" tooltip="Подготовка к печати"
         pressHeadnler={() => {
           if (currentPet && currentVisit) {
-            dispatch(PetCardsActionCreater.createPrintData(currentVisit))
-            goTo('print')
+            dispatch(PetCardsActionCreater.createSetBoolData('showPrintOptions', true))
           } else alert('не выбран питомец или визит')
         }}
       />

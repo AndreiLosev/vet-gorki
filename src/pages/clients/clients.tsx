@@ -58,10 +58,27 @@ export const Clients: React.FC<{}> = () => {
   if (!loggedIn) goTo('login')
   const [show, setShow] = React.useState(false)
   React.useEffect(() => setShow(true), [])
+  const data = [
+    {
+      visible1: showPetTypeOptionsInside, visible: showPetTypeOptionsOutsid, options: petType, tooltip: "Вид",
+      pressAddOptions: (options: string[]) => dispatch(StaticDataActionCreater.createSetNewData('petType', options)),
+      pressClose: () => dispatch(ClientsActionCreater.createShowElement('showPetTypeOptions', false)),
+      pressRemove: (options: string[]) => dispatch(StaticDataActionCreater.createSetNewData('petType', options, true)),
+    },
+    {
+      visible1: showBreedOptionsInside, visible: showBreedOptionsOutsid, tooltip: "Порода",
+      options: breed[selectedPetType] ? breed[selectedPetType] : [],
+      pressAddOptions: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData(undefined, options, false, selectedPetType)),
+      pressClose: () => dispatch(ClientsActionCreater.createShowElement('showBreedOptions', false)),
+      pressRemove: (options: string[]) =>
+        dispatch(StaticDataActionCreater.createSetNewData(undefined, options, true, selectedPetType)),
+    },
+  ]
   return (
     <div className={cn('clientsConteiner', {'activeClients': show}, {'deactiveClients': !show})}>
       {IsFetching ? <LoadingSpiner /> : null}
-      {showPetTypeOptionsInside ? <WindowForAddingOptions
+      {/* {showPetTypeOptionsInside ? <WindowForAddingOptions
         visible={showPetTypeOptionsOutsid}
         tooltip="Вид"
         options={petType}
@@ -73,14 +90,15 @@ export const Clients: React.FC<{}> = () => {
       /> : null}
       {showBreedOptionsInside ? <WindowForAddingOptions
         visible={showBreedOptionsOutsid}
-        tooltip="Вид"
+        tooltip="Порода"
         options={breed[selectedPetType] ? breed[selectedPetType] : []}
         pressAddOptions={(options: string[]) =>
           dispatch(StaticDataActionCreater.createSetNewData(undefined, options, false, selectedPetType))}
         pressRemove={(options: string[]) =>
           dispatch(StaticDataActionCreater.createSetNewData(undefined, options, true, selectedPetType))}
         pressClose={() => dispatch(ClientsActionCreater.createShowElement('showBreedOptions', false))}
-      /> : null}
+      /> : null} */}
+      {/* {data.map(item => item)} ///////////!!!!! */}
       <ClientsHeader />
       <div className={cn('contentWrapper')}>
         {showClientFormInside ? <NewClientForm visible={showClientFormOutsid} /> : null}

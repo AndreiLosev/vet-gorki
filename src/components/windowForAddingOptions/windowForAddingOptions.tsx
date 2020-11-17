@@ -8,14 +8,15 @@ type Props = {
   options: string[],
   tooltip?: string,
   singleChoice?: boolean,
+  searchVisible?: boolean,
   pressAdd?: (actualOptions: string) => void,
-  pressRemove: (actualOptions: string[]) => void,
-  pressAddOptions: (selectedOptions: string[]) => void,
+  pressRemove?: (actualOptions: string[]) => void,
+  pressAddOptions?: (selectedOptions: string[]) => void,
   pressClose: () => void,
 }
 
 export const WindowForAddingOptions: React.FC<Props> = ({
-  visible, options, pressAdd, pressAddOptions, pressRemove, pressClose, tooltip, singleChoice,
+  visible, options, pressAdd, pressAddOptions, pressRemove, pressClose, tooltip, singleChoice, searchVisible=true
 }) => {
   const [search, setSearch] = React.useState('')
   const [cheked, setCheked] = React.useState<{[index: string]: boolean}>(
@@ -25,23 +26,23 @@ export const WindowForAddingOptions: React.FC<Props> = ({
   const selectedOptions = actualDuagnoses.filter(item => cheked[item])
   return (
     <div className={cn(stls.conteiner, {[stls.activDiagnoses]: visible}, {[stls.deactivDiagnoses]: !visible})}>
-      <div className={stls.toolbar}>
+      {searchVisible ? <div className={stls.toolbar}>
         <SquareButton color={'white'} symbol="+" size="size2"
           pressHeadnler={() => {
-            pressAddOptions([search])
+            if (pressAddOptions) pressAddOptions([search])
             setSearch('')
           }} tooltip={`Добавить ${tooltip}`}
         />
         <SquareButton color={'white'} symbol="&#215;" size="size2"
           pressHeadnler={() => {
-            pressRemove(selectedOptions)
+            if (pressRemove) pressRemove(selectedOptions)
             setSearch('')
           }} tooltip={`Удалить ${tooltip}`}
         />
         <input className={stls.search} type="text" placeholder={tooltip}
           value={search} onChange={e => setSearch(e.target.value)}
         />
-      </div>
+      </div> : null}
       <div className={stls.content}>
         {actualDuagnoses.sort().map(item => <div
             className={stls.item} key={item}

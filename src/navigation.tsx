@@ -1,14 +1,14 @@
 import React from 'react'
 
-const contextInit = {
-  login: true,
-  clients: false,
-  petCart: false,
-  print: false,
-  goTo: (page: 'login' | 'clients' | 'petCart' | 'print') => {}
+type TContext = {
+  login: boolean,
+  clients: boolean,
+  petCart: boolean,
+  print: boolean,
+  goTo: (page: 'login' | 'clients' | 'petCart' | 'print') => void
 }
 
-export const NavigatorContext = React.createContext(contextInit)
+export const NavigatorContext = React.createContext<TContext>({} as TContext)
 
 type Props = {
   child: JSX.Element

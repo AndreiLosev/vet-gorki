@@ -20,13 +20,14 @@ const initState = {
   IsFetching: false,
   saved: false,
   showTemplate: false,
+  showPrintOptions: false,
   currentVisit: '',
   visits: {} as {[id: string]: IVisitsRaw},
   print: EditorState.createEmpty(),
 }
 
-export type TStateBoolData = 'showDiagnosesList' | 'saved' | 'IsFetching' |
-  'showDoctorList' |'showGoalOfRequest' | 'showVisitResult' | 'showTemplate'
+export type TStateBoolData = 'showDiagnosesList' | 'saved' | 'IsFetching' | 'showPrintOptions'
+  | 'showDoctorList' |'showGoalOfRequest' | 'showVisitResult' | 'showTemplate'
 
 export type TPetCardPageState = typeof initState
 

@@ -133,7 +133,7 @@ export class PetCardsActionCreater {
     dispatch(EditorActionCreater.createLoadEditorsfromRaw(editor))
   }
 
-  static createPrintData = (currentVisitID: string): AppAction => (dispatch, getState) => {
+  static createPrintData = (currentVisitID: string, pages: string[]): AppAction => (dispatch, getState) => {
     const visit = getState().petCardPage.visits[currentVisitID]
     const shortData = visit.shortData
     const data = EditorUtils.contentBlockArrayFromText(new Date().toLocaleDateString(), [])
