@@ -15,8 +15,6 @@ export type TShortData = {
   doctor: string,
 }
 
-export type TAligment = "right" | "left" | "center"
-
 const initState = {
   description: EditorState.createEmpty(),
   recommendations: EditorState.createEmpty(),
@@ -43,6 +41,8 @@ export const editorReduser: Reducer<TEditorState, TAction> = (state=initState, a
       return {...state, activeEditor: action.pyload}
     case EditorActionType.UPDATE_PAGE:
       return {...state, [state.activeEditor]: action.pyload}
+    case EditorActionType.UPDATE_THIS_PAGE:
+      return {...state, [action.pyload.page]: action.pyload.newEditorState}
     case EditorActionType.SET_SIMPLE_STYLE:
       return {...state, [state.activeEditor]: EditorUtils.onSimpleStyle(action.pyload, state[state.activeEditor])}
     case EditorActionType.SET_XOR_STYLE:

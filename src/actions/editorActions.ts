@@ -1,12 +1,13 @@
 import {EditorState} from 'draft-js'
 import {TSimpleStyle} from '../utilites/editorUtils'
-import {TShortData, TEditorState} from '../redusers/editorReduser'
+import {TShortData, TEditorState, TEditorNames} from '../redusers/editorReduser'
 
 export type TShortDataKey = keyof TShortData
 
 export class EditorActionType {
   static SET_PAGE = 'SET_PAGE' as const
   static UPDATE_PAGE = 'UPDATE_PAGE' as const
+  static UPDATE_THIS_PAGE = 'UPDATE_THIS_PAGE' as const
   static SET_SIMPLE_STYLE = 'SET_SIMPLE_STYLE' as const
   static SET_XOR_STYLE = 'SET_XOR_STYLE' as const
   static SET_BLOCK_STYLE = 'SET_BLOCK_STYLE' as const
@@ -21,6 +22,9 @@ export class EditorActionCreater {
 
   static createUpdatePage = (newEditorState: EditorState) =>
     ({ type: EditorActionType.UPDATE_PAGE, pyload: newEditorState })
+
+  static createUpdateThisPage = (newEditorState: EditorState, page: TEditorNames) =>
+    ({ type: EditorActionType.UPDATE_THIS_PAGE, pyload: { newEditorState, page } })
 
   static createSetSimbleStyle = (command: TSimpleStyle) =>
     ({ type: EditorActionType.SET_SIMPLE_STYLE, pyload: command })
@@ -50,3 +54,4 @@ export type TAction =
   | ReturnType<typeof EditorActionCreater.createSetShortData>
   | ReturnType<typeof EditorActionCreater.createLoadEditorsfromRaw>
   | ReturnType<typeof EditorActionCreater.createSetMeataDataForBlock>
+  | ReturnType<typeof EditorActionCreater.createUpdateThisPage>

@@ -1,5 +1,7 @@
-import {RichUtils, EditorState, ContentState, SelectionState, Modifier, ContentBlock} from 'draft-js'
+import {RichUtils, EditorState, ContentState, SelectionState, Modifier, ContentBlock, convertFromRaw} from 'draft-js'
 import {Map} from 'immutable'
+import {IVisitsRaw} from '../redusers/petCardPageReduser'
+import {Lib} from './lib'
 
 export type TSimpleStyle = 'BOLD' | 'ITALIC' | 'UNDERLINE'
 
@@ -63,4 +65,30 @@ export class EditorUtils {
   }
 
   static blockTextAligen = (block: ContentBlock) => block.getData().get('textAlign')
+
+  static createHistory = (visits: { [id: string]: IVisitsRaw }) => {
+    const visitsArr = Object.values(visits).map(item => item)
+    visitsArr.sort((a, b) => {
+      const a1 = +Lib.dateFromString(a.shortData.date)
+      const b1 = +Lib.dateFromString(b.shortData.date)
+      return +a1 - +b1
+    })
+    return visitsArr.reduce((acc, item) => {
+      const date = EditorUtils.contentBlockArrayFromText(
+        `\n      ${item.shortData.date}  Врачь: ${item.shortData.doctor}      \n`,
+        ['BOLD', 'FONT_SIZE_20', 'UNDERLINE'],
+      )
+      const descriptionText = EditorUtils.contentBlockArrayFromText(
+        '\n     Описание лечения     \n',
+        ['BOLD', 'FONT_SIZE_16', 'UNDERLINE'],
+      )
+      const description = convertFromRaw(JSON.parse(item.description)).getBlocksAsArray()
+      const recommendationsText = EditorUtils.contentBlockArrayFromText(
+        '\n     Рекомендации и назначения     \n',
+        ['BOLD', 'FONT_SIZE_16', 'UNDERLINE'],
+      )
+      const recommendations = convertFromRaw(JSON.parse(item.recommendations)).getBlocksAsArray()
+      return acc.concat(date, descriptionText, description, recommendationsText, recommendations)
+    }, [] as ContentBlock[])
+  }
 }

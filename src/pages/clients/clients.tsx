@@ -4,6 +4,7 @@ import './clients.scss'
 import {NavigatorContext} from '../../navigation'
 import {useShowNicely} from '../../utilites/useShowNicely'
 import {ClientsActionCreater} from '../../actions/clientsPageActions'
+import {PetCardsActionCreater} from '../../actions/petCardActions'
 import {StaticDataActionCreater} from '../../actions/staticDataActions'
 import {ClientsHeader} from '../../components/clientsHeader/clientsHeader'
 import {NewClientForm} from '../../components/newClientForm/newClientForm'
@@ -30,13 +31,17 @@ interface IpartState {
   staticData: {
     petType: string[],
     breed: { [index: string]: string[] },
-  }
+  },
+  petCardPage: {
+    showPrintOptions: boolean,
+    currentVisit: string,
+  },
 }
 
 export const Clients: React.FC<{}> = () => {
   const {partState: {
-    showNewClientForm, showNewPetForm, IsFetching, showPetTypeOptions,
-    showBreedOptions, selectedPetType, petType, breed, loggedIn,
+    showNewClientForm, showNewPetForm, IsFetching, showPetTypeOptions, currentVisit,
+    showBreedOptions, selectedPetType, petType, breed, loggedIn, showPrintOptions,
   }, dispatch} = useDispatchSelect(
     (partSate: IpartState) => ({
       showNewClientForm: partSate.clientsPage.showNewClientForm,
@@ -48,6 +53,8 @@ export const Clients: React.FC<{}> = () => {
       petType: partSate.staticData.petType,
       breed: partSate.staticData.breed,
       loggedIn: partSate.clientsPage.loggedIn,
+      showPrintOptions: partSate.petCardPage.showPrintOptions,
+      currentVisit: partSate.petCardPage.currentVisit,
     })
   )
   const {goTo} = React.useContext(NavigatorContext)
@@ -55,6 +62,7 @@ export const Clients: React.FC<{}> = () => {
   const [showPetFormInside, showPetFormOutsid] = useShowNicely(showNewPetForm, 700)
   const [showPetTypeOptionsInside, showPetTypeOptionsOutsid] = useShowNicely(showPetTypeOptions, 1000)
   const [showBreedOptionsInside, showBreedOptionsOutsid] = useShowNicely(showBreedOptions, 1000)
+  const [showPrintOptionsInside, showPrintOptionsOutsid] = useShowNicely(showPrintOptions, 1000)
   if (!loggedIn) goTo('login')
   const [show, setShow] = React.useState(false)
   React.useEffect(() => setShow(true), [])
@@ -74,31 +82,26 @@ export const Clients: React.FC<{}> = () => {
       pressRemove: (options: string[]) =>
         dispatch(StaticDataActionCreater.createSetNewData(undefined, options, true, selectedPetType)),
     },
+    {
+      visible1: showPrintOptionsInside, visible: showPrintOptionsOutsid, searchVisible: false, tooltip: "печать",
+      options: ['Общие данные', 'Описание лечения', 'Рекомендации и назначения', 'Вакцинация', 'Истрория'],
+      pressAdd : (selectedOptions: string) => {
+        dispatch(PetCardsActionCreater.createPrintData(currentVisit, selectedOptions.split('\n')))
+        goTo('print')
+      },
+      pressClose: () => dispatch(PetCardsActionCreater.createSetBoolData('showPrintOptions', false)),
+    },
   ]
   return (
     <div className={cn('clientsConteiner', {'activeClients': show}, {'deactiveClients': !show})}>
       {IsFetching ? <LoadingSpiner /> : null}
-      {/* {showPetTypeOptionsInside ? <WindowForAddingOptions
-        visible={showPetTypeOptionsOutsid}
-        tooltip="Вид"
-        options={petType}
-        pressAddOptions={(options: string[]) =>
-          dispatch(StaticDataActionCreater.createSetNewData('petType', options))}
-        pressRemove={(options: string[]) =>
-          dispatch(StaticDataActionCreater.createSetNewData('petType', options, true))}
-        pressClose={() => dispatch(ClientsActionCreater.createShowElement('showPetTypeOptions', false))}
-      /> : null}
-      {showBreedOptionsInside ? <WindowForAddingOptions
-        visible={showBreedOptionsOutsid}
-        tooltip="Порода"
-        options={breed[selectedPetType] ? breed[selectedPetType] : []}
-        pressAddOptions={(options: string[]) =>
-          dispatch(StaticDataActionCreater.createSetNewData(undefined, options, false, selectedPetType))}
-        pressRemove={(options: string[]) =>
-          dispatch(StaticDataActionCreater.createSetNewData(undefined, options, true, selectedPetType))}
-        pressClose={() => dispatch(ClientsActionCreater.createShowElement('showBreedOptions', false))}
-      /> : null} */}
-      {/* {data.map(item => item)} ///////////!!!!! */}
+      {data.map(item => item.visible1 ? <WindowForAddingOptions key={item.tooltip}
+        visible={item.visible} options={item.options} tooltip={item.tooltip}
+        pressAddOptions={item.pressAddOptions} pressAdd={item.pressAdd}
+        pressRemove={item.pressRemove} pressClose={item.pressClose}
+        // singleChoice={item.singleChoice}
+        searchVisible={item.searchVisible}
+      /> : null)}
       <ClientsHeader />
       <div className={cn('contentWrapper')}>
         {showClientFormInside ? <NewClientForm visible={showClientFormOutsid} /> : null}

@@ -5,8 +5,8 @@ import {Api} from '../api'
 import {IVisitsRaw} from '../redusers/petCardPageReduser'
 import {ClientsActionCreater} from './clientsPageActions'
 import {EditorActionCreater} from './editorActions'
-import {Lib} from '../utilites/lib'
 import {EditorUtils} from '../utilites/editorUtils'
+import { Lib } from '../utilites/lib'
 
 export class PetCardActionType {
   static SET_BOOL_DATA = 'SET_BOOL_DATA' as const
@@ -31,12 +31,22 @@ export class PetCardsActionCreater {
 
   static createAddVisits = (currentPetKey: string): AppAction => async (dispatch, getState) => {
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', true))
+    const visits = getState().petCardPage.visits
+    const lastVisitData = Math.max.apply(
+      undefined,
+      Object.values(visits).map(item => +Lib.dateFromString(item.shortData.date)),
+    )
+    const lastVaccinations = Object.values(visits).filter(item =>
+      lastVisitData === +Lib.dateFromString(item.shortData.date)
+    )
     const visitdataRaw: IVisitsRaw = {
       ...getState().editor,
       history: JSON.stringify({}),
       description: JSON.stringify(convertToRaw(getState().editor.description.getCurrentContent())),
       recommendations: JSON.stringify(convertToRaw(getState().editor.recommendations.getCurrentContent())),
-      vaccinations: JSON.stringify(convertToRaw(getState().editor.vaccinations.getCurrentContent())),
+      vaccinations: lastVaccinations[0]
+        ? lastVaccinations[0].vaccinations
+        : JSON.stringify(convertToRaw(getState().editor.vaccinations.getCurrentContent())),
     }
     const visitID = await Api.addDocToCollection('visits', visitdataRaw)
     dispatch(PetCardsActionCreater.createSetCurrentVisit(visitID))
@@ -49,6 +59,10 @@ export class PetCardsActionCreater {
     const newVisit = await Api.findDocFromID<IVisitsRaw>('visits', visitID)
     const mewVisits = {...oldVisits, [visitID]: newVisit[visitID]}
     dispatch(PetCardsActionCreater.createSetVisits(mewVisits))
+    dispatch(EditorActionCreater.createUpdateThisPage(
+      EditorState.createWithContent(convertFromRaw(JSON.parse(visitdataRaw.vaccinations))),
+      'vaccinations',
+    ))
     dispatch(PetCardsActionCreater.createSetBoolData('IsFetching', false))
   }
 
@@ -95,37 +109,10 @@ export class PetCardsActionCreater {
     const currentVisitId = getState().petCardPage.currentVisit
     const rawEditor = getState().petCardPage.visits[currentVisitId]
     const visits = getState().petCardPage.visits
-    const visitsArr = Object.values(visits).map(item => item)
-    visitsArr.sort((a, b) => {
-      const a1 = +Lib.dateFromString(a.shortData.date)
-      const b1 = +Lib.dateFromString(b.shortData.date)
-      return +a1 - +b1
-    })
-    const historyEditor = visitsArr.reduce((acc, item) => {
-      const newAcc = acc.getBlocksAsArray()
-      const date = EditorUtils.contentBlockArrayFromText(
-        `\n      ${item.shortData.date}  Врачь: ${item.shortData.doctor}      \n`,
-        ['BOLD', 'FONT_SIZE_20', 'UNDERLINE'],
-      )
-      const descriptionText = EditorUtils.contentBlockArrayFromText(
-        '\n     Описание лечения     \n',
-        ['BOLD', 'FONT_SIZE_16', 'UNDERLINE'],
-      )
-      const description = convertFromRaw(JSON.parse(item.description)).getBlocksAsArray()
-      const recommendationsText = EditorUtils.contentBlockArrayFromText(
-        '\n     Рекомендации и назначения     \n',
-        ['BOLD', 'FONT_SIZE_16', 'UNDERLINE'],
-      )
-      const recommendations = convertFromRaw(JSON.parse(item.recommendations)).getBlocksAsArray()
-      const blocksAsArray = newAcc.concat(
-        date, descriptionText,
-        description, recommendationsText, recommendations
-      )
-      return ContentState.createFromBlockArray(blocksAsArray)
-    }, EditorState.createEmpty().getCurrentContent())
+    const historyEditor = EditorUtils.createHistory(visits)
     const editor = {
       ...rawEditor,
-      history: EditorState.createWithContent(historyEditor),
+      history: EditorState.createWithContent(ContentState.createFromBlockArray(historyEditor)),
       description: EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditor.description))),
       recommendations: EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditor.recommendations))),
       vaccinations: EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditor.vaccinations))),
@@ -134,21 +121,52 @@ export class PetCardsActionCreater {
   }
 
   static createPrintData = (currentVisitID: string, pages: string[]): AppAction => (dispatch, getState) => {
-    const visit = getState().petCardPage.visits[currentVisitID]
-    const shortData = visit.shortData
+    // ['Общие данные', 'Описание лечения', 'Рекомендации и назначения', 'Вакцинация', 'Истрория']
     const data = EditorUtils.contentBlockArrayFromText(new Date().toLocaleDateString(), [])
-    const doctor = EditorUtils.contentBlockArrayFromText(`Врачь: ${shortData.doctor}`, [])
-    const temperature = EditorUtils.contentBlockArrayFromText(`Температура: ${shortData.temperature}`, [])
-    const goalOfRequest = EditorUtils.contentBlockArrayFromText(`Цель визита: ${shortData.goalOfRequest}`, [])
-    const weight = EditorUtils.contentBlockArrayFromText(`Вес: ${shortData.weight}`, [])
-    const visitResult = EditorUtils.contentBlockArrayFromText(`Результат посещения: ${shortData.visitResult}`, [])
-    const discriptionLabel = EditorUtils.contentBlockArrayFromText(`Описание лечения:`, [])
-    const discription = convertFromRaw(JSON.parse(visit.description)).getBlocksAsArray()
-    const recommendationsLabel = EditorUtils.contentBlockArrayFromText(`Рекомендации и назначения:`, [])
-    const recommendations = convertFromRaw(JSON.parse(visit.recommendations)).getBlocksAsArray()
+    const visit = getState().petCardPage.visits[currentVisitID]
+    const commonData = () => {
+      if (pages.includes('Общие данные')) {
+        const shortData = visit.shortData
+        const doctor = EditorUtils.contentBlockArrayFromText(`Врачь: ${shortData.doctor}`, [])
+        const temperature = EditorUtils.contentBlockArrayFromText(`Температура: ${shortData.temperature}`, [])
+        const goalOfRequest = EditorUtils.contentBlockArrayFromText(`Цель визита: ${shortData.goalOfRequest}`, [])
+        const weight = EditorUtils.contentBlockArrayFromText(`Вес: ${shortData.weight}`, [])
+        const visitResult = EditorUtils.contentBlockArrayFromText(`Результат посещения: ${shortData.visitResult}`, [])
+        return doctor.concat(temperature, goalOfRequest, weight, visitResult)
+      } else return []
+    }
+
+    const descriptionOfTreatment = () => {
+      if (pages.includes('Описание лечения')) {
+        const discriptionLabel = EditorUtils.contentBlockArrayFromText(`Описание лечения:`, [])
+        const discription = convertFromRaw(JSON.parse(visit.description)).getBlocksAsArray()
+        return discriptionLabel.concat(discription)
+      } else return []
+    }
+
+    const recommendations_appointments = () => {
+      if (pages.includes('Рекомендации и назначения')) {
+        const recommendationsLabel = EditorUtils.contentBlockArrayFromText(`Рекомендации и назначения:`, [])
+        const recommendations = convertFromRaw(JSON.parse(visit.recommendations)).getBlocksAsArray()
+        return recommendationsLabel.concat(recommendations)
+      } else return []
+    }
+
+    const vaccination = () => {
+      if (pages.includes('Вакцинация')) {
+        const vaccinationLabel = EditorUtils.contentBlockArrayFromText(`Рекомендации и назначения:`, [])
+        const vaccination = convertFromRaw(JSON.parse(visit.recommendations)).getBlocksAsArray()
+        return vaccinationLabel.concat(vaccination)
+      } else return []
+    }
+
+    const history = () => {
+      if (pages.includes('Истрория')) {
+        return EditorUtils.createHistory(getState().petCardPage.visits)
+      } else return []
+    }
     const result = ContentState.createFromBlockArray(data.concat(
-      doctor, temperature, goalOfRequest, weight, visitResult, discriptionLabel,
-      discription, recommendationsLabel, recommendations,
+      commonData(), descriptionOfTreatment(), recommendations_appointments(), vaccination(), history(),
     ))
     dispatch(PetCardsActionCreater.createSetPrint(EditorState.createWithContent(result)))
   }
